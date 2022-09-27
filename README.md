@@ -15,7 +15,7 @@ Clone this repo. Open Godot and click Import. Type the path of the folder and cl
 - Constraints
   - Short game loop
     - The game needs to have a game loop that can be experienced in a substantial amount in a few minutes (in the time we can present the game)
-      - Tournament bracket for multiple fights with similar base functionality
+      - Tournament bracket for multiple fights with similar base functionality?
     - Other parts of the game may be well served to be understood without much demonstration
       - "In our game we also have a progression system, a short campaign with exploration..."
 - Game Loop
