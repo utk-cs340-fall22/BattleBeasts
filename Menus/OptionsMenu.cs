@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class MainMenu : CanvasLayer
+public class OptionsMenu : CanvasLayer
 {
 	// Declare member variables here. Examples:
 	// private int a = 2;
@@ -10,25 +10,6 @@ public class MainMenu : CanvasLayer
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		
-	}
-	
-	private void _on_Exit_pressed()
-	{
-		// Replace with function body.
-		GetTree().Quit();
-	}
-
-
-	private void _on_Settings_pressed()
-	{
-		GetTree().ChangeScene("res://Menus/OptionsMenu.tscn");
-	}
-
-
-	private void _on_Play_pressed()
-	{
-		// Replace with function body.
 	}
 
 //  // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -36,4 +17,8 @@ public class MainMenu : CanvasLayer
 //  {
 //      
 //  }
+	private void _on_Back_pressed()
+	{
+		GetTree().ChangeScene("res://Menus/MainMenu.tscn");
+	}
 }
