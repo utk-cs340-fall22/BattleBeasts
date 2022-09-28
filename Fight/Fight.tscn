@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://icon.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Character Sprites/icon.png" type="Texture" id=1]
 [ext_resource path="res://Fonts/PublicPixel-z84yD.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://Fight/Fight.cs" type="Script" id=3]
 
