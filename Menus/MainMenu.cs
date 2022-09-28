@@ -28,7 +28,7 @@ public class MainMenu : CanvasLayer
 
 	private void _on_Play_pressed()
 	{
-		// Replace with function body.
+		GetTree().ChangeScene("res://Fight/Fight.tscn");
 	}
 
 //  // Called every frame. 'delta' is the elapsed time since the previous frame.
