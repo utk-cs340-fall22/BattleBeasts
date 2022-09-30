@@ -30,6 +30,11 @@ public class MainMenu : CanvasLayer
 	{
 		GetTree().ChangeScene("res://Fight/Fight.tscn");
 	}
+	
+	private void _on_Credits_pressed()
+	{
+		GetTree().ChangeScene("res://Menus/Credits.tscn");
+	}
 
 //  // Called every frame. 'delta' is the elapsed time since the previous frame.
 //  public override void _Process(float delta)

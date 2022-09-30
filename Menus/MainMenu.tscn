@@ -44,9 +44,9 @@ text = "Settings"
 
 [node name="Exit" type="Button" parent="."]
 margin_left = 414.0
-margin_top = 409.5
+margin_top = 485.0
 margin_right = 610.0
-margin_bottom = 470.5
+margin_bottom = 546.0
 focus_neighbour_top = NodePath("../Settings")
 focus_neighbour_bottom = NodePath("../Play")
 text = "Exit"
@@ -61,6 +61,14 @@ custom_fonts/font = SubResource( 1 )
 text = "Battle Beasts"
 align = 1
 
+[node name="Credits" type="Button" parent="."]
+margin_left = 414.0
+margin_top = 411.0
+margin_right = 610.0
+margin_bottom = 472.0
+text = "Credits"
+
 [connection signal="pressed" from="Play" to="." method="_on_Play_pressed"]
 [connection signal="pressed" from="Settings" to="." method="_on_Settings_pressed"]
 [connection signal="pressed" from="Exit" to="." method="_on_Exit_pressed"]
+[connection signal="pressed" from="Credits" to="." method="_on_Credits_pressed"]
