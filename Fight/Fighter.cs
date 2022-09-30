@@ -1,20 +1,19 @@
 using Godot;
 using System;
 
-public class Fight : Node
+public class Fighter : Sprite
 {
-#pragma warning disable 649
-	[Export]
-	public PackedScene Fighter;
-#pragma warning restore 649
+	string controller;
 	
+	// initialize as player/opponent, load stats
+	public void Init(string controller) {
+		this.controller = controller;
+		GD.Print("controller: ", controller);
+	}
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		Fighter player = (Fighter)Fighter.Instance();
-		Fighter opponent = (Fighter)Fighter.Instance();
-		player.Init("player");
-		opponent.Init("opponent");
+		
 	}
 
 //  // Called every frame. 'delta' is the elapsed time since the previous frame.
