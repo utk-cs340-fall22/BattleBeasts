@@ -1,0 +1,25 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Beasts/Beasts.cs" type="Script" id=1]
+[ext_resource path="res://Beasts/Auril.cs" type="Script" id=2]
+[ext_resource path="res://Beasts/Solanac.cs" type="Script" id=3]
+[ext_resource path="res://Assets/Character Sprites/Solanac-1.png" type="Texture" id=4]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 4 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[node name="Beasts" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="Auril" type="AnimatedSprite" parent="."]
+frames = SubResource( 1 )
+script = ExtResource( 2 )
+
+[node name="Solanac" type="AnimatedSprite" parent="."]
+frames = SubResource( 1 )
+script = ExtResource( 3 )
