@@ -64,10 +64,6 @@ To commit: In the highest level directory in the project on your machine do "git
 
 ## Functionality
 ### Fights
-it mostly has to do with how we will store and retrieve information about beasts and their abilities. in short beast sprites can have color filters applied to indicate types or an entirely different beast if we want.
-i think beast stats will be stored in a text file in a custom format. this would prevent a mess of .cs files, and it makes sense because a texture is not an object. the fight scene creates two objects that take on textures and whatever information is necessary.
-attacks may be stored in a similar way. this also makes it easier to load information into the fight scene and instantiate the fighter objects im working on.
-
 The Fight scene instantiates two Fighter nodes so one is controlled by the player and the other by the computer. The Fighter nodes are instantiated with a beast texture and information about the beast.
 Players can choose their beast/type as well as four attacks. Available types to choose from depend on the beast and attacks available depend on the beast and type.
 Base stats (hp, armor, type...) for all beasts will be stored in one text file in a specific format. Making a program to modify this file may be helpful.
