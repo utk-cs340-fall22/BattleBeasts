@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Threading;
 
 
 public class Bracket: Node2D
@@ -7,99 +8,101 @@ public class Bracket: Node2D
 
   public override void _Ready() {
 	Update();
+	GetNode<Button>("Continue").Hide();
+	GetNode<Sprite>("Sprite").Position = new Vector2(100, 60);
   }
 
   public override void _Process(float delta)
   {
-
+	
   }
 
   //public RandomNumberGenerator rng = new RandomNumberGenerator();
   public override void _Draw()
   {
 	var points = new Vector2[100];
-	/*LEVEL 1*/
+	var points2 = new Vector2[100];
+	var points4 = new Vector2[2];
+	var points3 = new Vector2[100];
+	var color = new Color(0, 3, 1);
+	int i, levels;
+	levels = 4;
 	
-	//First Bracket
-	points[0] = new Vector2(100, 100);
-	points[1] = new Vector2(200, 100);
+	/*Level 1*/
+	for (i = 0; i < levels; i++) {
+		points[i*6]     = new Vector2(100 , 100 + i * 100);
+		points[i*6 + 1] = new Vector2(200, 100 + i * 100);
+		points[i*6 + 2] = new Vector2(100, 150 + i * 100);
+		points[i*6 + 3] = new Vector2(200, 150 + i * 100);
+		points[i*6 + 4] = new Vector2(200, 100 + 100* i);
+		points[i*6 + 5] = new Vector2(200, 150 + 100 * i);
+		
+	}
 	
-	points[2] = new Vector2(100, 150);
-	points[3] = new Vector2(200, 150);
+	levels = levels / 2;
+	/*Level 2*/
+	for (i = 0; i <  levels; i++) {
+		points2[i*6]   = new Vector2(200, 125 + i*200);
+		points2[i*6+1] = new Vector2(300, 125 + i*200);
+		points2[i*6+2] = new Vector2(200, 225 + i*200);
+		points2[i*6+3] = new Vector2(300, 225 + i*200);
+		points2[i*6+4] = new Vector2(300, 125 + i*200);
+		points2[i*6+5] = new Vector2(300, 225 + i*200);
+	}
 	
-	points[4] = new Vector2(200, 100);
-	points[5] = new Vector2(200, 150);
-	
-	//Second Bracket
-	points[6] = new Vector2(100, 200);
-	points[7] = new Vector2(200, 200);
-	
-	points[8] = new Vector2(100, 250);
-	points[9] = new Vector2(200, 250);
-	
-	points[10] = new Vector2(200, 200);
-	points[11] = new Vector2(200, 250);
-	
-	//Third Bracket
-	points[12] = new Vector2(100, 300);
-	points[13] = new Vector2(200, 300);
-	
-	points[14] = new Vector2(100, 350);
-	points[15] = new Vector2(200, 350);
-	
-	points[16] = new Vector2(200, 300);
-	points[17] = new Vector2(200, 350);
-	
-	//4th Bracket
-	points[18] = new Vector2(100, 400);
-	points[19] = new Vector2(200, 400);
-	
-	points[20] = new Vector2(100, 450);
-	points[21] = new Vector2(200, 450);
-	
-	points[22] = new Vector2(200, 400);
-	points[23] = new Vector2(200, 450);
-	
-	/*LEVEL TWO*/
-	
-	//Bracket 1
-	points[24] = new Vector2(200, 125);
-	points[25] = new Vector2(300, 125);
-	
-	points[26] = new Vector2(200, 225);
-	points[27] = new Vector2(300, 225);
-	
-	points[28] = new Vector2(300, 125);
-	points[29] = new Vector2(300, 225);
-	
-	//Bracket 2
-	
-	points[30] = new Vector2(200, 325);
-	points[31] = new Vector2(300, 325);
-	
-	points[32] = new Vector2(200, 425);
-	points[33] = new Vector2(300, 425);
-	
-	points[34] = new Vector2(300, 325);
-	points[35] = new Vector2(300, 425);
-	
+	if (levels < 2) {
+		points4[0] = new Vector2(300, 175);
+		points4[1] = new Vector2(400, 175);
+		
+		DrawMultiline(points, color, (float) 15.0, false );
+		DrawMultiline(points2, color, (float) 15.0, false );
+		DrawMultiline(points3, color, (float) 15.0, false );
+		DrawMultiline(points4, color, (float) 15.0, false );
+		
+		return;
+		
+	}
+	levels = levels / 2;
 	/*Level 3*/
-	points[36] = new Vector2(300, 175);
-	points[37] = new Vector2(400, 175);
 	
-	points[38] = new Vector2(300, 375);
-	points[39] = new Vector2(400, 375);
-	
-	points[40] = new Vector2(400, 175);
-	points[41] = new Vector2(400, 375);
+	for (i = 0; i < levels; i++) {
+		points3[i*6] = new Vector2(300, 175);
+		points3[i*6+1] = new Vector2(400, 175);
+		points3[i*6+2] = new Vector2(300, 375);
+		points3[i*6+3] = new Vector2(400, 375);
+		points3[i*6+4] = new Vector2(400, 175);
+		points3[i*6+5] = new Vector2(400, 375);
+	}
 	
 	/*LEVEL 4*/
-	points[42] = new Vector2(400, 275);
-	points[43] = new Vector2(500, 275);
+	points4[0] = new Vector2(400, 275);
+	points4[1] = new Vector2(500, 275);
 	
-	
-	var color = new Color(100, 100, 100);
 
 	DrawMultiline(points, color, (float) 15.0, false );
+	DrawMultiline(points2, color, (float) 15.0, false );
+	DrawMultiline(points3, color, (float) 15.0, false );
+	DrawMultiline(points4, color, (float) 15.0, false );
   }
+
+	
+
+
+private void _on_Win_pressed()
+{
+	GetNode<Sprite>("Sprite").Position = new Vector2(225, 85);	
+	GetNode<Button>("Continue").Show();
 }
+
+
+private void _on_Lose_pressed()
+{
+	GetTree().ChangeScene("res://Menus/TitleMenu.tscn");
+}
+
+private void _on_Continue_pressed()
+{
+	GetTree().ChangeScene("res://Fight/Fight.tscn");
+}
+}
+
