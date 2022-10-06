@@ -10,7 +10,6 @@ size = 8
 font_data = ExtResource( 2 )
 
 [sub_resource type="StreamTexture" id=5]
-load_path = "res://.import/Auril-1.png-7ae837d565ac22e4656d762bbe817935.stex"
 
 [sub_resource type="DynamicFont" id=3]
 size = 8
@@ -105,3 +104,5 @@ margin_right = 360.0
 margin_bottom = 51.0
 custom_fonts/font = SubResource( 2 )
 text = "attack 4"
+
+[connection signal="pressed" from="Action Console/VBoxContainer/Top Row/B1" to="." method="_on_B1_pressed"]

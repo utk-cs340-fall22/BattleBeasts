@@ -2,6 +2,7 @@
 
 ## How to edit this code w/ Godot
 Clone this repo. Open Godot and click Import. Type the path of the folder and click "Import&Edit".
+To commit: In the highest level directory in the project on your machine do "git add ." to add any files changed by you or godot in response to things you did.
 
 ### Github usernames:
 
@@ -60,3 +61,15 @@ Clone this repo. Open Godot and click Import. Type the path of the folder and cl
   - Different tournament formats other than bo1 single elimination
   - More fight quick times/mini games. More exclusive to abilities
   - Difficulty settings
+
+## Functionality
+### Fights
+The Fight scene instantiates two Fighter nodes so one is controlled by the player and the other by the computer. The Fighter nodes are instantiated with a beast texture and information about the beast.
+Players can choose their beast/type as well as four attacks. Available types to choose from depend on the beast and attacks available depend on the beast and type.
+Base stats (hp, armor, type...) for all beasts will be stored in one text file in a specific format. Making a program to modify this file may be helpful.
+Information about attacks will all be stored in another similar text tile.
+Information in these files will be coded with positive integer identifiers which will correspond to the order in which the beast/type/attack information appears in its resective file.
+
+The beast, type, and attacks are chosen in menus before the Fight scene starts. The identifiers for the chosen stats will be passed from the menus to the Fight scene script, which will then pass the appropriate information to the initialization function in the Player and Opponent Fighter nodes. The Fighter nodes will then set their information.
+
+The information about attacks will be stored in their respective Fighter nodes. When an attack is sent the information on that attack will be sent to the Fight scene script which will calculate the result of the attack and will update the defending Fighter.

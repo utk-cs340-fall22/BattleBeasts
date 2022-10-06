@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Fonts/PublicPixel-z84yD.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Menus/TitleMenu.cs" type="Script" id=2]
+[ext_resource path="res://Assets/Character Sprites/Auril-1.png" type="Texture" id=3]
 
 [sub_resource type="DynamicFont" id=1]
 size = 60
@@ -9,6 +10,46 @@ font_data = ExtResource( 1 )
 
 [sub_resource type="DynamicFont" id=2]
 font_data = ExtResource( 1 )
+
+[sub_resource type="Animation" id=3]
+resource_name = "test"
+length = 4.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimationPlayer/Sprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 3.8 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 350, 241 ), Vector2( 350, 241 ), Vector2( 650, 241 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AnimationPlayer/ColorRect:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2, 3.8 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 265, 150 ), Vector2( 265, 150 ), Vector2( 565, 150 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("AnimationPlayer/ColorRect:color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5, 3.6, 4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0.184314, 0.184314, 0.184314, 1 ), Color( 0.184314, 0.184314, 0.184314, 0 ), Color( 0.184314, 0.184314, 0.184314, 0 ), Color( 0.184314, 0.184314, 0.184314, 1 ) ]
+}
 
 [node name="TitleMenu" type="CanvasLayer"]
 script = ExtResource( 2 )
@@ -24,15 +65,30 @@ margin_right = 1024.0
 margin_bottom = 190.0
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = SubResource( 1 )
-text = "BattleBeasts"
+text = "Battle Beasts"
 align = 1
 
 [node name="Button" type="Button" parent="."]
-margin_left = 320.0
-margin_top = 307.0
-margin_right = 732.0
-margin_bottom = 415.0
+margin_left = 309.0
+margin_top = 404.0
+margin_right = 721.0
+margin_bottom = 512.0
 custom_fonts/font = SubResource( 2 )
-text = "This button does nothing!"
+text = "Play"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/test = SubResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="AnimationPlayer"]
+position = Vector2( 650, 241 )
+scale = Vector2( 5.15625, 4.875 )
+texture = ExtResource( 3 )
+
+[node name="ColorRect" type="ColorRect" parent="AnimationPlayer"]
+margin_left = 565.0
+margin_top = 150.0
+margin_right = 738.015
+margin_bottom = 319.0
+color = Color( 0.184314, 0.184314, 0.184314, 1 )
 
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]

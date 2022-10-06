@@ -30,6 +30,10 @@ margin_bottom = 14.0
 [node name="Titles" type="Label" parent="ScrollingText/Margin"]
 margin_bottom = 14.0
 
+[node name="TitlesT" type="ItemList" parent="ScrollingText/Margin"]
+margin_bottom = 14.0
+max_text_lines = 500
+
 [node name="Margin2" type="MarginContainer" parent="ScrollingText"]
 margin_left = 4.0
 margin_right = 4.0
@@ -38,5 +42,18 @@ margin_bottom = 14.0
 [node name="Names" type="Label" parent="ScrollingText/Margin2"]
 margin_bottom = 14.0
 
+[node name="NamesT" type="ItemList" parent="ScrollingText/Margin2"]
+margin_bottom = 14.0
+max_text_lines = 500
+auto_height = true
+
+[node name="Back" type="Button" parent="."]
+margin_left = 1.0
+margin_top = 551.0
+margin_right = 118.0
+margin_bottom = 598.0
+text = "Back"
+
 [connection signal="finished" from="BackgroundVideo" to="." method="_on_BackgroundVideo_finished"]
 [connection signal="finished" from="MusicPlayer" to="." method="_on_MusicPlayer_finished"]
+[connection signal="pressed" from="Back" to="." method="_on_Back_pressed"]
