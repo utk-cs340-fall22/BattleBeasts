@@ -28,7 +28,7 @@ public class MainMenu : CanvasLayer
 
   private void _on_Play_pressed()
   {
-  GetTree().ChangeScene("res://Fight/Fight.tscn");
+  GetTree().ChangeScene("res://Bracket/Bracket.tscn");
   }
   
   private void _on_Credits_pressed()
