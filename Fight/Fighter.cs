@@ -54,10 +54,10 @@ public class Fighter : Sprite
   */
   public int Reduce_Health(int damage) {
   if (damage >= health) {
-    health = 0;
+	health = 0;
   }
   else {
-    health -= damage;
+	health -= damage;
   }
 
   return health;

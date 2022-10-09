@@ -18,7 +18,7 @@ public class TitleMenu : CanvasLayer
   public override void _Process(float delta)
   {
   if( _titleAnim.IsPlaying() == false ){
-    _titleAnim.Play("test");
+	_titleAnim.Play("test");
   } 
   }
 
