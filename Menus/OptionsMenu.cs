@@ -6,11 +6,20 @@ public class OptionsMenu : CanvasLayer
   // Declare member variables here. Examples:
   // private int a = 2;
   // private string b = "text";
+  private CheckButton fullscreen;
 
   // Called when the node enters the scene tree for the first time.
   public override void _Ready()
   {
+    fullscreen = GetNode<CheckButton>("Fullscreen");
     
+    if(OS.WindowFullscreen)
+    {
+      fullscreen.Pressed = true;
+    }else
+    {
+      fullscreen.Pressed = false;  
+    }
   }
 
 //  // Called every frame. 'delta' is the elapsed time since the previous frame.
