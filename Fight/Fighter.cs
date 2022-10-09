@@ -7,6 +7,8 @@ public class Fighter : Sprite
   int health; // current health
   int maxHealth; // max health
   int[] attackStats = new int[4]; // attack damage for the 4 different attacks
+  public Sprite texture;
+  Texture tex;
 
   /*
   initialize as player or opponent and load stats
@@ -15,21 +17,25 @@ public class Fighter : Sprite
   maxHealth: maximum health value
   */
   public void Init(string controller, int[] attackSet, int maxHealth) {
-  int i;
+    int i;
+    
+    tex = ResourceLoader.Load("res://Assets/Character Sprites/Auril-1.png") as Texture;
+    GetNode<Sprite>("Texture").Texture = tex;
 
-  // load attack identifiers
-  this.controller = controller;
-  this.maxHealth = maxHealth;
-  health = maxHealth;
-  for (i = 0; i < attackSet.Length; i++) {
-    attackStats[i] = attackSet[i];
-  }
+    // load attack identifiers
+    this.controller = controller;
+    this.maxHealth = maxHealth;
+    health = maxHealth;
+    for (i = 0; i < attackSet.Length; i++) {
+      attackStats[i] = attackSet[i];
+    }
+    
 
-  // debugging
-  GD.Print("controller: ", controller);
-  for (i = 0; i < attackSet.Length; i++) {
-    GD.Print("attack", i, ": ", attackSet[i]);
-  }
+    // debugging
+    GD.Print("controller: ", controller);
+    for (i = 0; i < attackSet.Length; i++) {
+      GD.Print("attack", i, ": ", attackSet[i]);
+    }
   }
 
   /*
@@ -38,7 +44,7 @@ public class Fighter : Sprite
   return: damage value of attack
   */
   public int Get_Attack_Strength(int attackID) {
-  return attackStats[attackID];
+    return attackStats[attackID];
   }
 
   /*
@@ -66,6 +72,6 @@ public class Fighter : Sprite
 //  // Called every frame. 'delta' is the elapsed time since the previous frame.
 //  public override void _Process(float delta)
 //  {
-//      
+//    
 //  }
 }
