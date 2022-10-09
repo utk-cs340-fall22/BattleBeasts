@@ -11,15 +11,15 @@ public class OptionsMenu : CanvasLayer
   // Called when the node enters the scene tree for the first time.
   public override void _Ready()
   {
-    fullscreen = GetNode<CheckButton>("Fullscreen");
-    
-    if(OS.WindowFullscreen)
-    {
-      fullscreen.Pressed = true;
-    }else
-    {
-      fullscreen.Pressed = false;  
-    }
+	fullscreen = GetNode<CheckButton>("Fullscreen");
+	
+	if(OS.WindowFullscreen)
+	{
+	  fullscreen.Pressed = true;
+	}else
+	{
+	  fullscreen.Pressed = false;  
+	}
   }
 
 //  // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -29,11 +29,11 @@ public class OptionsMenu : CanvasLayer
 //  }
   private void _on_Back_pressed()
   {
-    GetTree().ChangeScene("res://Menus/MainMenu.tscn");
+	GetTree().ChangeScene("res://Menus/MainMenu.tscn");
   }
   
   private void _on_Fullscreen_pressed()
   {
-    OS.WindowFullscreen = !OS.WindowFullscreen;
+	OS.WindowFullscreen = !OS.WindowFullscreen;
   }
 }

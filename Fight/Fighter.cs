@@ -22,13 +22,13 @@ public class Fighter : Sprite
   this.maxHealth = maxHealth;
   health = maxHealth;
   for (i = 0; i < attackSet.Length; i++) {
-    attackStats[i] = attackSet[i];
+	attackStats[i] = attackSet[i];
   }
 
   // debugging
   GD.Print("controller: ", controller);
   for (i = 0; i < attackSet.Length; i++) {
-    GD.Print("attack", i, ": ", attackSet[i]);
+	GD.Print("attack", i, ": ", attackSet[i]);
   }
   }
 
@@ -48,10 +48,10 @@ public class Fighter : Sprite
   */
   public int Reduce_Health(int damage) {
   if (damage >= health) {
-    health = 0;
+	health = 0;
   }
   else {
-    health -= damage;
+	health -= damage;
   }
 
   return health;
