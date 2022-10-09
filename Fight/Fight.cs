@@ -13,34 +13,34 @@ public class Fight : Node
   
   // Called when the node enters the scene tree for the first time.
   public override void _Ready() {
-    int[] attackSet = new int[4];
-    playerMaxHealth = 100;
-    opponentMaxHealth = 132;
+  int[] attackSet = new int[4];
+  playerMaxHealth = 100;
+  opponentMaxHealth = 132;
 
-    // initialize player character
-    player = (Fighter)Fighter.Instance();
-    attackSet = new int[] {1, 2, 3, 4};
-    player.Init("player", attackSet, playerMaxHealth);
+  // initialize player character
+  player = (Fighter)Fighter.Instance();
+  attackSet = new int[] {1, 2, 3, 4};
+  player.Init("player", attackSet, playerMaxHealth);
 
-    // initialize opponent character
-    opponent = (Fighter)Fighter.Instance();
-    attackSet = new int[] {2, 4, 3, 1};
-    opponent.Init("opponent", attackSet, opponentMaxHealth);
+  // initialize opponent character
+  opponent = (Fighter)Fighter.Instance();
+  attackSet = new int[] {2, 4, 3, 1};
+  opponent.Init("opponent", attackSet, opponentMaxHealth);
 
-    // debug
-    GD.Print("oppoonent health: ", opponent.Reduce_Health(0));
+  // debug
+  GD.Print("oppoonent health: ", opponent.Reduce_Health(0));
   }
 
   /*
   // Called every frame. 'delta' is the elapsed time since the previous frame.
   public override void _Process(float delta)
   {
-	// stuff
+  // stuff
   }
   */
 
   private void _on_B1_pressed()
   {
-	GD.Print("opponent health remaining: ", opponent.Reduce_Health(player.Get_Attack_Strength(0)));
+  GD.Print("opponent health remaining: ", opponent.Reduce_Health(player.Get_Attack_Strength(0)));
   }
 }

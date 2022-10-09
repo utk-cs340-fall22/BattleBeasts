@@ -10,20 +10,6 @@ margin_right = 1025.0
 margin_bottom = 599.0
 color = Color( 0.184314, 0.184314, 0.184314, 1 )
 
-[node name="Resolution" type="OptionButton" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -257.0
-margin_top = -51.5
-margin_right = 257.0
-margin_bottom = 51.5
-text = "100x100"
-align = 1
-items = [ "100x100", null, false, 0, null, "900x600", null, false, 1, null, "1920x1080", null, false, 2, null ]
-selected = 0
-
 [node name="Back" type="Button" parent="."]
 anchor_top = 1.0
 anchor_bottom = 1.0
@@ -31,4 +17,16 @@ margin_top = -39.0
 margin_right = 135.0
 text = "Back"
 
+[node name="Fullscreen" type="CheckButton" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -73.0
+margin_top = -20.0
+margin_right = 73.0
+margin_bottom = 20.0
+text = "Fullscreen"
+
 [connection signal="pressed" from="Back" to="." method="_on_Back_pressed"]
+[connection signal="pressed" from="Fullscreen" to="." method="_on_Fullscreen_pressed"]

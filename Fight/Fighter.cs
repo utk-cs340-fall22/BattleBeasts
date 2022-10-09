@@ -15,21 +15,21 @@ public class Fighter : Sprite
   maxHealth: maximum health value
   */
   public void Init(string controller, int[] attackSet, int maxHealth) {
-    int i;
+  int i;
 
-    // load attack identifiers
-    this.controller = controller;
-    this.maxHealth = maxHealth;
-    health = maxHealth;
-    for (i = 0; i < attackSet.Length; i++) {
-      attackStats[i] = attackSet[i];
-    }
+  // load attack identifiers
+  this.controller = controller;
+  this.maxHealth = maxHealth;
+  health = maxHealth;
+  for (i = 0; i < attackSet.Length; i++) {
+    attackStats[i] = attackSet[i];
+  }
 
-    // debugging
-    GD.Print("controller: ", controller);
-    for (i = 0; i < attackSet.Length; i++) {
-      GD.Print("attack", i, ": ", attackSet[i]);
-    }
+  // debugging
+  GD.Print("controller: ", controller);
+  for (i = 0; i < attackSet.Length; i++) {
+    GD.Print("attack", i, ": ", attackSet[i]);
+  }
   }
 
   /*
@@ -38,7 +38,7 @@ public class Fighter : Sprite
   return: damage value of attack
   */
   public int Get_Attack_Strength(int attackID) {
-    return attackStats[attackID];
+  return attackStats[attackID];
   }
 
   /*
@@ -47,20 +47,20 @@ public class Fighter : Sprite
   return: resulting health value
   */
   public int Reduce_Health(int damage) {
-	if (damage >= health) {
-	  health = 0;
-	}
-	else {
-	  health -= damage;
-	}
+  if (damage >= health) {
+    health = 0;
+  }
+  else {
+    health -= damage;
+  }
 
-    return health;
+  return health;
   }
 
   // Called when the node enters the scene tree for the first time.
   public override void _Ready()
   {
-	
+  
   }
 
 //  // Called every frame. 'delta' is the elapsed time since the previous frame.
