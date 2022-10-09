@@ -1,8 +1,12 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Menus/Credits.cs" type="Script" id=1]
+[ext_resource path="res://Assets/Character Sprites/Auril-1.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Character Sprites/Solanac-1.png" type="Texture" id=3]
 
 [node name="Credits" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
 script = ExtResource( 1 )
 
 [node name="Background" type="ColorRect" parent="."]
@@ -13,39 +17,10 @@ margin_bottom = 600.0
 color = Color( 0.184314, 0.184314, 0.184314, 1 )
 
 [node name="BackgroundVideo" type="VideoPlayer" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
-
-[node name="ScrollingText" type="HBoxContainer" parent="."]
-anchor_right = 1.0
-margin_right = 40.0
-margin_bottom = 14.0
-size_flags_horizontal = 9
-
-[node name="Margin" type="MarginContainer" parent="ScrollingText"]
-margin_bottom = 14.0
-
-[node name="Titles" type="Label" parent="ScrollingText/Margin"]
-margin_bottom = 14.0
-
-[node name="TitlesT" type="ItemList" parent="ScrollingText/Margin"]
-margin_bottom = 14.0
-max_text_lines = 500
-
-[node name="Margin2" type="MarginContainer" parent="ScrollingText"]
-margin_left = 4.0
-margin_right = 4.0
-margin_bottom = 14.0
-
-[node name="Names" type="Label" parent="ScrollingText/Margin2"]
-margin_bottom = 14.0
-
-[node name="NamesT" type="ItemList" parent="ScrollingText/Margin2"]
-margin_bottom = 14.0
-max_text_lines = 500
-auto_height = true
 
 [node name="Back" type="Button" parent="."]
 margin_left = 1.0
@@ -53,6 +28,36 @@ margin_top = 551.0
 margin_right = 118.0
 margin_bottom = 598.0
 text = "Back"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -564.0
+margin_top = -300.0
+margin_right = -61.0
+margin_bottom = 300.0
+scroll_horizontal_enabled = false
+
+[node name="ScrollingText" type="VBoxContainer" parent="ScrollContainer"]
+margin_right = 503.0
+margin_bottom = 600.0
+rect_min_size = Vector2( 503, 600 )
+
+[node name="Label" type="Label" parent="ScrollContainer/ScrollingText"]
+margin_right = 503.0
+margin_bottom = 14.0
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 199, 140 )
+scale = Vector2( 6.84375, 6.78125 )
+texture = ExtResource( 3 )
+
+[node name="Sprite2" type="Sprite" parent="."]
+position = Vector2( 191, 395 )
+scale = Vector2( 7.09375, 6.71875 )
+texture = ExtResource( 2 )
 
 [connection signal="finished" from="BackgroundVideo" to="." method="_on_BackgroundVideo_finished"]
 [connection signal="finished" from="MusicPlayer" to="." method="_on_MusicPlayer_finished"]
