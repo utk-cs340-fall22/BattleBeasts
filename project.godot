@@ -14,6 +14,11 @@ config/name="BattleBeasts"
 run/main_scene="res://Menus/TitleMenu.tscn"
 config/icon="res://Assets/Character Sprites/icon.png"
 
+[autoload]
+
+Globals="*res://Globals.cs"
+Gm="*res://GM.tscn"
+
 [display]
 
 window/stretch/mode="2d"
