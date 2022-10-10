@@ -8,21 +8,62 @@ public class Bracket: Node2D
   Globals g;
   int size = 0;
 
+  public void hideall() {
+    GetNode<Sprite>("Sprite").Hide();
+    GetNode<Sprite>("Sprite2").Hide();
+    GetNode<Button>("Continue").Hide();
+    GetNode<Button>("Win").Hide();
+    GetNode<Button>("Lose").Hide();
+    GetNode<Label>("Label").Hide();
+    
+   }
+  
+  public void hideforwin() {
+    GetNode<Button>("Continue").Hide();
+    GetNode<Button>("Win").Hide();
+    GetNode<Button>("Lose").Hide();
+    GetNode<Label>("Label").Hide();
+   }
+  
+  public void display_win() {
+    GetNode<Label>("Welcome").SetText("You Win! Press exit to return to title menu.");
+    GetNode<Button>("Big").Hide();
+    GetNode<Button>("Small").Hide();
+    GetNode<Button>("Exit").Show();
+    GetNode<Button>("Exit").Text = "Exit";
+    GetNode<Sprite>("Sprite").Show();
+    GetNode<Sprite>("Sprite2").Show();
+    //GetNode<Sprite>("Sprite").Position = new Vector2(100, 60);
+   }
   public override void _Ready() {
+    
   g = (Globals)GetNode("/root/Gm");
-  GetNode<Sprite>("Sprite").Hide();
-  GetNode<Sprite>("Sprite2").Hide();
-  GetNode<Button>("Continue").Hide();
-  GetNode<Button>("Win").Hide();
-  GetNode<Button>("Lose").Hide();
-  GetNode<Label>("Label").Hide();
+  GetNode<Button>("Exit").Hide();
+  GetNode<Sprite>("Sprite").Position = new Vector2(100 + 100*g.level, 50+25*g.level);
+  //GetNode<Sprite>("Sprite").SetOffset(new Vector2(100 + 25*g.level, 50 + 50*g.level));
+  if (g.bracket_size == -1) {
+    hideall();
+    GetNode<Button>("Exit").Hide();
+    GetNode<Button>("Small").SetText("Small");
+    GetNode<Button>("Big").SetText("Big");
+    GetNode<Label>("Welcome").SetText("Hi " + g.name + "! Do you want to enter the small or big tournament?");
+  }
+
+  if (g.bracket_size == 0) {
+    size = 2;
+    GetNode<Button>("Small").Hide();
+    GetNode<Button>("Big").Hide();
+    Update();
+   } else if (g.bracket_size == 1) {
+    GetNode<Button>("Small").Hide();
+    GetNode<Button>("Big").Hide();
+    size = 4;
+    Update();
+   }
   
-  GetNode<Button>("Small").SetText("Small");
-  GetNode<Button>("Big").SetText("Big");
-  GetNode<Label>("Welcome").SetText("Hi " + g.name + "! Do you want to enter the small or big tournament?");
-  
-  GetNode<Sprite>("Sprite").Position = new Vector2(100, 60);
+  //GetNode<Sprite>("Sprite").Position = new Vector2(100 + 100*g.level, 50+25*g.level);
   GetNode<Label>("Label").SetText("Did you win or lose?\nIf this is your first time here, press continue.\n");
+
   }
 
   public override void _Process(float delta)
@@ -106,10 +147,27 @@ public class Bracket: Node2D
 
 private void _on_Win_pressed()
 {
-  GetNode<Sprite>("Sprite").Position = new Vector2(225, 85);
+  
+  //GetNode<Sprite>("Sprite").Position = new Vector2(100 + 100*g.level, 50+25*g.level);
+  GetNode<Sprite>("Sprite").SetOffset(new Vector2(100 + 25*g.level, 50 + 50*g.level));
   GetNode<Button>("Win").Hide();
   GetNode<Button>("Lose").Hide();
   GetNode<Label>("Label").Hide();
+   
+  
+  if (g.level == 2 && g.bracket_size == 1) {
+    display_win();
+    hideforwin();
+    
+
+  }
+  if (g.level == 1 && g.bracket_size == 0) {
+    display_win();
+    hideforwin();
+   
+
+  }
+  g.level++;
   
   
 }
@@ -131,7 +189,10 @@ private void _on_Continue_pressed()
 
 private void _on_Big_pressed()
 {
+  g = (Globals)GetNode("/root/Gm");
+  g.bracket_size = 1;
   size = 4;
+  
   GetNode<Button>("Big").Hide();
   GetNode<Button>("Small").Hide();
   GetNode<Label>("Welcome").Hide();
@@ -147,6 +208,8 @@ private void _on_Big_pressed()
 
 private void _on_Small_pressed()
 {
+  g = (Globals)GetNode("/root/Gm");
+  g.bracket_size = 0;
   size = 2;
   GetNode<Button>("Big").Hide();
   GetNode<Button>("Small").Hide();
@@ -160,4 +223,14 @@ private void _on_Small_pressed()
   Update();
 }
 
+
+
+
+private void _on_Exit_pressed()
+{
+    GetNode<Sprite>("Sprite").Position = new Vector2(0,0);
+    g.level = 0;
+    g.bracket_size = -1;
+    GetTree().ChangeScene("res://Menus/TitleMenu.tscn");
+}
 }
