@@ -26,7 +26,7 @@ public class Bracket: Node2D
    }
   
   public void display_win() {
-    GetNode<Label>("Welcome").SetText("You Win! Press exit to return to title menu.");
+    GetNode<Label>("Welcome").Text = "You Win! Press exit to return to title menu.";
     GetNode<Button>("Big").Hide();
     GetNode<Button>("Small").Hide();
     GetNode<Button>("Exit").Show();
@@ -44,9 +44,9 @@ public class Bracket: Node2D
   if (g.bracket_size == -1) {
     hideall();
     GetNode<Button>("Exit").Hide();
-    GetNode<Button>("Small").SetText("Small");
-    GetNode<Button>("Big").SetText("Big");
-    GetNode<Label>("Welcome").SetText("Hi " + g.name + "! Do you want to enter the small or big tournament?");
+    GetNode<Button>("Small").Text = "Small";
+    GetNode<Button>("Big").Text ="Big";
+    GetNode<Label>("Welcome").Text = "Hi " + g.name + "! Do you want to enter the small or big tournament?";
   }
 
   if (g.bracket_size == 0) {
@@ -62,7 +62,7 @@ public class Bracket: Node2D
    }
   
   //GetNode<Sprite>("Sprite").Position = new Vector2(100 + 100*g.level, 50+25*g.level);
-  GetNode<Label>("Label").SetText("Did you win or lose?\nIf this is your first time here, press continue.\n");
+  GetNode<Label>("Label").Text = "Did you win or lose?\nIf this is your first time here, press continue.\n";
 
   }
 
@@ -148,7 +148,6 @@ public class Bracket: Node2D
   private void _on_Win_pressed()
   {
     
-    //GetNode<Sprite>("Sprite").Position = new Vector2(100 + 100*g.level, 50+25*g.level);
     GetNode<Sprite>("Sprite").SetOffset(new Vector2(100 + 25*g.level, 50 + 50*g.level));
     GetNode<Button>("Win").Hide();
     GetNode<Button>("Lose").Hide();
@@ -171,7 +170,6 @@ public class Bracket: Node2D
     
     
   }
-
 
   private void _on_Lose_pressed()
   {

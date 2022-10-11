@@ -15,9 +15,9 @@ public class Enter_Name : Godot.LineEdit
   private void _on_LineEdit_text_entered(String new_text)
   {
     g.name = new_text;
-    GetNode<Label>("Exit").SetText("Hello " + new_text + ". Welcome to the world of Battle Beasts.");
-    GetNode<Label>("press_here").SetText("Press here to enter the tournament.");
-    GetNode<Button>("Button").SetText("Let's Go " + new_text + "!");
+    GetNode<Label>("Exit").Text = "Hello " + new_text + ". Welcome to the world of Battle Beasts.";
+    GetNode<Label>("press_here").Text = "Press here to enter the tournament.";
+    GetNode<Button>("Button").Text = "Let's Go " + new_text + "!";
     GetNode<Button>("Button").Show();
   }
   
