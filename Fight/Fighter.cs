@@ -22,7 +22,7 @@ public class Fighter : Sprite
     tex = ResourceLoader.Load("res://Assets/Character Sprites/Auril-1.png") as Texture;
     GetNode<Sprite>("Texture").Texture = tex;
 
-    // load attack identifiers
+    // Load attack identifiers
     this.controller = controller;
     this.maxHealth = maxHealth;
     health = maxHealth;
@@ -39,34 +39,42 @@ public class Fighter : Sprite
   }
 
   /*
-  return how much damage an attack does
-  attackID: id of the attack
-  return: damage value of attack
+  Return how much damage an attack does
+  attackID: ID of the attack
+  return: Damage value of attack
   */
-  public int Get_Attack_Strength(int attackID) {
+  public int GetAttackStrength(int attackID) {
     return attackStats[attackID];
   }
 
   /*
-  reduce this fighter's health by a given amount
-  damage: how much to reduce the fighter's health by
-  return: resulting health value
+  Return this fighter's current health value
+  Return: Fighter's current health value
   */
-  public int Reduce_Health(int damage) {
-  if (damage >= health) {
-  health = 0;
-  }
-  else {
-  health -= damage;
+  public int GetHealth() {
+    return health;
   }
 
-  return health;
+  /*
+  Reduce this fighter's health by a given amount
+  damage: How much to reduce the fighter's health by
+  return: Resulting health value
+  */
+  public int ReduceHealth(int damage) {
+    if (damage >= health) {
+      health = 0;
+    }
+    else {
+      health -= damage;
+    }
+
+    return health;
   }
 
   // Called when the node enters the scene tree for the first time.
   public override void _Ready()
   {
-  
+    
   }
 
 //  // Called every frame. 'delta' is the elapsed time since the previous frame.
