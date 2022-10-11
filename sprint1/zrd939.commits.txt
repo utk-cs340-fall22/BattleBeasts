@@ -232,21 +232,17 @@ fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400 231)       g.bracket_size = -1;
 fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400 232)       GetTree().ChangeScene("res://Menus/TitleMenu.tscn");
 fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400 233)   }
 62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 234) }
-62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  1) using Godot;
-62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  2) using System;
-62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  3) 
-62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  4) public class username : Node2D
-62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  5) {
-62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  6) 
-62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  7)   public override void _Ready()
-62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  8)   {
-62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  9) 
-62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 10)   }
-c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400 11)   
-c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400 12) 
-c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400 13) 
-c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400 14) 
-62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 15) }
+c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400  1) using Godot;
+c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400  2) using System;
+c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400  3) 
+c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400  4) public class Globals : Node
+c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400  5) {
+c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400  6)     public string name = "Player";
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  7)     public int level = 0;
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  8)     public int bracket_size = -1;
+c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400  9) 
+c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400 10) }
+62fed1fe (Noah Dahle          2022-10-09 19:28:42 -0400 31)   GetTree().ChangeScene("res://Username/username.tscn");
 62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  1) using Godot;
 62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  2) using System;
 62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  3) 
@@ -282,13 +278,18 @@ c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400 32)
 c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400 33)   }
 c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400 34) 
 62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 35) }
-c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400  1) using Godot;
-c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400  2) using System;
-c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400  3) 
-c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400  4) public class Globals : Node
-c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400  5) {
-c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400  6)     public string name = "Player";
-fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  7)     public int level = 0;
-fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  8)     public int bracket_size = -1;
-c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400  9) 
-c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400 10) }
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  1) using Godot;
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  2) using System;
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  3) 
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  4) public class username : Node2D
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  5) {
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  6) 
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  7)   public override void _Ready()
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  8)   {
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  9) 
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 10)   }
+c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400 11)   
+c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400 12) 
+c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400 13) 
+c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400 14) 
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 15) }
