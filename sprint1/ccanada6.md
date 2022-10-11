@@ -6,10 +6,10 @@ Group Name: BattleBeasts
 
 ### Planned to do
 
-* #4 Create the Main Menu
-* #9 Create the Pause Menu
-* #12 Create the Options Menu
-* #18 Create the Credits Page
+* [#4](https://github.com/utk-cs340-fall22/BattleBeasts/issues/4) Create the Main Menu
+* [#9](https://github.com/utk-cs340-fall22/BattleBeasts/issues/9) Create the Pause Menu
+* [#12](https://github.com/utk-cs340-fall22/BattleBeasts/issues/12) Create the Options Menu
+* [#18](https://github.com/utk-cs340-fall22/BattleBeasts/issues/18) Create the Credits Page
 
 ### Did not do
 
@@ -25,45 +25,45 @@ are depreciated and that can be pretty annoying.
 
 ### Issues I worked on
 
-* #4 Create the Main Menu
-* #9 Create the Pause Menu
-* #12 Create the Options Menu
-* #18 Create the Credits Page
+* [#4](https://github.com/utk-cs340-fall22/BattleBeasts/issues/4) Create the Main Menu
+* [#9](https://github.com/utk-cs340-fall22/BattleBeasts/issues/9) Create the Pause Menu
+* [#12](https://github.com/utk-cs340-fall22/BattleBeasts/issues/12) Create the Options Menu
+* [#18](https://github.com/utk-cs340-fall22/BattleBeasts/issues/18) Create the Credits Page
 
 ### File worked on
 
-* BattleBeasts/Menus/MainMenu.tscn
-* BattleBeasts/Menus/MainMenu.cs
-* BattleBeasts/Menus/OptionsMenu.tscn
-* BattleBeasts/Menus/OptionsMenu.cs
-* BattleBeasts/Menus/PauseMenu2.tscn
-* BattleBeasts/Menus/PauseMenu2.cs
-* BattleBeasts/Menus/Credits.tscn
-* BattleBeasts/Menus/Credits.cs
-* BattleBeasts/Menus/Credits.txt
-* BattleBeasts/getcommits.sh
+* [BattleBeasts/Menus/MainMenu.tscn](https://github.com/utk-cs340-fall22/BattleBeasts/blob/main/Menus/MainMenu.tscn)
+* [BattleBeasts/Menus/MainMenu.cs](https://github.com/utk-cs340-fall22/BattleBeasts/blob/main/Menus/MainMenu.cs)
+* [BattleBeasts/Menus/OptionsMenu.tscn](https://github.com/utk-cs340-fall22/BattleBeasts/blob/main/Menus/OptionsMenu.tscn)
+* [BattleBeasts/Menus/OptionsMenu.cs](https://github.com/utk-cs340-fall22/BattleBeasts/blob/main/Menus/OptionsMenu.cs)
+* [BattleBeasts/Menus/PauseMenu2.tscn](https://github.com/utk-cs340-fall22/BattleBeasts/blob/main/Menus/PauseMenu2.tscn)
+* [BattleBeasts/Menus/PauseMenu2.cs](https://github.com/utk-cs340-fall22/BattleBeasts/blob/main/Menus/PauseMenu2.cs)
+* [BattleBeasts/Menus/Credits.tscn](https://github.com/utk-cs340-fall22/BattleBeasts/blob/main/Menus/Credits.tscn)
+* [BattleBeasts/Menus/Credits.cs](https://github.com/utk-cs340-fall22/BattleBeasts/blob/main/Menus/Credits.cs)
+* [BattleBeasts/Menus/credits.txt](https://github.com/utk-cs340-fall22/BattleBeasts/blob/main/Menus/credits.txt)
+* [BattleBeasts/getcommits.sh](https://github.com/utk-cs340-fall22/BattleBeasts/blob/main/getcommits.sh)
 
 ### Accomplished
 
-* #4 Create the Main Menu
+* [#4](https://github.com/utk-cs340-fall22/BattleBeasts/issues/4) Create the Main Menu
     - User enters this screen from the title screen and is prompted with the options Play, Options, Credits, and Exit.
     - Play sends you to the username screen which will lead you to the bracket and fight scenes.
     - Options sends you to the OptionsMenu.
     - Credits sends you to the CreditsMenu.
     - Exit closes the program.
 
-* #9 Create the Pause Menu
+* [#9](https://github.com/utk-cs340-fall22/BattleBeasts/issues/9) Create the Pause Menu
     - Easily integratable into any scene. Can be linked into any scene and will work as is.
     - On the Escape key being pressed the Pause Menu will be pulled up and all scenes will be paused.
     - The user will have the option to resume or to return to the main menu.
     - On resume all scenes are unpaused and the pause menu disappears.
     - On return to main menu all scenes are unpaused and it switches to the main menu.
 
-* #12 Create the Options Menu
+* [#12](https://github.com/utk-cs340-fall22/BattleBeasts/issues/12) Create the Options Menu
     - User enters this menu from MainMenu and it allows them to change variables throughout the whole program.
     - Currently allows for the user to enable and disable fullscreen mode.
 
-* #18 Create the Credits Page
+* [#18](https://github.com/utk-cs340-fall22/BattleBeasts/issues/18) Create the Credits Page
     - User enters this menu from MainMenu and it credits the developers, Godot, and Godot's libraries.
     - Reads in the file Credits.txt to allow for easy changes to the credits.
     - User is capable of scrolling through the credits.
