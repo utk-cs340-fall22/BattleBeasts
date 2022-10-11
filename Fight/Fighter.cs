@@ -7,6 +7,8 @@ public class Fighter : Sprite
   int health; // current health
   int maxHealth; // max health
   int[] attackStats = new int[4]; // attack damage for the 4 different attacks
+  public Sprite texture;
+  Texture tex;
 
   /*
   initialize as player or opponent and load stats
@@ -16,6 +18,9 @@ public class Fighter : Sprite
   */
   public void Init(string controller, int[] attackSet, int maxHealth) {
     int i;
+    
+    tex = ResourceLoader.Load("res://Assets/Character Sprites/Auril-1.png") as Texture;
+    GetNode<Sprite>("Texture").Texture = tex;
 
     // load attack identifiers
     this.controller = controller;
@@ -24,6 +29,7 @@ public class Fighter : Sprite
     for (i = 0; i < attackSet.Length; i++) {
       attackStats[i] = attackSet[i];
     }
+    
 
     // debugging
     GD.Print("controller: ", controller);
@@ -47,25 +53,25 @@ public class Fighter : Sprite
   return: resulting health value
   */
   public int Reduce_Health(int damage) {
-	if (damage >= health) {
-	  health = 0;
-	}
-	else {
-	  health -= damage;
-	}
+  if (damage >= health) {
+  health = 0;
+  }
+  else {
+  health -= damage;
+  }
 
-    return health;
+  return health;
   }
 
   // Called when the node enters the scene tree for the first time.
   public override void _Ready()
   {
-	
+  
   }
 
 //  // Called every frame. 'delta' is the elapsed time since the previous frame.
 //  public override void _Process(float delta)
 //  {
-//      
+//    
 //  }
 }
