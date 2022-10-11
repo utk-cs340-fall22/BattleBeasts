@@ -145,92 +145,92 @@ public class Bracket: Node2D
   
 
 
-private void _on_Win_pressed()
-{
-  
-  //GetNode<Sprite>("Sprite").Position = new Vector2(100 + 100*g.level, 50+25*g.level);
-  GetNode<Sprite>("Sprite").SetOffset(new Vector2(100 + 25*g.level, 50 + 50*g.level));
-  GetNode<Button>("Win").Hide();
-  GetNode<Button>("Lose").Hide();
-  GetNode<Label>("Label").Hide();
-   
-  
-  if (g.level == 2 && g.bracket_size == 1) {
-    display_win();
-    hideforwin();
+  private void _on_Win_pressed()
+  {
+    
+    //GetNode<Sprite>("Sprite").Position = new Vector2(100 + 100*g.level, 50+25*g.level);
+    GetNode<Sprite>("Sprite").SetOffset(new Vector2(100 + 25*g.level, 50 + 50*g.level));
+    GetNode<Button>("Win").Hide();
+    GetNode<Button>("Lose").Hide();
+    GetNode<Label>("Label").Hide();
+    
+    
+    if (g.level == 2 && g.bracket_size == 1) {
+      display_win();
+      hideforwin();
+      
+
+    }
+    if (g.level == 1 && g.bracket_size == 0) {
+      display_win();
+      hideforwin();
     
 
+    }
+    g.level++;
+    
+    
   }
-  if (g.level == 1 && g.bracket_size == 0) {
-    display_win();
-    hideforwin();
-   
-
-  }
-  g.level++;
-  
-  
-}
 
 
-private void _on_Lose_pressed()
-{
-  GetTree().ChangeScene("res://Menus/TitleMenu.tscn");
-  GetNode<Button>("Win").Hide();
-  GetNode<Button>("Lose").Hide();
-  GetNode<Label>("Label").Hide();
-}
-
-private void _on_Continue_pressed()
-{
-  GetTree().ChangeScene("res://Fight/Fight.tscn");
-}
-
-
-private void _on_Big_pressed()
-{
-  g = (Globals)GetNode("/root/Gm");
-  g.bracket_size = 1;
-  size = 4;
-  
-  GetNode<Button>("Big").Hide();
-  GetNode<Button>("Small").Hide();
-  GetNode<Label>("Welcome").Hide();
-  GetNode<Sprite>("Sprite").Show();
-  GetNode<Sprite>("Sprite2").Show();
-  GetNode<Button>("Win").Show();
-  GetNode<Button>("Lose").Show();
-  GetNode<Label>("Label").Show();
-  GetNode<Button>("Continue").Show();
-  Update();
-}
-
-
-private void _on_Small_pressed()
-{
-  g = (Globals)GetNode("/root/Gm");
-  g.bracket_size = 0;
-  size = 2;
-  GetNode<Button>("Big").Hide();
-  GetNode<Button>("Small").Hide();
-  GetNode<Label>("Welcome").Hide();
-  GetNode<Sprite>("Sprite").Show();
-  GetNode<Sprite>("Sprite2").Show();
-  GetNode<Button>("Win").Show();
-  GetNode<Button>("Lose").Show();
-  GetNode<Label>("Label").Show();
-  GetNode<Button>("Continue").Show();
-  Update();
-}
-
-
-
-
-private void _on_Exit_pressed()
-{
-    GetNode<Sprite>("Sprite").Position = new Vector2(0,0);
-    g.level = 0;
-    g.bracket_size = -1;
+  private void _on_Lose_pressed()
+  {
     GetTree().ChangeScene("res://Menus/TitleMenu.tscn");
-}
+    GetNode<Button>("Win").Hide();
+    GetNode<Button>("Lose").Hide();
+    GetNode<Label>("Label").Hide();
+  }
+
+  private void _on_Continue_pressed()
+  {
+    GetTree().ChangeScene("res://Fight/Fight.tscn");
+  }
+
+
+  private void _on_Big_pressed()
+  {
+    g = (Globals)GetNode("/root/Gm");
+    g.bracket_size = 1;
+    size = 4;
+    
+    GetNode<Button>("Big").Hide();
+    GetNode<Button>("Small").Hide();
+    GetNode<Label>("Welcome").Hide();
+    GetNode<Sprite>("Sprite").Show();
+    GetNode<Sprite>("Sprite2").Show();
+    GetNode<Button>("Win").Show();
+    GetNode<Button>("Lose").Show();
+    GetNode<Label>("Label").Show();
+    GetNode<Button>("Continue").Show();
+    Update();
+  }
+
+
+  private void _on_Small_pressed()
+  {
+    g = (Globals)GetNode("/root/Gm");
+    g.bracket_size = 0;
+    size = 2;
+    GetNode<Button>("Big").Hide();
+    GetNode<Button>("Small").Hide();
+    GetNode<Label>("Welcome").Hide();
+    GetNode<Sprite>("Sprite").Show();
+    GetNode<Sprite>("Sprite2").Show();
+    GetNode<Button>("Win").Show();
+    GetNode<Button>("Lose").Show();
+    GetNode<Label>("Label").Show();
+    GetNode<Button>("Continue").Show();
+    Update();
+  }
+
+
+
+
+  private void _on_Exit_pressed()
+  {
+      GetNode<Sprite>("Sprite").Position = new Vector2(0,0);
+      g.level = 0;
+      g.bracket_size = -1;
+      GetTree().ChangeScene("res://Menus/TitleMenu.tscn");
+  }
 }
