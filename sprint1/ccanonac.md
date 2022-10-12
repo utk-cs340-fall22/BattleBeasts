@@ -30,7 +30,7 @@ Group: BattleBeasts
 
 - [BattleBeasts/README.md](https://github.com/utk-cs340-fall22/BattleBeasts/blob/main/README.md)
 - [BattleBeasts/Fight/Fighter.cs](https://github.com/utk-cs340-fall22/BattleBeasts/blob/main/Fight/Fighter.cs)
-- [BattleBeasts/Fight/Fighter.tscn](https://github.com/utk-cs340-fall22/BattleBeasts/blob/main/Fight/Fighter.cs)
+- [BattleBeasts/Fight/Fighter.tscn](https://github.com/utk-cs340-fall22/BattleBeasts/blob/main/Fight/Fighter.tscn)
 - [BattleBeasts/Fight/Fight.cs](https://github.com/utk-cs340-fall22/BattleBeasts/blob/main/Fight/Fight.cs)
 - [BattleBeasts/Fight/Fight.tscn](https://github.com/utk-cs340-fall22/BattleBeasts/blob/main/Fight/Fight.tscn)
 
