@@ -1,0 +1,129 @@
+54e5376c (Jake Looney         2022-10-10 18:37:01 -0400  7)   private AnimationPlayer titleAnim;
+8485ec23 (Jake Looney         2022-10-10 18:56:20 -0400  8)   private AudioStreamPlayer music;
+8485ec23 (Jake Looney         2022-10-10 18:56:20 -0400  9)   
+8485ec23 (Jake Looney         2022-10-10 18:56:20 -0400 10)   int playcount;
+54e5376c (Jake Looney         2022-10-10 18:37:01 -0400 15)     titleAnim = GetNode<AnimationPlayer>("AnimationPlayer");
+8485ec23 (Jake Looney         2022-10-10 18:56:20 -0400 16)     music = GetNode<AudioStreamPlayer>("Music");
+8485ec23 (Jake Looney         2022-10-10 18:56:20 -0400 17)   
+8485ec23 (Jake Looney         2022-10-10 18:56:20 -0400 18)     playcount = 0;
+54e5376c (Jake Looney         2022-10-10 18:37:01 -0400 20)     titleAnim.Play("test");
+8485ec23 (Jake Looney         2022-10-10 18:56:20 -0400 21)     music.Play();
+0ecf3c9c (Jake Looney         2022-10-03 15:52:53 -0400 25)   public override void _Process(float delta)
+0ecf3c9c (Jake Looney         2022-10-03 15:52:53 -0400 26)   {
+54e5376c (Jake Looney         2022-10-10 18:37:01 -0400 27)     if( titleAnim.IsPlaying() == false ){
+8485ec23 (Jake Looney         2022-10-10 18:56:20 -0400 28)       playcount++;
+8485ec23 (Jake Looney         2022-10-10 18:56:20 -0400 29)       if(playcount % 3 == 0)
+8485ec23 (Jake Looney         2022-10-10 18:56:20 -0400 30)         GetNode<Sprite>("AnimationPlayer/Sprite").Texture = ResourceLoader.Load("res://Assets/Character Sprites/Auril-1.png") as Texture;
+8485ec23 (Jake Looney         2022-10-10 18:56:20 -0400 31)       else if(playcount % 3 == 1)
+8485ec23 (Jake Looney         2022-10-10 18:56:20 -0400 32)         GetNode<Sprite>("AnimationPlayer/Sprite").Texture = ResourceLoader.Load("res://Assets/Character Sprites/Alzrius-1.png") as Texture;
+8485ec23 (Jake Looney         2022-10-10 18:56:20 -0400 33)       else
+8485ec23 (Jake Looney         2022-10-10 18:56:20 -0400 34)         GetNode<Sprite>("AnimationPlayer/Sprite").Texture = ResourceLoader.Load("res://Assets/Character Sprites/Solanac-1.png") as Texture;
+8485ec23 (Jake Looney         2022-10-10 18:56:20 -0400 35)       
+54e5376c (Jake Looney         2022-10-10 18:37:01 -0400 36)       titleAnim.Play("test");
+0ecf3c9c (Jake Looney         2022-10-03 15:52:53 -0400 37)     } 
+0ecf3c9c (Jake Looney         2022-10-03 15:52:53 -0400 38)   }
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400   1) using Godot;
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400   2) using System;
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400   3) 
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400   4) public class TeamSelect : CanvasLayer
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400   5) {
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400   6) #pragma warning disable 649
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400   7)   [Export]
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400   8)   public PackedScene Fighter;
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400   9) #pragma warning restore 649
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  10)   
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  11)   private OptionButton beasts, type;
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  12)   private OptionButton attack0, attack1, attack2, attack3;
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  13)   private Fighter player;
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  14)   
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  15)   int playerMaxHealth;
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  16)   int[] attackSet;
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  17)   Texture tex;
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  18)   
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  19)   private void InitMenus()
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  20)   {
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  21)     OptionButton tmp;
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  22)     
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  23)     beasts.AddItem("Alzrius"); beasts.AddItem("Auril"); 
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  24)     beasts.AddItem("Solanac");
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  25)     
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  26)     /* We can remove type selection and have fixed types if we want */
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  27)     type.AddItem("Fire"); type.AddItem("Ice"); type.AddItem("Poison");
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  28)     
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  29)     /* There is a better way of doing this. This is just
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  30)        for temporary to see how the menu looks */
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  31)     attack0.AddItem("Attack 1"); attack0.AddItem("Attack 2");
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  32)     attack0.AddItem("Attack 3"); attack0.AddItem("Attack 4");
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  33)     attack1.AddItem("Attack 1"); attack1.AddItem("Attack 2");
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  34)     attack1.AddItem("Attack 3"); attack1.AddItem("Attack 4");
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  35)     attack2.AddItem("Attack 1"); attack2.AddItem("Attack 2");
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  36)     attack2.AddItem("Attack 3"); attack2.AddItem("Attack 4");
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  37)     attack3.AddItem("Attack 1"); attack3.AddItem("Attack 2");
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  38)     attack3.AddItem("Attack 3"); attack3.AddItem("Attack 4");
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  39)   }
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  40) 
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  41)   // Called when the node enters the scene tree for the first time.
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  42)   public override void _Ready()
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  43)   {
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  44)     beasts = GetNode<OptionButton>("Beasts");
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  45)     type = GetNode<OptionButton>("Type");
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  46)     
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  47)     /* You can't make arrays of structs in c# */
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  48)     attack0 = GetNode<OptionButton>("Attack0");
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  49)     attack1 = GetNode<OptionButton>("Attack1");
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  50)     attack2= GetNode<OptionButton>("Attack2");
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  51)     attack3 = GetNode<OptionButton>("Attack3");
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  52)     
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  53)     player = GetNode<Fighter>("Fighter");
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  54)     attackSet = new int[] {1, 1, 1, 1};
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  55)     playerMaxHealth = 100;
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  56)     player.Init("player", attackSet, playerMaxHealth);
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  57)     player.Position = new Vector2(178, 293);
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  58)     player.Scale = new Vector2(6, 6);
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  59)     tex = ResourceLoader.Load("res://Assets/Character Sprites/Alzrius-1.png") as Texture;
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  60)     player.GetNode<Sprite>("Texture").Texture = tex;
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  61)     
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  62)     // beasts.connect("ItemSelected", this, "OnBeastSelected");
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  63)     
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  64)     InitMenus();
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  65)   }
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  66)   
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  67)   
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  68) 
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  69) //  // Called every frame. 'delta' is the elapsed time since the previous frame.
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  70) //  public override void _Process(float delta)
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  71) //  {
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  72) //      
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  73) //  }
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  74) 
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  75)   
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  76)   private void _on_Beasts_item_selected(int index)
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  77)   {
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  78)     string s;
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  79)     
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  80)     s = beasts.GetItemText(beasts.GetSelectedId());
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  81)     if(s == "Alzrius"){
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  82)         tex = ResourceLoader.Load("res://Assets/Character Sprites/Alzrius-1.png") as Texture;
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  83)     } else if (s == "Auril"){
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  84)         tex = ResourceLoader.Load("res://Assets/Character Sprites/Auril-1.png") as Texture;
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  85)     } else if (s == "Solanac"){
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  86)         tex = ResourceLoader.Load("res://Assets/Character Sprites/Solanac-1.png") as Texture;
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  87)     } else{
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  88)       tex = null;
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  89)     }
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  90)   
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  91)     player.GetNode<Sprite>("Texture").Texture = tex;
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  92)   }
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  93)   
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  94)   private void _on_Back_pressed()
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  95)   {
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  96)     GetTree().ChangeScene("res://Menus/MainMenu.tscn");
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  97)   }
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  98)   
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400  99)   private void _on_Go_pressed()
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400 100)   {
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400 101)     /* Pass Fighter here */
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400 102)     GetTree().ChangeScene("res://Fight/Fight.tscn");
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400 103)   }
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400 104)   
+54e5376c (Jake Looney 2022-10-10 18:37:01 -0400 105) }
