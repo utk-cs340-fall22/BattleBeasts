@@ -60,6 +60,33 @@ To commit: In the highest level directory in the project on your machine do "git
     - Save progress
 
 ## Functionality
+
+### JSON
+
+Each file describes default values that should never be taken on. All three files are 0 indexed and fields such as "types" and "attacks" make use of those indices. For a fighter to be able to take on any given attack, both the beast *and* the type must allow for the attack. Bit shifting and masking could be used for this but that's unreadable so instead we will index within the string.
+
+**Beasts**
+
+- name: Beast name
+- health: Base maxium health
+- armor: Base armor
+- base_type: Default type
+- types: Types this beast can be. 1 means it can be that type, 0 means it can't. Index in this string corresponds to index in Types.json
+- attacks: Attacks this beast can have. Same format as types
+
+**Types**
+
+- name: Type name
+- health_modifier: Health added to base maximum health of beast
+- armor_modifier: Armor added to base armor of beast
+- attacks: Attacks this type can have. Same format as in Beasts.json
+
+**Attacks**
+
+- name: Attack name
+- strike_damage: How much damage one strike deals
+- strike_count: How many strikes are in one attack
+
 ### Fights
 The Fight scene instantiates two Fighter nodes so one is controlled by the player and the other by the computer. The Fighter nodes are instantiated with a beast texture and information about the beast.
 Players can choose their beast/type as well as four attacks. Available types to choose from depend on the beast and attacks available depend on the beast and type.
