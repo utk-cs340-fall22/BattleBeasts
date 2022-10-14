@@ -1,0 +1,32 @@
+{
+  "default": {
+    "name": "",
+    "strike_damage": 0,
+    "strike_count": 0,
+    "beasts": "000"
+  },
+  "0": {
+    "name": "attack0",
+    "strike_damage": 1,
+    "strike_count": 5,
+    "beasts": "111"
+  },
+  "1": {
+    "name": "attack1",
+    "strike_damage": 2,
+    "strike_count": 3,
+    "beasts": "111"
+  },
+  "2": {
+    "name": "attack2",
+    "strike_damage": 13,
+    "strike_count": 1,
+    "beasts": "111"
+  },
+  "3": {
+    "name": "attack3",
+    "strike_damage": 50,
+    "strike_count": 1,
+    "beasts": "111"
+  }
+}
