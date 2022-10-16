@@ -4,27 +4,31 @@
     "health": 0,
     "armor": 0,
     "base_type": "",
-    "types": "000"
+    "types": "000",
+    "attacks": "0000"
   },
   "0": {
     "name": "Auril",
     "health": 0,
     "armor": 0,
     "base_type": "Ice",
-    "types": "100"
+    "types": "100",
+    "attacks": "1111"
   },
   "1": {
     "name": "Solanac",
     "health": 0,
     "armor": 0,
     "base_type": "Poison",
-    "types": "010"
+    "types": "010",
+    "attacks": "1111"
   },
   "2": {
     "name": "Alzrius",
     "health": 0,
     "armor": 0,
     "base_type": "Fire",
-    "types": "001"
+    "types": "001",
+    "attacks": "1111"
   }
 }
