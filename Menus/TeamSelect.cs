@@ -11,14 +11,62 @@ public class TeamSelect : CanvasLayer
   private OptionButton beasts, type;
   private OptionButton attack0, attack1, attack2, attack3;
   private Fighter player;
+
+  /*private Dictionary beastStats;
+  private Dictionary modifierStats;
+  private Dictionary attack0Stats;
+  private Dictionary attack1Stats;
+  private Dictionary attack2Stats;
+  private Dictionary attack3Stats;*/
   
   int playerMaxHealth;
   int[] attackSet;
   Texture tex;
   
+  
+  /*private Dictionary beastOptions {
+    get {
+      if (beastOptions == null) {
+        var file = new File();
+        file.Open("res://Data/Beasts.json", File.ModeFlags.Read);
+        var text = file.GetAsText();
+        beastOptions = JSON.Parse(text).Result as Dictionary;
+      }
+      return beastOptions;
+    }
+  }
+
+  private Dictionary modifierOptions {
+    get {
+      if (beastOptions == null) {
+        var file = new File();
+        file.Open("res://Data/Types.json", File.ModeFlags.Read); // WILL BE MODIFIERS.JSON
+        var text = file.GetAsText();
+        modifierOptions = JSON.Parse(text).Result as Dictionary;
+      }
+      return modifierOptions;
+    }
+  }
+
+  private Dictionary attackOptions {
+    get {
+      if (beastOptions == null) {
+        var file = new File();
+        file.Open("res://Data/Attacks.json", File.ModeFlags.Read);
+        var text = file.GetAsText();
+        attackOptions = JSON.Parse(text).Result as Dictionary;
+      }
+      return attackOptions;
+    }
+  }*/
+  
   private void InitMenus()
   {
-    OptionButton tmp;
+    /* Read json files */
+
+
+
+    /* Add beast selections */
     
     beasts.AddItem("Alzrius"); beasts.AddItem("Auril"); 
     beasts.AddItem("Solanac");
@@ -54,7 +102,7 @@ public class TeamSelect : CanvasLayer
     attackSet = new int[] {1, 1, 1, 1};
     playerMaxHealth = 100;
     player.Init("player", attackSet, playerMaxHealth);
-    player.Position = new Vector2(178, 293);
+    player.Position = new Vector2(500, 200);
     player.Scale = new Vector2(6, 6);
     tex = ResourceLoader.Load("res://Assets/Character Sprites/Alzrius-1.png") as Texture;
     player.GetNode<Sprite>("Texture").Texture = tex;
