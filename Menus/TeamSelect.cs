@@ -36,7 +36,7 @@ public class TeamSelect : CanvasLayer
         var text = file.GetAsText();
         _beastOptions = JSON.Parse(text).Result as Dictionary;
       }
-      return beastOptions;
+      return _beastOptions;
     }
   }
 
@@ -48,7 +48,7 @@ public class TeamSelect : CanvasLayer
         var text = file.GetAsText();
         _modifierOptions = JSON.Parse(text).Result as Dictionary;
       }
-      return modifierOptions;
+      return _modifierOptions;
     }
   }
 
@@ -60,7 +60,7 @@ public class TeamSelect : CanvasLayer
         var text = file.GetAsText();
         _attackOptions = JSON.Parse(text).Result as Dictionary;
       }
-      return attackOptions;
+      return _attackOptions;
     }
   }
   
@@ -71,20 +71,14 @@ public class TeamSelect : CanvasLayer
 
     /* Add beast selections */
 
-    GD.Print("test1");
-
-    for (i = 0; i < beastOptions.size(); i++) {
-      GD.Print("test2");
+    for (i = 0; i < beastOptions.Count; i++) {
       beast = beastOptions[i.ToString()] as Dictionary;
-      GD.Print("test3");
       beasts.AddItem((String) beast["name"]);
-      GD.Print("test4");
+
+      // debug
+      GD.Print("Added: ", beast["name"]);
     }
 
-    GD.Print("test5");
-    
-    //beasts.AddItem("Alzrius"); beasts.AddItem("Auril"); beasts.AddItem("Solanac");
-    
     /* Add modifier selections */
     
     type.AddItem("Fire"); type.AddItem("Ice"); type.AddItem("Poison");
@@ -124,13 +118,9 @@ public class TeamSelect : CanvasLayer
     tex = ResourceLoader.Load("res://Assets/Character Sprites/Alzrius-1.png") as Texture;
     player.GetNode<Sprite>("Texture").Texture = tex;
 
-    GD.Print("here1");
-    
     // beasts.connect("ItemSelected", this, "OnBeastSelected");
     
-    GD.Print("here2");
     InitMenus();
-    GD.Print("here3");
   }
   
   
