@@ -1,9 +1,4 @@
 {
-  "default": {
-    "name": "",
-    "strike_damage": 0,
-    "strike_count": 0
-  },
   "0": {
     "name": "attack0",
     "strike_damage": 1,
