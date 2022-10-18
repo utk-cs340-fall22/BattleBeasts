@@ -81,14 +81,14 @@ text = "Play"
 anims/test = SubResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="AnimationPlayer"]
-position = Vector2( 650, 241 )
+position = Vector2( 350, 241 )
 scale = Vector2( 5.15625, 4.875 )
 texture = ExtResource( 3 )
 
 [node name="ColorRect" type="ColorRect" parent="AnimationPlayer"]
-margin_left = 565.0
+margin_left = 265.0
 margin_top = 150.0
-margin_right = 738.015
+margin_right = 438.015
 margin_bottom = 319.0
 color = Color( 0.184314, 0.184314, 0.184314, 1 )
 
