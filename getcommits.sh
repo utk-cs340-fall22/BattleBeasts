@@ -6,7 +6,6 @@ for i in *; do
         cd "$i"
         for dir2 in *; do
             if [[ $dir2 == *.cs ]]; then
-
 	      if [ $# == 2 ]; then  
 		echo "git blame -w $i/$dir2 | grep -e $1 -e $2 >> ../commits.txt"
 		git blame -w "$dir2" | grep -e $1 -e $2 >> ../commits.txt	

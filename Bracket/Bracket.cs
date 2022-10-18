@@ -33,14 +33,13 @@ public class Bracket: Node2D
     GetNode<Button>("Exit").Text = "Exit";
     GetNode<Sprite>("Sprite").Show();
     GetNode<Sprite>("Sprite2").Show();
-    //GetNode<Sprite>("Sprite").Position = new Vector2(100, 60);
    }
   public override void _Ready() {
     
   g = (Globals)GetNode("/root/Gm");
   GetNode<Button>("Exit").Hide();
   GetNode<Sprite>("Sprite").Position = new Vector2(100 + 100*g.level, 50+25*g.level);
-  //GetNode<Sprite>("Sprite").SetOffset(new Vector2(100 + 25*g.level, 50 + 50*g.level));
+
   if (g.bracket_size == -1) {
     hideall();
     GetNode<Button>("Exit").Hide();

@@ -1,9 +1,8 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Fonts/PublicPixel-z84yD.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Menus/TitleMenu.cs" type="Script" id=2]
 [ext_resource path="res://Assets/Character Sprites/Auril-1.png" type="Texture" id=3]
-[ext_resource path="res://Assets/Music/TitleMusic.mp3" type="AudioStream" id=4]
 
 [sub_resource type="DynamicFont" id=1]
 size = 60
@@ -91,9 +90,5 @@ margin_top = 150.0
 margin_right = 438.015
 margin_bottom = 319.0
 color = Color( 0.184314, 0.184314, 0.184314, 1 )
-
-[node name="Music" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 4 )
-volume_db = -10.488
 
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]

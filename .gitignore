@@ -1,4 +1,6 @@
 .import/
 .mono/
 .vscode/
+.DS_Store
 */.DS_Store
+mono_crash.*
