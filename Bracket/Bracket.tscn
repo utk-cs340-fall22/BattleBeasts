@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Bracket/Bracket.cs" type="Script" id=1]
-[ext_resource path="res://Assets/tmp_people.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Character Sprites/Auril-1.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Character Sprites/Solanac-1.png" type="Texture" id=3]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 1 )
@@ -10,16 +11,24 @@ script = ExtResource( 1 )
 position = Vector2( 704, 160 )
 texture = ExtResource( 2 )
 centered = false
-hframes = 7
-vframes = 3
+
+[node name="nameP" type="CanvasLayer" parent="Sprite"]
+
+[node name="Name" type="Label" parent="Sprite"]
+margin_top = 32.0
+margin_right = 40.0
+margin_bottom = 46.0
 
 [node name="Sprite2" type="Sprite" parent="."]
 position = Vector2( -1, 0 )
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 offset = Vector2( 170, 130 )
-hframes = 8
-vframes = 3
-frame = 1
+
+[node name="Name" type="Label" parent="Sprite2"]
+margin_left = 273.0
+margin_top = 128.0
+margin_right = 313.0
+margin_bottom = 142.0
 
 [node name="Continue" type="Button" parent="."]
 margin_left = 704.0
