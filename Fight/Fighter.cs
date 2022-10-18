@@ -11,7 +11,7 @@ public class Fighter : Sprite
   Texture tex;
 
   /*
-  initialize as player or opponent and load stats
+  Initialize as player or opponent and load stats
   controller: what controls this fighter, "player" or "opponent"  
   attackSet: array of attack IDs indicating what attacks this fighter has
   maxHealth: maximum health value

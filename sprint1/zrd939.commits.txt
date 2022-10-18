@@ -1,0 +1,295 @@
+32d3b497 (Noah Dahle 2022-10-06 15:07:21 -0400   1) using Godot;
+32d3b497 (Noah Dahle 2022-10-06 15:07:21 -0400   2) using System;
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400   3) using System.Threading;
+32d3b497 (Noah Dahle 2022-10-06 15:07:21 -0400   4) 
+32d3b497 (Noah Dahle 2022-10-06 15:07:21 -0400   5) 
+32d3b497 (Noah Dahle 2022-10-06 15:07:21 -0400   6) public class Bracket: Node2D
+32d3b497 (Noah Dahle 2022-10-06 15:07:21 -0400   7) {
+c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400   8)   Globals g;
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400   9)   int size = 0;
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  10) 
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  11)   public void hideall() {
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  12)     GetNode<Sprite>("Sprite").Hide();
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  13)     GetNode<Sprite>("Sprite2").Hide();
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400  14)     GetNode<Button>("Continue").Hide();
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  15)     GetNode<Button>("Win").Hide();
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  16)     GetNode<Button>("Lose").Hide();
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  17)     GetNode<Label>("Label").Hide();
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  18)     
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  19)    }
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  20)   
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  21)   public void hideforwin() {
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  22)     GetNode<Button>("Continue").Hide();
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  23)     GetNode<Button>("Win").Hide();
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  24)     GetNode<Button>("Lose").Hide();
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  25)     GetNode<Label>("Label").Hide();
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  26)    }
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  27)   
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  28)   public void display_win() {
+84b33b6c (Noah Dahle 2022-10-11 08:45:20 -0400  29)     GetNode<Label>("Welcome").Text = "You Win! Press exit to return to title menu.";
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  30)     GetNode<Button>("Big").Hide();
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  31)     GetNode<Button>("Small").Hide();
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  32)     GetNode<Button>("Exit").Show();
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  33)     GetNode<Button>("Exit").Text = "Exit";
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  34)     GetNode<Sprite>("Sprite").Show();
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  35)     GetNode<Sprite>("Sprite2").Show();
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  36)     //GetNode<Sprite>("Sprite").Position = new Vector2(100, 60);
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  37)    }
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  38)   public override void _Ready() {
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  39)     
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  40)   g = (Globals)GetNode("/root/Gm");
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  41)   GetNode<Button>("Exit").Hide();
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  42)   GetNode<Sprite>("Sprite").Position = new Vector2(100 + 100*g.level, 50+25*g.level);
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  43)   //GetNode<Sprite>("Sprite").SetOffset(new Vector2(100 + 25*g.level, 50 + 50*g.level));
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  44)   if (g.bracket_size == -1) {
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  45)     hideall();
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  46)     GetNode<Button>("Exit").Hide();
+84b33b6c (Noah Dahle 2022-10-11 08:45:20 -0400  47)     GetNode<Button>("Small").Text = "Small";
+84b33b6c (Noah Dahle 2022-10-11 08:45:20 -0400  48)     GetNode<Button>("Big").Text ="Big";
+84b33b6c (Noah Dahle 2022-10-11 08:45:20 -0400  49)     GetNode<Label>("Welcome").Text = "Hi " + g.name + "! Do you want to enter the small or big tournament?";
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  50)   }
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  51) 
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  52)   if (g.bracket_size == 0) {
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  53)     size = 2;
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  54)     GetNode<Button>("Small").Hide();
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  55)     GetNode<Button>("Big").Hide();
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  56)     Update();
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  57)    } else if (g.bracket_size == 1) {
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  58)     GetNode<Button>("Small").Hide();
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  59)     GetNode<Button>("Big").Hide();
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  60)     size = 4;
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  61)     Update();
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  62)    }
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  63)   
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  64)   //GetNode<Sprite>("Sprite").Position = new Vector2(100 + 100*g.level, 50+25*g.level);
+84b33b6c (Noah Dahle 2022-10-11 08:45:20 -0400  65)   GetNode<Label>("Label").Text = "Did you win or lose?\nIf this is your first time here, press continue.\n";
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  66) 
+c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400  67)   }
+c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400  68) 
+32d3b497 (Noah Dahle 2022-10-06 15:07:21 -0400  69)   public override void _Process(float delta)
+32d3b497 (Noah Dahle 2022-10-06 15:07:21 -0400  70)   {
+32d3b497 (Noah Dahle 2022-10-06 15:07:21 -0400  71)   
+32d3b497 (Noah Dahle 2022-10-06 15:07:21 -0400  72)   }
+32d3b497 (Noah Dahle 2022-10-06 15:07:21 -0400  73) 
+32d3b497 (Noah Dahle 2022-10-06 15:07:21 -0400  74)   //public RandomNumberGenerator rng = new RandomNumberGenerator();
+32d3b497 (Noah Dahle 2022-10-06 15:07:21 -0400  75)   public override void _Draw()
+32d3b497 (Noah Dahle 2022-10-06 15:07:21 -0400  76)   {
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  77)   if (size == 0) return;
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  78)   
+32d3b497 (Noah Dahle 2022-10-06 15:07:21 -0400  79)   var points = new Vector2[100];
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400  80)   var points2 = new Vector2[100];
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400  81)   var points4 = new Vector2[2];
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400  82)   var points3 = new Vector2[100];
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400  83)   var color = new Color(0, 3, 1);
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400  84)   int i, levels;
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  85)   levels = size;
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400  86)   
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400  87)   /*Level 1*/
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400  88)   for (i = 0; i < levels; i++) {
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400  89)     points[i*6]     = new Vector2(100 , 100 + i * 100);
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400  90)     points[i*6 + 1] = new Vector2(200, 100 + i * 100);
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400  91)     points[i*6 + 2] = new Vector2(100, 150 + i * 100);
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400  92)     points[i*6 + 3] = new Vector2(200, 150 + i * 100);
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400  93)     points[i*6 + 4] = new Vector2(200, 100 + 100* i);
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400  94)     points[i*6 + 5] = new Vector2(200, 150 + 100 * i);
+32d3b497 (Noah Dahle 2022-10-06 15:07:21 -0400  95)     
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400  96)   }
+32d3b497 (Noah Dahle 2022-10-06 15:07:21 -0400  97)   
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400  98)   levels = levels / 2;
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400  99)   /*Level 2*/
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 100)   for (i = 0; i <  levels; i++) {
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 101)     points2[i*6]   = new Vector2(200, 125 + i*200);
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 102)     points2[i*6+1] = new Vector2(300, 125 + i*200);
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 103)     points2[i*6+2] = new Vector2(200, 225 + i*200);
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 104)     points2[i*6+3] = new Vector2(300, 225 + i*200);
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 105)     points2[i*6+4] = new Vector2(300, 125 + i*200);
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 106)     points2[i*6+5] = new Vector2(300, 225 + i*200);
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 107)   }
+32d3b497 (Noah Dahle 2022-10-06 15:07:21 -0400 108)   
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 109)   if (levels < 2) {
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 110)     points4[0] = new Vector2(300, 175);
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 111)     points4[1] = new Vector2(400, 175);
+32d3b497 (Noah Dahle 2022-10-06 15:07:21 -0400 112)     
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 113)     DrawMultiline(points, color, (float) 15.0, false );
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 114)     DrawMultiline(points2, color, (float) 15.0, false );
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 115)     DrawMultiline(points3, color, (float) 15.0, false );
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 116)     DrawMultiline(points4, color, (float) 15.0, false );
+32d3b497 (Noah Dahle 2022-10-06 15:07:21 -0400 117)     
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 118)     return;
+32d3b497 (Noah Dahle 2022-10-06 15:07:21 -0400 119)     
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 120)   }
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 121)   levels = levels / 2;
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 122)   /*Level 3*/
+32d3b497 (Noah Dahle 2022-10-06 15:07:21 -0400 123)   
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 124)   for (i = 0; i < levels; i++) {
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 125)     points3[i*6] = new Vector2(300, 175);
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 126)     points3[i*6+1] = new Vector2(400, 175);
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 127)     points3[i*6+2] = new Vector2(300, 375);
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 128)     points3[i*6+3] = new Vector2(400, 375);
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 129)     points3[i*6+4] = new Vector2(400, 175);
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 130)     points3[i*6+5] = new Vector2(400, 375);
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 131)   }
+32d3b497 (Noah Dahle 2022-10-06 15:07:21 -0400 132)   
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 133)   /*LEVEL 4*/
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 134)   points4[0] = new Vector2(400, 275);
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 135)   points4[1] = new Vector2(500, 275);
+32d3b497 (Noah Dahle 2022-10-06 15:07:21 -0400 136)   
+32d3b497 (Noah Dahle 2022-10-06 15:07:21 -0400 137)   
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 138) 
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 139)   DrawMultiline(points, color, (float) 15.0, false );
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 140)   DrawMultiline(points2, color, (float) 15.0, false );
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 141)   DrawMultiline(points3, color, (float) 15.0, false );
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 142)   DrawMultiline(points4, color, (float) 15.0, false );
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 143)   }
+32d3b497 (Noah Dahle 2022-10-06 15:07:21 -0400 144) 
+32d3b497 (Noah Dahle 2022-10-06 15:07:21 -0400 145)   
+32d3b497 (Noah Dahle 2022-10-06 15:07:21 -0400 146) 
+32d3b497 (Noah Dahle 2022-10-06 15:07:21 -0400 147) 
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 148)   private void _on_Win_pressed()
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 149)   {
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400 150)     
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400 151)     GetNode<Sprite>("Sprite").SetOffset(new Vector2(100 + 25*g.level, 50 + 50*g.level));
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 152)     GetNode<Button>("Win").Hide();
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 153)     GetNode<Button>("Lose").Hide();
+c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400 154)     GetNode<Label>("Label").Hide();
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 155)     
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 156)     
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400 157)     if (g.level == 2 && g.bracket_size == 1) {
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400 158)       display_win();
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400 159)       hideforwin();
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400 160)       
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400 161) 
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400 162)     }
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400 163)     if (g.level == 1 && g.bracket_size == 0) {
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400 164)       display_win();
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400 165)       hideforwin();
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400 166)     
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400 167) 
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400 168)     }
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400 169)     g.level++;
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400 170)     
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400 171)     
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 172)   }
+32d3b497 (Noah Dahle 2022-10-06 15:07:21 -0400 173) 
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 174)   private void _on_Lose_pressed()
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 175)   {
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 176)     GetTree().ChangeScene("res://Menus/TitleMenu.tscn");
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 177)     GetNode<Button>("Win").Hide();
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 178)     GetNode<Button>("Lose").Hide();
+c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400 179)     GetNode<Label>("Label").Hide();
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 180)   }
+32d3b497 (Noah Dahle 2022-10-06 15:07:21 -0400 181) 
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 182)   private void _on_Continue_pressed()
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 183)   {
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 184)     GetTree().ChangeScene("res://Fight/Fight.tscn");
+32d3b497 (Noah Dahle 2022-10-06 15:07:21 -0400 185)   }
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 186) 
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 187) 
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 188)   private void _on_Big_pressed()
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 189)   {
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400 190)     g = (Globals)GetNode("/root/Gm");
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400 191)     g.bracket_size = 1;
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 192)     size = 4;
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400 193)     
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 194)     GetNode<Button>("Big").Hide();
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 195)     GetNode<Button>("Small").Hide();
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 196)     GetNode<Label>("Welcome").Hide();
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 197)     GetNode<Sprite>("Sprite").Show();
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 198)     GetNode<Sprite>("Sprite2").Show();
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 199)     GetNode<Button>("Win").Show();
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 200)     GetNode<Button>("Lose").Show();
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 201)     GetNode<Label>("Label").Show();
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 202)     GetNode<Button>("Continue").Show();
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 203)     Update();
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 204)   }
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 205) 
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 206) 
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 207)   private void _on_Small_pressed()
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 208)   {
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400 209)     g = (Globals)GetNode("/root/Gm");
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400 210)     g.bracket_size = 0;
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 211)     size = 2;
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 212)     GetNode<Button>("Big").Hide();
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 213)     GetNode<Button>("Small").Hide();
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 214)     GetNode<Label>("Welcome").Hide();
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 215)     GetNode<Sprite>("Sprite").Show();
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 216)     GetNode<Sprite>("Sprite2").Show();
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 217)     GetNode<Button>("Win").Show();
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 218)     GetNode<Button>("Lose").Show();
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 219)     GetNode<Label>("Label").Show();
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 220)     GetNode<Button>("Continue").Show();
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 221)     Update();
+32d3b497 (Noah Dahle 2022-10-06 15:07:21 -0400 222)   }
+7f716901 (Noah Dahle 2022-10-06 18:49:48 -0400 223) 
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400 224) 
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400 225) 
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400 226) 
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400 227)   private void _on_Exit_pressed()
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400 228)   {
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400 229)       GetNode<Sprite>("Sprite").Position = new Vector2(0,0);
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400 230)       g.level = 0;
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400 231)       g.bracket_size = -1;
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400 232)       GetTree().ChangeScene("res://Menus/TitleMenu.tscn");
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400 233)   }
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 234) }
+c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400  1) using Godot;
+c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400  2) using System;
+c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400  3) 
+c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400  4) public class Globals : Node
+c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400  5) {
+c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400  6)     public string name = "Player";
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  7)     public int level = 0;
+fea5ad79 (Noah Dahle 2022-10-10 13:28:49 -0400  8)     public int bracket_size = -1;
+c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400  9) 
+c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400 10) }
+62fed1fe (Noah Dahle          2022-10-09 19:28:42 -0400 31)   GetTree().ChangeScene("res://Username/username.tscn");
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  1) using Godot;
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  2) using System;
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  3) 
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  4) public class Enter_Name : Godot.LineEdit
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  5) {
+c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400  6)   Globals g;
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  7)   public override void _Ready()
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  8)   {
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  9)     GrabFocus();
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 10)     GetNode<Button>("Button").Hide();
+c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400 11)     g = (Globals)GetNode("/root/Gm");
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 12)   }
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 13) 
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 14) 
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 15)   private void _on_LineEdit_text_entered(String new_text)
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 16)   {
+c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400 17)     g.name = new_text;
+84b33b6c (Noah Dahle 2022-10-11 08:45:20 -0400 18)     GetNode<Label>("Exit").Text = "Hello " + new_text + ". Welcome to the world of Battle Beasts.";
+84b33b6c (Noah Dahle 2022-10-11 08:45:20 -0400 19)     GetNode<Label>("press_here").Text = "Press here to enter the tournament.";
+84b33b6c (Noah Dahle 2022-10-11 08:45:20 -0400 20)     GetNode<Button>("Button").Text = "Let's Go " + new_text + "!";
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 21)     GetNode<Button>("Button").Show();
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 22)   }
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 23)   
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 24)   
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 25)   private void _on_Button_pressed()
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 26) {
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 27)   GetTree().ChangeScene("res://Bracket/Bracket.tscn");
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 28) }
+c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400 29) 
+c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400 30)   public override void _Process(float delta)
+c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400 31)   {
+c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400 32) 
+c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400 33)   }
+c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400 34) 
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 35) }
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  1) using Godot;
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  2) using System;
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  3) 
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  4) public class username : Node2D
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  5) {
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  6) 
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  7)   public override void _Ready()
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  8)   {
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400  9) 
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 10)   }
+c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400 11)   
+c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400 12) 
+c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400 13) 
+c0262133 (Noah Dahle 2022-10-09 23:40:14 -0400 14) 
+62fed1fe (Noah Dahle 2022-10-09 19:28:42 -0400 15) }
