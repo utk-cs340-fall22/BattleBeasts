@@ -7,6 +7,7 @@ public class Bracket: Node2D
   Globals g;
   int size = 0;
 
+
   public void hideall() {
     GetNode<Sprite>("Sprite").Hide();
     GetNode<Sprite>("Sprite2").Hide();
@@ -29,11 +30,14 @@ public class Bracket: Node2D
    }
   public override void _Ready() {
   
-  
+
   g = (Globals)GetNode("/root/Gm");
+  GetNode<Label>("Sprite/Name").Text = g.name;
+  GetNode<Label>("Sprite/Name").Show();
     
   GetNode<Button>("Exit").Hide();
-  GetNode<Sprite>("Sprite").Position = new Vector2(100 + 100*g.level, 50+25*g.level);
+  GetNode<Sprite>("Sprite").Position = new Vector2(100 + 100*g.level, 50+50*g.level);
+  
 
   if (g.bracket_size == -1) {
     hideall();
@@ -145,7 +149,8 @@ public class Bracket: Node2D
   private void Won()
   {
     
-    GetNode<Sprite>("Sprite").SetOffset(new Vector2(100 + 25*g.level, 50 + 50*g.level));
+   GetNode<Sprite>("Sprite").Position = new Vector2(100 + 100*(g.level+1), 50+50*(g.level+1));
+   
 
     
     
