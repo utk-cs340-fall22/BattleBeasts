@@ -52,12 +52,6 @@ margin_top = 72.0
 margin_right = 96.0
 margin_bottom = 92.0
 
-[node name="Loser" type="Label" parent="."]
-margin_left = 568.0
-margin_top = 280.0
-margin_right = 600.0
-margin_bottom = 296.0
-
 [connection signal="draw" from="." to="." method="_Draw"]
 [connection signal="pressed" from="Continue" to="." method="_on_Continue_pressed"]
 [connection signal="pressed" from="Big" to="." method="_on_Big_pressed"]

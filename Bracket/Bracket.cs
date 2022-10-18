@@ -175,7 +175,7 @@ public class Bracket: Node2D
     GetNode<Button>("Exit").Show();
     GetNode<Button>("Exit").Text = "Exit";
     GetNode<Button>("Continue").Hide();
-    GetNode<Label>("Loser").Text = "You lose! Press exit to return to the title menu";
+    GetNode<Label>("Welcome").Text = "You lose! Press exit to return to the title menu";
     
   }
 
