@@ -7,13 +7,14 @@ public class Fight : Node
   [Export]
   public PackedScene Fighter;
 #pragma warning restore 649
-
+  Globals g;
   int playerMaxHealth, opponentMaxHealth, isPlayerTurn, aiAttackChoice;
   Fighter player, opponent;
   Texture playerTexture, opponentTexture;
   
   // Called when the node enters the scene tree for the first time.
   public override void _Ready() {
+    g = (Globals)GetNode("/root/Gm");
     int[] attackSet = new int[4];
     playerMaxHealth = 100;
     opponentMaxHealth = 132;
