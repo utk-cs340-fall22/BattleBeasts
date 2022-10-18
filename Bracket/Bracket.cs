@@ -1,6 +1,5 @@
 using Godot;
 using System;
-using System.Threading;
 
 
 public class Bracket: Node2D
@@ -12,17 +11,11 @@ public class Bracket: Node2D
     GetNode<Sprite>("Sprite").Hide();
     GetNode<Sprite>("Sprite2").Hide();
     GetNode<Button>("Continue").Hide();
-    GetNode<Button>("Win").Hide();
-    GetNode<Button>("Lose").Hide();
-    GetNode<Label>("Label").Hide();
     
    }
   
   public void hideforwin() {
     GetNode<Button>("Continue").Hide();
-    GetNode<Button>("Win").Hide();
-    GetNode<Button>("Lose").Hide();
-    GetNode<Label>("Label").Hide();
    }
   
   public void display_win() {
@@ -35,8 +28,10 @@ public class Bracket: Node2D
     GetNode<Sprite>("Sprite2").Show();
    }
   public override void _Ready() {
-    
+  
+  
   g = (Globals)GetNode("/root/Gm");
+    
   GetNode<Button>("Exit").Hide();
   GetNode<Sprite>("Sprite").Position = new Vector2(100 + 100*g.level, 50+25*g.level);
 
@@ -59,9 +54,12 @@ public class Bracket: Node2D
     size = 4;
     Update();
    }
+
+  if (g.fight_outcome == 1) Won();
+  else if (g.fight_outcome == 0) Lost();
   
   //GetNode<Sprite>("Sprite").Position = new Vector2(100 + 100*g.level, 50+25*g.level);
-  GetNode<Label>("Label").Text = "Did you win or lose?\nIf this is your first time here, press continue.\n";
+
 
   }
 
@@ -144,13 +142,11 @@ public class Bracket: Node2D
   
 
 
-  private void _on_Win_pressed()
+  private void Won()
   {
     
     GetNode<Sprite>("Sprite").SetOffset(new Vector2(100 + 25*g.level, 50 + 50*g.level));
-    GetNode<Button>("Win").Hide();
-    GetNode<Button>("Lose").Hide();
-    GetNode<Label>("Label").Hide();
+
     
     
     if (g.level == 2 && g.bracket_size == 1) {
@@ -170,12 +166,17 @@ public class Bracket: Node2D
     
   }
 
-  private void _on_Lose_pressed()
+  private void Lost()
   {
-    GetTree().ChangeScene("res://Menus/TitleMenu.tscn");
-    GetNode<Button>("Win").Hide();
-    GetNode<Button>("Lose").Hide();
-    GetNode<Label>("Label").Hide();
+    g.name = "Player";
+    g.level = 0;
+    g.bracket_size = -1;
+    g.fight_outcome = 0;
+    GetNode<Button>("Exit").Show();
+    GetNode<Button>("Exit").Text = "Exit";
+    GetNode<Button>("Continue").Hide();
+    GetNode<Label>("Loser").Text = "You lose! Press exit to return to the title menu";
+    
   }
 
   private void _on_Continue_pressed()
@@ -195,9 +196,6 @@ public class Bracket: Node2D
     GetNode<Label>("Welcome").Hide();
     GetNode<Sprite>("Sprite").Show();
     GetNode<Sprite>("Sprite2").Show();
-    GetNode<Button>("Win").Show();
-    GetNode<Button>("Lose").Show();
-    GetNode<Label>("Label").Show();
     GetNode<Button>("Continue").Show();
     Update();
   }
@@ -213,21 +211,17 @@ public class Bracket: Node2D
     GetNode<Label>("Welcome").Hide();
     GetNode<Sprite>("Sprite").Show();
     GetNode<Sprite>("Sprite2").Show();
-    GetNode<Button>("Win").Show();
-    GetNode<Button>("Lose").Show();
-    GetNode<Label>("Label").Show();
     GetNode<Button>("Continue").Show();
     Update();
   }
 
-
-
-
   private void _on_Exit_pressed()
   {
       GetNode<Sprite>("Sprite").Position = new Vector2(0,0);
+      g.name = "Player";
       g.level = 0;
       g.bracket_size = -1;
+      g.fight_outcome = -1;
       GetTree().ChangeScene("res://Menus/TitleMenu.tscn");
   }
 }
