@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Fight/PowerSliderMiniGame.cs" type="Script" id=1]
+
+[node name="PowerSliderMiniGame" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="PowerSlider" type="HSlider" parent="CenterContainer"]
+margin_left = 412.0
+margin_top = 285.0
+margin_right = 612.0
+margin_bottom = 315.0
+rect_min_size = Vector2( 200, 30 )
+max_value = 200.0

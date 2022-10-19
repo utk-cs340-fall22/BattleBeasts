@@ -30,7 +30,7 @@ public class OptionsMenu2 : Control
         
         bus_index = AudioServer.GetBusIndex("Master");
         val = GD.Db2Linear(AudioServer.GetBusVolumeDb(bus_index));
-        vol.SetValue(val*100);
+        vol.Value = val*100;
     }
     
     private void _on_FullscreenButton_pressed()
