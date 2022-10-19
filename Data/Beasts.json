@@ -22,5 +22,21 @@
     "type": "Fire",
     "modifiers": "001",
     "attacks": "1111"
+  },
+  "3": {  
+    "name": "Glabbagool",
+    "health": 0,
+    "armor": 0,
+    "type": "Electric",
+    "modifiers": "000", 
+    "attacks": "0000"
+  },
+  "4": {  
+    "name": "Bunpir",
+    "health": 0,
+    "armor": 0,
+    "type": "Dark Magic",
+    "modifiers": "000", 
+    "attacks": "0000"
   }
 }
