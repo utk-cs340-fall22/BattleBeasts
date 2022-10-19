@@ -4,6 +4,7 @@ using System;
 public class PauseMenu2 : Control
 {
     bool is_paused;
+    float timer = 0;
     private Control Options;
 
     // initialize the scene to be hidden
@@ -43,6 +44,18 @@ public class PauseMenu2 : Control
     // on escape key pressed we pull up the pause menu
     public override void _Process(float delta)
     {
-        if (Input.IsActionPressed("pause")) _SetPaused(true);
+        
+    }
+    
+    public override void _Input(InputEvent inputEvent)
+    {
+        if (inputEvent.IsActionPressed("pause"))
+        {
+            if(is_paused == true){
+                _SetPaused(false);
+            }else{
+                _SetPaused(true);
+            }
+        }
     }
 }

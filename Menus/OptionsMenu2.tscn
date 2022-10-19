@@ -19,9 +19,9 @@ margin_bottom = 600.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
 margin_left = 437.0
-margin_top = 270.0
+margin_top = 261.0
 margin_right = 587.0
-margin_bottom = 330.0
+margin_bottom = 339.0
 
 [node name="FullscreenButton" type="CheckButton" parent="CenterContainer/VBoxContainer"]
 margin_right = 150.0
@@ -29,10 +29,16 @@ margin_bottom = 40.0
 rect_min_size = Vector2( 76, 40 )
 text = "Full Screen"
 
-[node name="VolumeSlider" type="HSlider" parent="CenterContainer/VBoxContainer"]
+[node name="VolumeLabel" type="Label" parent="CenterContainer/VBoxContainer"]
 margin_top = 44.0
 margin_right = 150.0
-margin_bottom = 60.0
+margin_bottom = 58.0
+text = "Master Volume"
+
+[node name="VolumeSlider" type="HSlider" parent="CenterContainer/VBoxContainer"]
+margin_top = 62.0
+margin_right = 150.0
+margin_bottom = 78.0
 
 [node name="BackButton" type="Button" parent="."]
 margin_left = 6.0
@@ -42,4 +48,5 @@ margin_bottom = 601.0
 text = "Back"
 
 [connection signal="pressed" from="CenterContainer/VBoxContainer/FullscreenButton" to="." method="_on_FullscreenButton_pressed"]
+[connection signal="value_changed" from="CenterContainer/VBoxContainer/VolumeSlider" to="." method="_on_VolumeSlider_value_changed"]
 [connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]

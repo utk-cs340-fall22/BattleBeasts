@@ -1,19 +1,19 @@
 {
   "0": {
-    "name": "Ice",
-    "health_modifier": -10,
+    "name": "Sturdy",
+    "health_modifier": 20,
     "armor_modifier": 1,
     "attacks": "1111"
   },
   "1": {
-    "name": "Poison",
-    "health_modifier": -15,
+    "name": "Intelligent",
+    "health_modifier": -10,
     "armor_modifier": 2,
     "attacks": "1111"
   },
   "2": {
-    "name": "Fire",
-    "health_modifier": 10,
+    "name": "Massive",
+    "health_modifier": 30,
     "armor_modifier": -1,
     "attacks": "1111"
   },
