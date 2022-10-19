@@ -10,7 +10,7 @@ public class TeamSelect : CanvasLayer
   public PackedScene Fighter;
 #pragma warning restore 649
   
-  private OptionButton beasts, type;
+  private OptionButton beast, modifier;
   private OptionButton attack0, attack1, attack2, attack3;
   private Fighter player;
 
@@ -67,41 +67,47 @@ public class TeamSelect : CanvasLayer
   private void InitMenus()
   {
     int i;
-    Dictionary beast;
+    Dictionary beasts, modifiers, attacks;
 
     /* Add beast selections */
 
     for (i = 0; i < beastOptions.Count; i++) {
-      beast = beastOptions[i.ToString()] as Dictionary;
-      beasts.AddItem((String) beast["name"]);
+      beasts = beastOptions[i.ToString()] as Dictionary;
+      beast.AddItem((String) beasts["name"]);
 
       // debug
-      GD.Print("Added: ", beast["name"]);
+      GD.Print("Added: ", beasts["name"]);
     }
 
     /* Add modifier selections */
-    
-    type.AddItem("Fire"); type.AddItem("Ice"); type.AddItem("Poison");
+
+    for (i = 0; i < modifierOptions.Count; i++) {
+      modifiers = modifierOptions[i.ToString()] as Dictionary;
+      modifier.AddItem((String) modifiers["name"]);
+
+      // debug
+      GD.Print("Added: ", modifiers["name"]);
+    }
     
     /* Add attack selections */
-    
-    /* There is a better way of doing this. This is just
-       for temporary to see how the menu looks */
-    attack0.AddItem("Attack 1"); attack0.AddItem("Attack 2");
-    attack0.AddItem("Attack 3"); attack0.AddItem("Attack 4");
-    attack1.AddItem("Attack 1"); attack1.AddItem("Attack 2");
-    attack1.AddItem("Attack 3"); attack1.AddItem("Attack 4");
-    attack2.AddItem("Attack 1"); attack2.AddItem("Attack 2");
-    attack2.AddItem("Attack 3"); attack2.AddItem("Attack 4");
-    attack3.AddItem("Attack 1"); attack3.AddItem("Attack 2");
-    attack3.AddItem("Attack 3"); attack3.AddItem("Attack 4");
+
+    for (i = 0; i < attackOptions.Count; i++) {
+      attacks = attackOptions[i.ToString()] as Dictionary;
+      attack0.AddItem((String) attacks["name"]);
+      attack1.AddItem((String) attacks["name"]);
+      attack2.AddItem((String) attacks["name"]);
+      attack3.AddItem((String) attacks["name"]);
+
+      // debug
+      GD.Print("Added: ", attacks["name"]);
+    }
   }
 
   // Called when the node enters the scene tree for the first time.
   public override void _Ready()
   {
-    beasts = GetNode<OptionButton>("Beasts");
-    type = GetNode<OptionButton>("Type");
+    beast = GetNode<OptionButton>("Beasts");
+    modifier = GetNode<OptionButton>("Modifier");
     
     /* You can't make arrays of structs in c# */
     attack0 = GetNode<OptionButton>("Attack0");
@@ -118,7 +124,7 @@ public class TeamSelect : CanvasLayer
     tex = ResourceLoader.Load("res://Assets/Character Sprites/Alzrius-1.png") as Texture;
     player.GetNode<Sprite>("Texture").Texture = tex;
 
-    // beasts.connect("ItemSelected", this, "OnBeastSelected");
+    // beast.connect("ItemSelected", this, "OnBeastSelected");
     
     InitMenus();
   }
@@ -136,7 +142,7 @@ public class TeamSelect : CanvasLayer
   {
     string s;
     
-    s = beasts.GetItemText(beasts.GetSelectedId());
+    s = beast.GetItemText(beast.GetSelectedId());
     if(s == "Alzrius"){
         tex = ResourceLoader.Load("res://Assets/Character Sprites/Alzrius-1.png") as Texture;
     } else if (s == "Auril"){
