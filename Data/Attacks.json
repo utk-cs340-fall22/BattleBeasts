@@ -1,22 +1,27 @@
 {
   "0": {
-    "name": "attack0",
-    "strike_damage": 1,
-    "strike_count": 5
-  },
-  "1": {
-    "name": "attack1",
-    "strike_damage": 2,
-    "strike_count": 3
-  },
-  "2": {
-    "name": "attack2",
-    "strike_damage": 13,
+    "name": "Flame Punch",
+    "strike_damage": 10,
     "strike_count": 1
   },
+  "1": {
+    "name": "Magma Ball",
+    "strike_damage": 7,
+    "strike_count": 2
+  },
+  "2": {
+    "name": "Thunder Whip",
+    "strike_damage": 2,
+    "strike_count": 5
+  },
   "3": {
-    "name": "attack3",
-    "strike_damage": 50,
+    "name": "Poison Puff",
+    "strike_damage": 4,
+    "strike_count": 2
+  },
+  "4": {
+    "name": "Frost Tackle",
+    "strike_damage": 11,
     "strike_count": 1
   }
 }
