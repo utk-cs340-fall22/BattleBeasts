@@ -5,6 +5,7 @@ public class OptionsMenu2 : Control
 {
     bool is_paused;
     private CheckButton fullscreen;
+    private Node GM;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -12,6 +13,7 @@ public class OptionsMenu2 : Control
         this.Hide();
         
         fullscreen = GetNode<CheckButton>("CenterContainer/VBoxContainer/FullscreenButton");
+        //GM = GetNode<Node>("res://GM");
         
         if(OS.WindowFullscreen){
             fullscreen.Pressed = true;
