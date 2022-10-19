@@ -30,55 +30,55 @@ text = "Build Your Beast!!"
 align = 1
 
 [node name="Beasts" type="OptionButton" parent="."]
-margin_left = 351.0
-margin_top = 185.0
-margin_right = 555.0
-margin_bottom = 253.0
+margin_left = 50.0
+margin_top = 150.0
+margin_right = 254.0
+margin_bottom = 218.0
 custom_fonts/font = SubResource( 2 )
 text = "Beast"
 align = 1
 
 [node name="Type" type="OptionButton" parent="."]
-margin_left = 351.0
-margin_top = 337.0
-margin_right = 555.0
-margin_bottom = 405.0
+margin_left = 50.0
+margin_top = 300.0
+margin_right = 254.0
+margin_bottom = 368.0
 custom_fonts/font = SubResource( 2 )
 text = "Type"
 align = 1
 
 [node name="Attack0" type="OptionButton" parent="."]
-margin_left = 697.0
-margin_top = 117.0
-margin_right = 901.0
-margin_bottom = 185.0
+margin_left = 92.0
+margin_top = 423.0
+margin_right = 296.0
+margin_bottom = 491.0
 custom_fonts/font = SubResource( 2 )
 text = "Attack 1"
 align = 1
 
 [node name="Attack1" type="OptionButton" parent="."]
-margin_left = 697.0
-margin_top = 214.0
-margin_right = 901.0
-margin_bottom = 282.0
+margin_left = 316.0
+margin_top = 423.0
+margin_right = 520.0
+margin_bottom = 491.0
 custom_fonts/font = SubResource( 2 )
 text = "Attack 2"
 align = 1
 
 [node name="Attack2" type="OptionButton" parent="."]
-margin_left = 697.0
-margin_top = 305.0
-margin_right = 901.0
-margin_bottom = 373.0
+margin_left = 542.0
+margin_top = 423.0
+margin_right = 746.0
+margin_bottom = 491.0
 custom_fonts/font = SubResource( 2 )
 text = "Attack 3"
 align = 1
 
 [node name="Attack3" type="OptionButton" parent="."]
-margin_left = 697.0
-margin_top = 405.0
-margin_right = 901.0
-margin_bottom = 473.0
+margin_left = 757.0
+margin_top = 423.0
+margin_right = 961.0
+margin_bottom = 491.0
 custom_fonts/font = SubResource( 2 )
 text = "Attack 4"
 align = 1

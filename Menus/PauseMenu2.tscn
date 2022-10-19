@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Menus/PauseMenu2.cs" type="Script" id=1]
+[ext_resource path="res://Menus/OptionsMenu2.tscn" type="PackedScene" id=2]
 
 [node name="PauseMenu2" type="Control"]
 pause_mode = 2
@@ -19,9 +20,9 @@ anchor_bottom = 1.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
 margin_left = 437.0
-margin_top = 234.0
+margin_top = 204.0
 margin_right = 587.0
-margin_bottom = 366.0
+margin_bottom = 395.0
 custom_constants/separation = 9
 alignment = 1
 
@@ -39,12 +40,26 @@ margin_bottom = 73.0
 rect_min_size = Vector2( 150, 50 )
 text = "Resume"
 
-[node name="QuitButton" type="Button" parent="CenterContainer/VBoxContainer"]
+[node name="OptionButton" type="Button" parent="CenterContainer/VBoxContainer"]
 margin_top = 82.0
 margin_right = 150.0
 margin_bottom = 132.0
 rect_min_size = Vector2( 150, 50 )
+text = "Options"
+
+[node name="QuitButton" type="Button" parent="CenterContainer/VBoxContainer"]
+margin_top = 141.0
+margin_right = 150.0
+margin_bottom = 191.0
+rect_min_size = Vector2( 150, 50 )
 text = "Quit to Main Menu"
 
+[node name="OptionsMenu2" parent="." instance=ExtResource( 2 )]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 0.0
+margin_bottom = 0.0
+
 [connection signal="pressed" from="CenterContainer/VBoxContainer/ResumeButton" to="." method="_on_ResumeButton_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/OptionButton" to="." method="_on_OptionButton_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/QuitButton" to="." method="_on_QuitButton_pressed"]

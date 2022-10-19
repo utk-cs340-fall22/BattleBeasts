@@ -6,6 +6,7 @@ public class TitleMenu : CanvasLayer
   // Declare member variables here. Examples:
   private AnimationPlayer titleAnim;
   private AudioStreamPlayer music;
+  private Globals globals;
   
   int playcount;
   
@@ -13,7 +14,8 @@ public class TitleMenu : CanvasLayer
   public override void _Ready()
   {
     titleAnim = GetNode<AnimationPlayer>("AnimationPlayer");
-    music = GetNode<AudioStreamPlayer>("Music");
+    globals = GetNode<Globals>("/root/Gm");
+    music = globals.GetNode<AudioStreamPlayer>("Music");
   
     playcount = 0;
   

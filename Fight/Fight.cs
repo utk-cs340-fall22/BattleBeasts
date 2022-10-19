@@ -7,13 +7,14 @@ public class Fight : Node
   [Export]
   public PackedScene Fighter;
 #pragma warning restore 649
-
+  Globals g;
   int playerMaxHealth, opponentMaxHealth, isPlayerTurn, aiAttackChoice;
   Fighter player, opponent;
   Texture playerTexture, opponentTexture;
   
   // Called when the node enters the scene tree for the first time.
   public override void _Ready() {
+    g = (Globals)GetNode("/root/Gm");
     int[] attackSet = new int[4];
     playerMaxHealth = 100;
     opponentMaxHealth = 132;
@@ -68,10 +69,12 @@ public class Fight : Node
 
     if (player.GetHealth() <= 0) {
       GD.Print("opponent defeted player");
+      g.fight_outcome = 0;
       GetTree().ChangeScene("res://Bracket/Bracket.tscn");
     }
     else if (opponent.GetHealth() <= 0) {
       GD.Print("player defeted opponent");
+      g.fight_outcome = 1;
       GetTree().ChangeScene("res://Bracket/Bracket.tscn");
     }
 

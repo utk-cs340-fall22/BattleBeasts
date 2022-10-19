@@ -4,6 +4,7 @@ using System;
 public class PauseMenu2 : Control
 {
     bool is_paused;
+    private Control Options;
 
     // initialize the scene to be hidden
     public override void _Ready()
@@ -30,6 +31,13 @@ public class PauseMenu2 : Control
         GetTree().Paused = is_paused;
         if (val == true) this.Show();
         if (val == false) this.Hide();
+    }
+    
+    private void _on_OptionButton_pressed()
+    {
+        Options = GetNode<Control>("OptionsMenu2");
+        //Options._Load_Options_Menu();
+        Options.Call("_Load_Options_Menu");
     }
 
     // on escape key pressed we pull up the pause menu

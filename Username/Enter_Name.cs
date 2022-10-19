@@ -24,7 +24,7 @@ public class Enter_Name : Godot.LineEdit
   
   private void _on_Button_pressed()
 {
-  GetTree().ChangeScene("res://Bracket/Bracket.tscn");
+  GetTree().ChangeScene("res://Menus/TeamSelect.tscn");
 }
 
   public override void _Process(float delta)

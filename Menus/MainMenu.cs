@@ -3,10 +3,8 @@ using System;
 
 public class MainMenu : CanvasLayer
 {
-  // Declare member variables here. Examples:
-  // private int a = 2;
-  // private string b = "text";
 
+  private Control Options;
   // Called when the node enters the scene tree for the first time.
   public override void _Ready()
   {
@@ -22,7 +20,10 @@ public class MainMenu : CanvasLayer
 
   private void _on_Settings_pressed()
   {
-  GetTree().ChangeScene("res://Menus/OptionsMenu.tscn");
+  //GetTree().ChangeScene("res://Menus/OptionsMenu.tscn");
+        Options = GetNode<Control>("OptionsMenu2");
+        //Options._Load_Options_Menu();
+        Options.Call("_Load_Options_Menu");
   }
 
 
