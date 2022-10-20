@@ -3,12 +3,10 @@ using System;
 
 public class OptionsMenu2 : Control
 {
-    bool is_paused;
     int bus_index;
     float val;
     private CheckButton fullscreen;
     private AudioStreamPlayer audio;
-    private Node GM;
     private HSlider vol;
 
     // Called when the node enters the scene tree for the first time.
@@ -19,8 +17,6 @@ public class OptionsMenu2 : Control
         fullscreen = GetNode<CheckButton>("CenterContainer/VBoxContainer/FullscreenButton");
         audio = GetNode<AudioStreamPlayer>("/root/Gm/Music");
         vol = GetNode<HSlider>("CenterContainer/VBoxContainer/VolumeSlider");
-        //audio = GetNode("/root/Gm")
-        //GM = GetNode<Node>("res://GM");
         
         if(OS.WindowFullscreen){
             fullscreen.Pressed = true;

@@ -4,7 +4,6 @@ using System;
 public class PauseMenu2 : Control
 {
     bool is_paused;
-    float timer = 0;
     private Control Options;
 
     // initialize the scene to be hidden

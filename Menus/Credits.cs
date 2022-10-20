@@ -4,19 +4,14 @@ using System.Collections.Generic;
 
 public class Credits : Control
 {
-  //private HBoxContainer scrolling_text;
   private VBoxContainer credits;
-  //private ItemList titles, names;
-  //private ItemList titlest, namest;
-  //private MarginContainer margin, margin2;
-  private Label text;
   private File file = new File();
   private List<String> lines = new List<string>();
 
   // Called when the node enters the scene tree for the first time.
   public override void _Ready()
   {
-    int i,j;
+    int i;
     Label tmp;
     
     // grab your node
