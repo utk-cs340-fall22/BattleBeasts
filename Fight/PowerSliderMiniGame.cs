@@ -22,10 +22,10 @@ public class PowerSliderMiniGame : Control
     {
         if(position <= 200 && direction == false && position >= 0){
             vol.Value = position;
-            position += 80*delta;
+            position += 300*delta;
         }else if(position <= 200 && direction == true && position >= 0){
             vol.Value = position;
-            position -= 80*delta;
+            position -= 300*delta;
         }else if(position < 0){
             position = 0;
             direction = false;
