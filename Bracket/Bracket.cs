@@ -29,13 +29,20 @@ public class Bracket: Node2D
     GetNode<Sprite>("Sprite2").Show();
    }
   public override void _Ready() {
-  
+
 
   g = (Globals)GetNode("/root/Gm");
+
+    
   GetNode<Label>("Sprite/Name").Text = g.name;
   GetNode<Label>("Sprite/Name").Show();
+  
+
+  GetNode<Label>("Sprite2/Name").Show();
+    
     
   GetNode<Button>("Exit").Hide();
+  GetNode<Sprite>("Sprite").Texture = g.beast;
   GetNode<Sprite>("Sprite").Position = new Vector2(100 + 100*g.level, 50+50*g.level);
   
 
@@ -62,6 +69,12 @@ public class Bracket: Node2D
   if (g.fight_outcome == 1) Won();
   else if (g.fight_outcome == 0) Lost();
   
+      if (g.level == 0) {
+      Random rnd = new Random();
+      int num = rnd.Next();
+      g.opp_name = g.names[num % 8];
+    }
+    GetNode<Label>("Sprite2/Name").Text = g.opp_name;
   //GetNode<Sprite>("Sprite").Position = new Vector2(100 + 100*g.level, 50+25*g.level);
 
 
@@ -150,7 +163,15 @@ public class Bracket: Node2D
   {
     
    GetNode<Sprite>("Sprite").Position = new Vector2(100 + 100*(g.level+1), 50+50*(g.level+1));
-   
+    
+      if (g.level == 0) {
+        GetNode<Sprite>("Sprite2").Hide();
+        GetNode<Sprite>("Sprite3").Position = new Vector2(120 + 100*(g.level+1), 180 + 50*(g.level+1));   
+        GetNode<Label>("Sprite3/Name").Text = "CPU";
+        GetNode<Sprite>("Sprite3").Texture = g.opp_beast;
+        GetNode<Label>("Sprite3/Name").Show(); 
+        GetNode<Sprite>("Sprite3").Show();
+  }
 
     
     
@@ -229,4 +250,5 @@ public class Bracket: Node2D
       g.fight_outcome = -1;
       GetTree().ChangeScene("res://Menus/TitleMenu.tscn");
   }
+  
 }
