@@ -71,6 +71,7 @@ public class Bracket: Node2D
       Random rnd = new Random();
       int num = rnd.Next();
       g.opp_name = g.names[num % 8];
+      g.opp_beast = g.all_beasts[num % 8];
     }
 
     GetNode<Label>("Sprite2/Name").Text = g.opp_name;
