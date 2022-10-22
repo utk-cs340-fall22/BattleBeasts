@@ -15,7 +15,6 @@ public class PowerSliderMiniGame : Control
     public override void _Ready()
     {
         vol = GetNode<HSlider>("CenterContainer/PowerSlider");
-        //fight = GetTree().Root.GetNode<Node>("Main");
         fight = GetNode<Node>("/root/Main");
     }
 
