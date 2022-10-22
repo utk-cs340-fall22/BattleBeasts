@@ -9,11 +9,14 @@ public class PowerSliderMiniGame : Control
     // direction bar is going false is right true is left
     bool direction = false;
     private HSlider vol;
+    private Node fight;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         vol = GetNode<HSlider>("CenterContainer/PowerSlider");
+        //fight = GetTree().Root.GetNode<Node>("Main");
+        fight = GetNode<Node>("/root/Main");
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -47,6 +50,8 @@ public class PowerSliderMiniGame : Control
                 ans = vol.Value;
             }
             GD.Print(ans);
+            fight.Call("MinigameReturn",ans);
+            QueueFree();
         }
     }
 }
