@@ -41,7 +41,6 @@ public class Bracket: Node2D
     GetNode<Label>("Sprite/Name").Text = g.name;
     GetNode<Label>("Sprite/Name").Show();
     GetNode<Label>("Sprite2/Name").Show();
-    GetNode<Sprite>("Sprite").Texture = g.beast;
     GetNode<Sprite>("Sprite").Position = new Vector2(100 + 100*g.level, 50+50*g.level);
 
 
@@ -71,7 +70,6 @@ public class Bracket: Node2D
       Random rnd = new Random();
       int num = rnd.Next();
       g.opp_name = g.names[num % 8];
-      g.opp_beast = g.all_beasts[num % 8];
     }
 
     GetNode<Label>("Sprite2/Name").Text = g.opp_name;
@@ -162,7 +160,7 @@ public class Bracket: Node2D
       GetNode<Sprite>("Sprite2").Hide();
       GetNode<Sprite>("Sprite3").Position = new Vector2(120 + 100*(g.level+1), 180 + 50*(g.level+1));   
       GetNode<Label>("Sprite3/Name").Text = "CPU";
-      GetNode<Sprite>("Sprite3").Texture = g.opp_beast;
+      GetNode<Sprite>("Sprite3").Texture = ResourceLoader.Load("res://Assets/Character Sprites/Auril-1.png") as Texture;
       GetNode<Label>("Sprite3/Name").Show(); 
       GetNode<Sprite>("Sprite3").Show();
     }
