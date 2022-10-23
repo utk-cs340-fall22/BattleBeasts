@@ -8,6 +8,9 @@ public class Fight : Node
   public PackedScene Fighter;
   [Export]
   public PackedScene PowerSliderMinigame;
+  [Export]
+  public PackedScene HPinterface;
+
 #pragma warning restore 649
   Globals g;
   int playerMaxHealth, opponentMaxHealth, isPlayerTurn, aiAttackChoice;
@@ -15,6 +18,7 @@ public class Fight : Node
   int minigameResult; // -1: minigame active | [0, 100]: result of previous minigame, no minigame active
   Fighter player, opponent;
   Texture playerTexture, opponentTexture;
+  HealthInterface pHealthBar, oHealthBar;
   
   // Called when the node enters the scene tree for the first time.
   public override void _Ready() {
@@ -38,6 +42,12 @@ public class Fight : Node
     attackSet = new int[] {1, 2, 13, 1000};
     player.Init("player", attackSet, playerMaxHealth);
 
+    /* Initialize player health bar */
+
+    pHealthBar = (HealthInterface)HPinterface.Instance();
+    AddChild(pHealthBar);
+    pHealthBar.CreateLabel("player", "modifier"); //need to change to accept player name & modifier
+
     /* Initialize opponent character */
 
     opponent = (Fighter)Fighter.Instance();
@@ -49,8 +59,14 @@ public class Fight : Node
     attackSet = new int[] {1, 2, 13, 50};
     opponent.Init("opponent", attackSet, opponentMaxHealth);
 
+     /* Initialize opponent health bar */ 
+
+    //oHealthBar = (HealthInterface)HPinterface.Instance();
+    //AddChild(oHealthBar);
+    //oHealthBar.CreateLabel("oponenent", "modifier"); //need to change to accept player name & modifier
+
     // debug
-    GD.Print("oppoonent health: ", opponent.GetHealth());
+    GD.Print("opponent health: ", opponent.GetHealth());
   }
 
   // AI chooses and performs an attack
