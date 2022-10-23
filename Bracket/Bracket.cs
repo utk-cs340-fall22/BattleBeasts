@@ -1,11 +1,40 @@
 using Godot;
 using System;
+using Godot.Collections;
+//using System.Collections.Generic;
 
 
 public class Bracket: Node2D
 {
   Globals g;
   int size = 0;
+  private static Dictionary _beastsOps = null;
+  private static Dictionary _opponentsOps = null;
+   
+  private Dictionary opponentsOps {
+    get {
+      if (_opponentsOps == null) {
+        var file = new File();
+        file.Open("res://Data/Opponents.json", File.ModeFlags.Read);
+        var text = file.GetAsText();
+        _opponentsOps = JSON.Parse(text).Result as Dictionary;
+      }
+      return _opponentsOps;
+    }
+  }
+  
+  private Dictionary beastsOps {
+    get {
+      if (_beastsOps == null) {
+        var file = new File();
+        file.Open("res://Data/Beasts.json", File.ModeFlags.Read);
+        var text = file.GetAsText();
+        _beastsOps = JSON.Parse(text).Result as Dictionary;
+      }
+      return _beastsOps;
+    }
+  }
+  
 
 
   public void hideall() {
@@ -30,10 +59,43 @@ public class Bracket: Node2D
     GetNode<Sprite>("Sprite2").Show();
     GetNode<Sprite>("Sprite3").Show();
   }
+  
+  private void select_beast(string sprite) {
+    switch (g.opp_beast) {
+      case 0:
+        GetNode<Sprite>(sprite).Texture = ResourceLoader.Load("res://Assets/Character Sprites/Auril-1.png") as Texture;
+        break;
+      case 1:
+         GetNode<Sprite>(sprite).Texture = ResourceLoader.Load("res://Assets/Character Sprites/Solanac-1.png") as Texture;
+         break;
+      case 2:
+        GetNode<Sprite>(sprite).Texture = ResourceLoader.Load("res://Assets/Character Sprites/Alzrius-1.png") as Texture;
+        break;
+      case 3:
+        GetNode<Sprite>(sprite).Texture = ResourceLoader.Load("res://Assets/Character Sprites/Glabbagool.png") as Texture;
+        break;
+      case 4:
+        GetNode<Sprite>(sprite).Texture = ResourceLoader.Load("res://Assets/Character Sprites/Bunpir.png") as Texture;
+        break;
+      default:
+        GetNode<Sprite>(sprite).Texture = ResourceLoader.Load("res://Assets/Character Sprites/Auril-1.png") as Texture;
+        break;
+     } 
+   }
+
+private void get_random_beast(Dictionary opponents) {
+      Random rnd = new Random();
+      int num = rnd.Next();
+      opponents = opponentsOps[(num % 5).ToString()] as Dictionary;
+      g.opp_name = (String) opponents["name"];
+      g.opp_beast = Int32.Parse((String) opponents["beast"]);
+ }
 
   public override void _Ready() {
-
-
+    
+    Dictionary opponents = null;
+    Dictionary beasts = null;    
+    
     GetNode<Button>("Exit").Hide();
 
     g = (Globals)GetNode("/root/Gm");
@@ -42,7 +104,7 @@ public class Bracket: Node2D
     GetNode<Label>("Sprite/Name").Show();
     GetNode<Label>("Sprite2/Name").Show();
     GetNode<Sprite>("Sprite").Position = new Vector2(100 + 100*g.level, 50+50*g.level);
-
+    GetNode<Sprite>("Sprite").Texture = ResourceLoader.Load("res://Assets/Character Sprites/Bunpir.png") as Texture;
 
     if (g.bracket_size == -1) {
       hideall();
@@ -66,18 +128,14 @@ public class Bracket: Node2D
     if (g.fight_outcome == 1) Won();
     else if (g.fight_outcome == 0) Lost();
 
-    if (g.level == 0) {
-      Random rnd = new Random();
-      int num = rnd.Next();
-      g.opp_name = g.names[num % 8];
-    }
+    if (g.level == 0) get_random_beast(opponents);
 
+    select_beast("Sprite2");
     GetNode<Label>("Sprite2/Name").Text = g.opp_name;
     if (g.level != 0) GetNode<Sprite>("Sprite2").Hide();
 
   }
 
-  //public RandomNumberGenerator rng = new RandomNumberGenerator();
   public override void _Draw()
   {
     if (size == 0) return;
@@ -153,14 +211,16 @@ public class Bracket: Node2D
 
   private void Won()
   {
-
+    Dictionary opponents = null;
     GetNode<Sprite>("Sprite").Position = new Vector2(100 + 100*(g.level+1), 50+50*(g.level+1));
 
     if (g.level == 0) {
       GetNode<Sprite>("Sprite2").Hide();
       GetNode<Sprite>("Sprite3").Position = new Vector2(120 + 100*(g.level+1), 180 + 50*(g.level+1));   
-      GetNode<Label>("Sprite3/Name").Text = "CPU";
-      GetNode<Sprite>("Sprite3").Texture = ResourceLoader.Load("res://Assets/Character Sprites/Auril-1.png") as Texture;
+      get_random_beast(opponents);
+      select_beast("Sprite3");
+      GetNode<Label>("Sprite3/Name").Text = g.opp_name;
+      //GetNode<Sprite>("Sprite3").Texture = ResourceLoader.Load("res://Assets/Character Sprites/Auril-1.png") as Texture;
       GetNode<Label>("Sprite3/Name").Show(); 
       GetNode<Sprite>("Sprite3").Show();
     }
