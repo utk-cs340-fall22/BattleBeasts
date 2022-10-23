@@ -1,16 +1,17 @@
 using Godot;
 using System;
 using Godot.Collections;
-//using System.Collections.Generic;
 
 
 public class Bracket: Node2D
 {
   Globals g;
   int size = 0;
+  string name;
+
   private static Dictionary _beastsOps = null;
   private static Dictionary _opponentsOps = null;
-   
+
   private Dictionary opponentsOps {
     get {
       if (_opponentsOps == null) {
@@ -22,7 +23,7 @@ public class Bracket: Node2D
       return _opponentsOps;
     }
   }
-  
+
   private Dictionary beastsOps {
     get {
       if (_beastsOps == null) {
@@ -34,8 +35,26 @@ public class Bracket: Node2D
       return _beastsOps;
     }
   }
-  
 
+
+  private void reset_all() {
+    g.name = "Player";
+    for (int i = 0; i < 5; i++) g.opp_name[i] = "CPU";
+    for (int i = 0; i < 7; i++) g.opp_beast[i] = -1;
+    g.player_beast = -1;
+    g.level = 0;
+    g.bracket_size = -1;
+    g.fight_outcome = -1;
+  }
+
+  private void for_button() {
+    GetNode<Button>("Big").Hide();
+    GetNode<Button>("Small").Hide();
+    GetNode<Label>("Welcome").Hide();
+    GetNode<Sprite>("Sprite").Show();
+    GetNode<Sprite>("Sprite2").Show();
+    GetNode<Button>("Continue").Show();
+  }
 
   public void hideall() {
     GetNode<Sprite>("Sprite").Hide();
@@ -59,61 +78,70 @@ public class Bracket: Node2D
     GetNode<Sprite>("Sprite2").Show();
     GetNode<Sprite>("Sprite3").Show();
   }
+
+
+  private void get_random_beast(Dictionary opponents, int opp) {
+    Random rnd = new Random();
+    int num = rnd.Next();
+    opponents = opponentsOps[(num % 5).ToString()] as Dictionary;
+    g.opp_name[opp] = (String) opponents["name"];
+    g.opp_beast[opp] = Int32.Parse((String) opponents["beast"]);
+    if (g.opp_beast[opp] == g.player_beast) g.opp_beast[opp] = (g.opp_beast[opp] + 1)  % 5;
+  }
+
+  private void display_welcome() {
+    hideall();
+    GetNode<Button>("Small").Text = "Small";
+    GetNode<Button>("Big").Text ="Big";
+    GetNode<Label>("Welcome").Text = "Hi " + g.name + "! Do you want to enter the small or big tournament?";
+  }
   
-  private void select_beast(string sprite) {
-    switch (g.opp_beast) {
-      case 0:
-        GetNode<Sprite>(sprite).Texture = ResourceLoader.Load("res://Assets/Character Sprites/Auril-1.png") as Texture;
-        break;
-      case 1:
-         GetNode<Sprite>(sprite).Texture = ResourceLoader.Load("res://Assets/Character Sprites/Solanac-1.png") as Texture;
-         break;
-      case 2:
-        GetNode<Sprite>(sprite).Texture = ResourceLoader.Load("res://Assets/Character Sprites/Alzrius-1.png") as Texture;
-        break;
-      case 3:
-        GetNode<Sprite>(sprite).Texture = ResourceLoader.Load("res://Assets/Character Sprites/Glabbagool.png") as Texture;
-        break;
-      case 4:
-        GetNode<Sprite>(sprite).Texture = ResourceLoader.Load("res://Assets/Character Sprites/Bunpir.png") as Texture;
-        break;
-      default:
-        GetNode<Sprite>(sprite).Texture = ResourceLoader.Load("res://Assets/Character Sprites/Auril-1.png") as Texture;
-        break;
-     } 
-   }
-
-private void get_random_beast(Dictionary opponents) {
-      Random rnd = new Random();
-      int num = rnd.Next();
-      opponents = opponentsOps[(num % 5).ToString()] as Dictionary;
-      g.opp_name = (String) opponents["name"];
-      g.opp_beast = Int32.Parse((String) opponents["beast"]);
-      if (g.opp_beast == g.player_beast) g.opp_beast = (g.opp_beast + 1)  % 5;
- }
-
-  public override void _Ready() {
- 
-    Dictionary opponents = null;
-    Dictionary beasts = null;    
-    
-    GetNode<Button>("Exit").Hide();
-
-    g = (Globals)GetNode("/root/Gm");
+  private void initialize_player(Globals g, Dictionary beasts) {
     g.player_beast = 4;
+    if (g.level == 0) beasts = beastsOps[(g.player_beast).ToString()] as Dictionary;
+    select_beast("Sprite", g.player_beast);
+    GetNode<Sprite>("Sprite").Texture = ResourceLoader.Load("res://Assets/Character Sprites/Bunpir.png") as Texture;
     GetNode<Label>("Sprite/Name").Text = g.name;
     GetNode<Label>("Sprite/Name").Show();
-    GetNode<Label>("Sprite2/Name").Show();
     GetNode<Sprite>("Sprite").Position = new Vector2(100 + 100*g.level, 50+50*g.level);
-    if (g.level == 0) beasts = beastsOps[(g.player_beast).ToString()] as Dictionary;
-    select_beast("Sprite");
-    GetNode<Sprite>("Sprite").Texture = ResourceLoader.Load("res://Assets/Character Sprites/Bunpir.png") as Texture;
+  }
+
+  private void initialize_opponents(Globals g) {
+
+    for (int i = 2; i <= 4; i++) {
+      select_beast("Sprite" + i.ToString(), i);
+      GetNode<Label>("Sprite" + i.ToString() + "/Name").Text = g.opp_name[i];
+      GetNode<Label>("Sprite" + i.ToString() + "/Name").Show();
+      GetNode<Sprite>("Sprite" + i.ToString()).Hide();
+      if (g.level == 0) GetNode<Sprite>("Sprite" + i.ToString()).Position = new Vector2(100, 50+ 50*i);
+
+    }
+
+    if (g.level == 1) GetNode<Sprite>("Sprite3").Show();
+
+  }
+
+  private void show_sprites(int size) {
+    GetNode<Sprite>("Sprite").Show();
+    GetNode<Sprite>("Sprite2").Show();
+    GetNode<Sprite>("Sprite3").Show();
+    GetNode<Sprite>("Sprite4").Show();
+    //GetNode<Sprite>("Sprite5").Show();
+    //GetNode<Sprite>("Sprite6").Show();
+    //GetNode<Sprite>("Sprite7").Show();
+    //GetNode<Sprite>("Sprite8").Show();
+
+  }
+
+  public override void _Ready() {
+
+    Dictionary opponents = null;
+    Dictionary beasts = null;
+    GetNode<Button>("Exit").Hide();
+    g = (Globals)GetNode("/root/Gm");
 
     if (g.bracket_size == -1) {
-      hideall();
-      GetNode<Button>("Small").Text = "Small";
-      GetNode<Button>("Big").Text ="Big";
-      GetNode<Label>("Welcome").Text = "Hi " + g.name + "! Do you want to enter the small or big tournament?";
+      display_welcome();
     }
 
     if (g.bracket_size == 0) {
@@ -128,14 +156,19 @@ private void get_random_beast(Dictionary opponents) {
       Update();
     }
 
+    //show_sprites(size);
+
+    initialize_player(g, beasts);
+
     if (g.fight_outcome == 1) Won();
     else if (g.fight_outcome == 0) Lost();
 
-    if (g.level == 0) get_random_beast(opponents);
-
-    select_beast("Sprite2");
-    GetNode<Label>("Sprite2/Name").Text = g.opp_name;
-    if (g.level != 0) GetNode<Sprite>("Sprite2").Hide();
+    if (g.level == 0) {
+      for (int i = 0; i < 7; i++) {
+        get_random_beast(opponents, i);
+      }
+    }
+    initialize_opponents(g);
 
   }
 
@@ -220,9 +253,9 @@ private void get_random_beast(Dictionary opponents) {
     if (g.level == 0) {
       GetNode<Sprite>("Sprite2").Hide();
       GetNode<Sprite>("Sprite3").Position = new Vector2(120 + 100*(g.level+1), 180 + 50*(g.level+1));   
-      get_random_beast(opponents);
-      select_beast("Sprite3");
-      GetNode<Label>("Sprite3/Name").Text = g.opp_name;
+      //get_random_beast(opponents, 2);
+      //select_beast("Sprite3", 3);
+      //GetNode<Label>("Sprite3/Name").Text = g.opp_name[3];
       //GetNode<Sprite>("Sprite3").Texture = ResourceLoader.Load("res://Assets/Character Sprites/Auril-1.png") as Texture;
       GetNode<Label>("Sprite3/Name").Show(); 
       GetNode<Sprite>("Sprite3").Show();
@@ -271,13 +304,8 @@ private void get_random_beast(Dictionary opponents) {
     g = (Globals)GetNode("/root/Gm");
     g.bracket_size = 1;
     size = 4;
-
-    GetNode<Button>("Big").Hide();
-    GetNode<Button>("Small").Hide();
-    GetNode<Label>("Welcome").Hide();
-    GetNode<Sprite>("Sprite").Show();
-    GetNode<Sprite>("Sprite2").Show();
-    GetNode<Button>("Continue").Show();
+    for_button();
+    show_sprites(0);
     Update();
   }
 
@@ -287,23 +315,41 @@ private void get_random_beast(Dictionary opponents) {
     g = (Globals)GetNode("/root/Gm");
     g.bracket_size = 0;
     size = 2;
-    GetNode<Button>("Big").Hide();
-    GetNode<Button>("Small").Hide();
-    GetNode<Label>("Welcome").Hide();
-    GetNode<Sprite>("Sprite").Show();
-    GetNode<Sprite>("Sprite2").Show();
-    GetNode<Button>("Continue").Show();
+    for_button();
+    show_sprites(0);
     Update();
   }
+
+
 
   private void _on_Exit_pressed()
   {
     GetNode<Sprite>("Sprite").Position = new Vector2(0,0);
-    g.name = "Player";
-    g.level = 0;
-    g.bracket_size = -1;
-    g.fight_outcome = -1;
+    reset_all();
     GetTree().ChangeScene("res://Menus/TitleMenu.tscn");
+  }
+
+  private void select_beast(string sprite, int opp) {
+    switch (g.opp_beast[opp]) {
+      case 0:
+        GetNode<Sprite>(sprite).Texture = ResourceLoader.Load("res://Assets/Character Sprites/Auril-1.png") as Texture;
+        break;
+      case 1:
+        GetNode<Sprite>(sprite).Texture = ResourceLoader.Load("res://Assets/Character Sprites/Solanac-1.png") as Texture;
+        break;
+      case 2:
+        GetNode<Sprite>(sprite).Texture = ResourceLoader.Load("res://Assets/Character Sprites/Alzrius-1.png") as Texture;
+        break;
+      case 3:
+        GetNode<Sprite>(sprite).Texture = ResourceLoader.Load("res://Assets/Character Sprites/Glabbagool.png") as Texture;
+        break;
+      case 4:
+        GetNode<Sprite>(sprite).Texture = ResourceLoader.Load("res://Assets/Character Sprites/Bunpir.png") as Texture;
+        break;
+      default:
+        GetNode<Sprite>(sprite).Texture = ResourceLoader.Load("res://Assets/Character Sprites/Auril-1.png") as Texture;
+        break;
+    } 
   }
 
 }
