@@ -52,23 +52,26 @@ margin_bottom = 31.0
 [node name="Sprite6" type="Sprite" parent="."]
 
 [node name="Name" type="Label" parent="Sprite6"]
-margin_top = 32.0
-margin_right = 40.0
-margin_bottom = 46.0
+margin_left = -17.0
+margin_top = 19.0
+margin_right = 23.0
+margin_bottom = 33.0
 
 [node name="Sprite7" type="Sprite" parent="."]
 
 [node name="Name" type="Label" parent="Sprite7"]
-margin_top = 32.0
-margin_right = 40.0
-margin_bottom = 46.0
+margin_left = -13.0
+margin_top = 18.0
+margin_right = 27.0
+margin_bottom = 32.0
 
 [node name="Sprite8" type="Sprite" parent="."]
 
 [node name="Name" type="Label" parent="Sprite8"]
-margin_top = 32.0
-margin_right = 40.0
-margin_bottom = 46.0
+margin_left = -17.0
+margin_top = 19.0
+margin_right = 23.0
+margin_bottom = 33.0
 
 [node name="Continue" type="Button" parent="."]
 margin_left = 704.0

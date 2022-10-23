@@ -39,7 +39,7 @@ public class Bracket: Node2D
 
   private void reset_all() {
     g.name = "Player";
-    for (int i = 0; i < 5; i++) g.opp_name[i] = "CPU";
+    for (int i = 0; i < 7; i++) g.opp_name[i] = "CPU";
     for (int i = 0; i < 7; i++) g.opp_beast[i] = -1;
     g.player_beast = -1;
     g.level = 0;
@@ -103,22 +103,32 @@ public class Bracket: Node2D
     GetNode<Sprite>("Sprite").Texture = ResourceLoader.Load("res://Assets/Character Sprites/Bunpir.png") as Texture;
     GetNode<Label>("Sprite/Name").Text = g.name;
     GetNode<Label>("Sprite/Name").Show();
-    GetNode<Sprite>("Sprite").Position = new Vector2(100 + 100*g.level, 50+50*g.level);
+    GetNode<Sprite>("Sprite").Position = new Vector2(90 + 100*g.level, 55+50*g.level);
   }
 
   private void initialize_opponents(Globals g) {
 
-    for (int i = 2; i <= 4; i++) {
-      select_beast("Sprite" + i.ToString(), i);
-      GetNode<Label>("Sprite" + i.ToString() + "/Name").Text = g.opp_name[i];
-      GetNode<Label>("Sprite" + i.ToString() + "/Name").Show();
-      GetNode<Sprite>("Sprite" + i.ToString()).Hide();
-      if (g.level == 0) GetNode<Sprite>("Sprite" + i.ToString()).Position = new Vector2(100, 50+ 50*i);
+    for (int i = 0; i < 7; i++) {
+      select_beast("Sprite" + (i+2).ToString(), i);
+      GetNode<Label>("Sprite" + (i+2).ToString() + "/Name").Text = g.opp_name[i];
+      GetNode<Label>("Sprite" + (i+2).ToString() + "/Name").Show();
+      GetNode<Sprite>("Sprite" + (i+2).ToString()).Hide();
+      if (g.level == 0) GetNode<Sprite>("Sprite" + (i+2).ToString()).Position = new Vector2(110, 40+ 50*(i+2));
 
     }
 
-    if (g.level == 1) GetNode<Sprite>("Sprite3").Show();
+    if (g.level == 1) {
+      GetNode<Sprite>("Sprite3").Show();
+      if (g.bracket_size == 1) {
+        GetNode<Sprite>("Sprite5").Show();
+        GetNode<Sprite>("Sprite7").Show();
+      }
+    }
 
+    if (g.level == 2 && g.bracket_size == 1) {
+      GetNode<Sprite>("Sprite7").Position = new Vector2(120 + 100*(g.level+1), 250 + 150*(g.level+1));
+      GetNode<Sprite>("Sprite7").Show(); 
+    }
   }
 
   private void show_sprites(int size) {
@@ -126,15 +136,17 @@ public class Bracket: Node2D
     GetNode<Sprite>("Sprite2").Show();
     GetNode<Sprite>("Sprite3").Show();
     GetNode<Sprite>("Sprite4").Show();
-    //GetNode<Sprite>("Sprite5").Show();
-    //GetNode<Sprite>("Sprite6").Show();
-    //GetNode<Sprite>("Sprite7").Show();
-    //GetNode<Sprite>("Sprite8").Show();
+
+    if (size == 4) {
+      GetNode<Sprite>("Sprite5").Show();
+      GetNode<Sprite>("Sprite6").Show();
+      GetNode<Sprite>("Sprite7").Show();
+      GetNode<Sprite>("Sprite8").Show();
+    }
 
   }
 
   public override void _Ready() {
-
     Dictionary opponents = null;
     Dictionary beasts = null;
     GetNode<Button>("Exit").Hide();
@@ -156,7 +168,6 @@ public class Bracket: Node2D
       Update();
     }
 
-    //show_sprites(size);
 
     initialize_player(g, beasts);
 
@@ -252,13 +263,12 @@ public class Bracket: Node2D
 
     if (g.level == 0) {
       GetNode<Sprite>("Sprite2").Hide();
-      GetNode<Sprite>("Sprite3").Position = new Vector2(120 + 100*(g.level+1), 180 + 50*(g.level+1));   
-      //get_random_beast(opponents, 2);
-      //select_beast("Sprite3", 3);
-      //GetNode<Label>("Sprite3/Name").Text = g.opp_name[3];
-      //GetNode<Sprite>("Sprite3").Texture = ResourceLoader.Load("res://Assets/Character Sprites/Auril-1.png") as Texture;
-      GetNode<Label>("Sprite3/Name").Show(); 
-      GetNode<Sprite>("Sprite3").Show();
+      GetNode<Sprite>("Sprite3").Position = new Vector2(120 + 100*(g.level+1), 180 + 50*(g.level+1));
+      if (g.bracket_size == 1) {
+        GetNode<Sprite>("Sprite5").Position = new Vector2(120 + 100*(g.level+1), 210 + 100*(g.level+1));
+        GetNode<Sprite>("Sprite7").Position = new Vector2(120 + 100*(g.level+1), 250 + 150*(g.level+1));
+      }
+
     }
 
 
@@ -305,7 +315,7 @@ public class Bracket: Node2D
     g.bracket_size = 1;
     size = 4;
     for_button();
-    show_sprites(0);
+    show_sprites(size);
     Update();
   }
 
@@ -316,7 +326,7 @@ public class Bracket: Node2D
     g.bracket_size = 0;
     size = 2;
     for_button();
-    show_sprites(0);
+    show_sprites(size);
     Update();
   }
 
