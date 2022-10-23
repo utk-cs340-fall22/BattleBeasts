@@ -16,11 +16,5 @@
     "health_modifier": 30,
     "armor_modifier": -1,
     "attacks": "1111"
-  },
-  "3": {
-    "name": "Electric",
-    "health_modifier": 15,
-    "armor_modifier": -2,
-    "attacks": "1111"
   }
 }
