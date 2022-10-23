@@ -4,7 +4,6 @@ using System;
 public class Globals : Node
 {
 
-    public string[] names = {"Noah", "Jake", "Steph", "Chris", "Colin", "Reid", "Adam", "CPU"};
     public string name = "Player";
     public string opp_name = "CPU";
     public int opp_beast = -1;

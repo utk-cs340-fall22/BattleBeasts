@@ -89,21 +89,24 @@ private void get_random_beast(Dictionary opponents) {
       opponents = opponentsOps[(num % 5).ToString()] as Dictionary;
       g.opp_name = (String) opponents["name"];
       g.opp_beast = Int32.Parse((String) opponents["beast"]);
+      if (g.opp_beast == g.player_beast) g.opp_beast = (g.opp_beast + 1)  % 5;
  }
 
   public override void _Ready() {
-    
+ 
     Dictionary opponents = null;
     Dictionary beasts = null;    
     
     GetNode<Button>("Exit").Hide();
 
     g = (Globals)GetNode("/root/Gm");
-
+    g.player_beast = 4;
     GetNode<Label>("Sprite/Name").Text = g.name;
     GetNode<Label>("Sprite/Name").Show();
     GetNode<Label>("Sprite2/Name").Show();
     GetNode<Sprite>("Sprite").Position = new Vector2(100 + 100*g.level, 50+50*g.level);
+    if (g.level == 0) beasts = beastsOps[(g.player_beast).ToString()] as Dictionary;
+    select_beast("Sprite");
     GetNode<Sprite>("Sprite").Texture = ResourceLoader.Load("res://Assets/Character Sprites/Bunpir.png") as Texture;
 
     if (g.bracket_size == -1) {
