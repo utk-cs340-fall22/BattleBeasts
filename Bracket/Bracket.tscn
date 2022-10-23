@@ -25,10 +25,10 @@ texture = ExtResource( 3 )
 offset = Vector2( 170, 130 )
 
 [node name="Name" type="Label" parent="Sprite2"]
-margin_left = 273.0
-margin_top = 128.0
-margin_right = 313.0
-margin_bottom = 142.0
+margin_left = 154.0
+margin_top = 150.0
+margin_right = 194.0
+margin_bottom = 164.0
 
 [node name="Continue" type="Button" parent="."]
 margin_left = 704.0
@@ -60,6 +60,14 @@ margin_left = 56.0
 margin_top = 72.0
 margin_right = 96.0
 margin_bottom = 92.0
+
+[node name="Sprite3" type="Sprite" parent="."]
+
+[node name="Name" type="Label" parent="Sprite3"]
+margin_left = -17.0
+margin_top = 17.0
+margin_right = 23.0
+margin_bottom = 31.0
 
 [connection signal="draw" from="." to="." method="_Draw"]
 [connection signal="pressed" from="Continue" to="." method="_on_Continue_pressed"]
