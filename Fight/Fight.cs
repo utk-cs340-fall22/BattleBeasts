@@ -46,7 +46,7 @@ public class Fight : Node
 
     pHealthBar = (HealthInterface)HPinterface.Instance();
     AddChild(pHealthBar);
-    pHealthBar.CreateLabel("player", "modifier"); //need to change to accept player name & modifier
+    pHealthBar.CreateLabel(g.name, "modifier"); //need to change to accept modifier
 
     /* Initialize opponent character */
 
@@ -61,9 +61,11 @@ public class Fight : Node
 
      /* Initialize opponent health bar */ 
 
-    //oHealthBar = (HealthInterface)HPinterface.Instance();
-    //AddChild(oHealthBar);
-    //oHealthBar.CreateLabel("oponenent", "modifier"); //need to change to accept player name & modifier
+    oHealthBar = (HealthInterface)HPinterface.Instance();
+    AddChild(oHealthBar);
+    Vector2 oHpBar = new Vector2(-600, -500);
+    oHealthBar.SetPosition(oHpBar, false);
+    oHealthBar.CreateLabel("opponent", "modifier"); //need to change to accept opponent name & modifier
 
     // debug
     GD.Print("opponent health: ", opponent.GetHealth());
@@ -146,7 +148,10 @@ public class Fight : Node
       g.fight_outcome = 1;
       GetTree().ChangeScene("res://Bracket/Bracket.tscn");
     }
-
+    
+    pHealthBar.AdjustHealth((player.GetHealth()* 100) / playerMaxHealth); // adjusts the player's HP bar
+    oHealthBar.AdjustHealth((opponent.GetHealth()* 100) / opponentMaxHealth); // adjusts the opponent's HP bar
+    
     /* Everything below is skipped if a minigame is active */
 
     if (minigameResult == -1) return;
