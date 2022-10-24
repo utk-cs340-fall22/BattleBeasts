@@ -75,8 +75,7 @@ public class Bracket: Node2D
     GetNode<Button>("Exit").Show();
     GetNode<Button>("Exit").Text = "Exit";
     GetNode<Sprite>("Sprite").Show();
-    GetNode<Sprite>("Sprite2").Show();
-    GetNode<Sprite>("Sprite3").Show();
+    hide_sprites();
   }
 
 
@@ -97,10 +96,8 @@ public class Bracket: Node2D
   }
   
   private void initialize_player(Globals g, Dictionary beasts) {
-    g.playerBeastIndex = 4;
     if (g.level == 0) beasts = beastsOps[(g.playerBeastIndex).ToString()] as Dictionary;
-    select_beast("Sprite", g.playerBeastIndex);
-    GetNode<Sprite>("Sprite").Texture = ResourceLoader.Load("res://Assets/Character Sprites/Bunpir.png") as Texture;
+    select_beast("Sprite", g.playerBeastIndex, true);
     GetNode<Label>("Sprite/Name").Text = g.name;
     GetNode<Label>("Sprite/Name").Show();
     GetNode<Sprite>("Sprite").Position = new Vector2(90 + 100*g.level, 55+50*g.level);
@@ -109,10 +106,10 @@ public class Bracket: Node2D
   private void initialize_opponents(Globals g) {
 
     for (int i = 0; i < 7; i++) {
-      select_beast("Sprite" + (i+2).ToString(), i);
+      select_beast("Sprite" + (i+2).ToString(), i, false);
       GetNode<Label>("Sprite" + (i+2).ToString() + "/Name").Text = g.oppName[i];
       GetNode<Label>("Sprite" + (i+2).ToString() + "/Name").Show();
-      GetNode<Sprite>("Sprite" + (i+2).ToString()).Hide();
+      if (g.level == 0) GetNode<Sprite>("Sprite" + (i+2).ToString()).Hide();
       if (g.level == 0) GetNode<Sprite>("Sprite" + (i+2).ToString()).Position = new Vector2(110, 40+ 50*(i+2));
 
     }
@@ -123,11 +120,6 @@ public class Bracket: Node2D
         GetNode<Sprite>("Sprite5").Show();
         GetNode<Sprite>("Sprite7").Show();
       }
-    }
-
-    if (g.level == 2 && g.bracketSize == 1) {
-      GetNode<Sprite>("Sprite7").Position = new Vector2(120 + 100*(g.level+1), 250 + 150*(g.level+1));
-      GetNode<Sprite>("Sprite7").Show(); 
     }
   }
 
@@ -145,8 +137,20 @@ public class Bracket: Node2D
     }
 
   }
+  
+    private void hide_sprites() {
+    //GetNode<Sprite>("Sprite").Hide();
+    GetNode<Sprite>("Sprite2").Hide();
+    GetNode<Sprite>("Sprite3").Hide();
+    GetNode<Sprite>("Sprite4").Hide();
+    GetNode<Sprite>("Sprite5").Hide();
+    GetNode<Sprite>("Sprite6").Hide();
+    GetNode<Sprite>("Sprite7").Hide();
+    GetNode<Sprite>("Sprite8").Hide();
+  }
 
   public override void _Ready() {
+    hide_sprites();
     Dictionary opponents = null;
     Dictionary beasts = null;
     GetNode<Button>("Exit").Hide();
@@ -168,11 +172,11 @@ public class Bracket: Node2D
       Update();
     }
 
-
     initialize_player(g, beasts);
-
+    
     if (g.fightOutcome == 1) Won();
     else if (g.fightOutcome == 0) Lost();
+    
 
     if (g.level == 0) {
       for (int i = 0; i < 7; i++) {
@@ -180,8 +184,9 @@ public class Bracket: Node2D
       }
     }
     initialize_opponents(g);
-
+    
   }
+  
 
   public override void _Draw()
   {
@@ -258,11 +263,10 @@ public class Bracket: Node2D
 
   private void Won()
   {
-    //Dictionary opponents = null;
     GetNode<Sprite>("Sprite").Position = new Vector2(100 + 100*(g.level+1), 50+50*(g.level+1));
 
     if (g.level == 0) {
-      GetNode<Sprite>("Sprite2").Hide();
+
       GetNode<Sprite>("Sprite3").Position = new Vector2(120 + 100*(g.level+1), 180 + 50*(g.level+1));
       if (g.bracketSize == 1) {
         GetNode<Sprite>("Sprite5").Position = new Vector2(120 + 100*(g.level+1), 210 + 100*(g.level+1));
@@ -270,8 +274,11 @@ public class Bracket: Node2D
       }
 
     }
-
-
+  
+    if (g.level == 1 && g.bracketSize == 1) {
+       GetNode<Sprite>("Sprite7").Position = new Vector2(120 + 100*(g.level+1), 350);
+       GetNode<Sprite>("Sprite7").Show();
+     }
 
     if (g.level == 2 && g.bracketSize == 1) {
       display_win();
@@ -339,8 +346,13 @@ public class Bracket: Node2D
     GetTree().ChangeScene("res://Menus/TitleMenu.tscn");
   }
 
-  private void select_beast(string sprite, int opp) {
-    switch (g.oppBeast[opp]) {
+  private void select_beast(string sprite, int opp, bool player) {
+    int pick;
+    if (player) pick = opp;
+    else pick = g.oppBeast[opp];
+      
+    
+    switch (pick) {
       case 0:
         GetNode<Sprite>(sprite).Texture = ResourceLoader.Load("res://Assets/Character Sprites/Auril-1.png") as Texture;
         break;
