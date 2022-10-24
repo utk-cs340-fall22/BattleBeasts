@@ -13,3 +13,4 @@ volume_db = -10.488
 
 [node name="SoundEffects" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
+volume_db = -11.798

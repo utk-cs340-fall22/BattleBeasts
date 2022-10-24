@@ -18,6 +18,8 @@ public class TeamSelect : CanvasLayer
   private static Dictionary _modifierOptions = null;
   private static Dictionary _attackOptions = null;
   
+  private AudioStreamPlayer se;
+  
   Globals g;
   
   int playerMaxHealth;
@@ -102,6 +104,10 @@ public class TeamSelect : CanvasLayer
   // Called when the node enters the scene tree for the first time.
   public override void _Ready()
   {
+    g = (Globals)GetNode("/root/Gm");
+    
+    se = g.GetNode<AudioStreamPlayer>("SoundEffects");
+    
     beastSelector = GetNode<OptionButton>("Beasts");
     modifierSelector = GetNode<OptionButton>("Modifier");
     
@@ -142,16 +148,56 @@ public class TeamSelect : CanvasLayer
     tex = ResourceLoader.Load((String)beast["texture"]) as Texture;
   
     player.GetNode<Sprite>("Texture").Texture = tex;
+    
+    /* Play menu sound */
+    se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
+    se.Play();
+  }
+  
+  /* These all just play the menu sound */
+  private void _on_Modifier_item_selected(int index)
+  {
+    se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
+    se.Play();
+  }
+  
+  private void _on_Attack0_item_selected(int index)
+  {
+    se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
+    se.Play();
+  }
+  
+  private void _on_Attack1_item_selected(int index)
+  {
+    se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
+    se.Play();
+  }
+  
+  private void _on_Attack2_item_selected(int index)
+  {
+    se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
+    se.Play();
+  }
+  
+  private void _on_Attack3_item_selected(int index)
+  {
+    se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
+    se.Play();
   }
   
   private void _on_Back_pressed()
   {
+    /* Plays sound */
+    se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
+    se.Play();
+    
     GetTree().ChangeScene("res://Menus/MainMenu.tscn");
   }
   
   private void _on_Go_pressed()
   {
-    g = (Globals)GetNode("/root/Gm");
+    // moved this to _Ready()
+    //  g = (Globals)GetNode("/root/Gm");
     
     g.playerBeastIndex = beastSelector.GetSelectedId();
     g.playerModifierIndex = modifierSelector.GetSelectedId();
@@ -159,6 +205,14 @@ public class TeamSelect : CanvasLayer
     g.playerAttackIndices[1] = attack1Selector.GetSelectedId();
     g.playerAttackIndices[2] = attack2Selector.GetSelectedId();
     g.playerAttackIndices[3] = attack3Selector.GetSelectedId();
+    
+    /* Play sound effect */
+    se = g.GetNode<AudioStreamPlayer>("SoundEffects");
+    se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
+    se.Play();
+    
     GetTree().ChangeScene("res://Bracket/Bracket.tscn");
   }
 }
+
+
