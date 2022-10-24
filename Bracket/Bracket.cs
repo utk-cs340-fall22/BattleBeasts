@@ -85,7 +85,6 @@ public class Bracket: Node2D
     opponents = opponentsOps[(num % 5).ToString()] as Dictionary;
     g.oppName[opp] = (String) opponents["name"];
     g.oppBeast[opp] = Int32.Parse((String) opponents["beast"]);
-    if (g.oppBeast[opp] == g.playerBeastIndex) g.oppBeast[opp] = (g.oppBeast[opp] + 1)  % 5;
   }
 
   private void display_welcome() {
