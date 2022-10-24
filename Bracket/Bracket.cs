@@ -7,12 +7,13 @@ public class Bracket: Node2D
 {
   Globals g;
   int size = 0;
-  //string name;
 
+  //Will be used for .json file
   private static Dictionary _beastsOps = null;
   private static Dictionary _opponentsOps = null;
 
-  private Dictionary opponentsOps {
+  private Dictionary opponentsOps 
+  {
     get {
       if (_opponentsOps == null) {
         var file = new File();
@@ -24,7 +25,8 @@ public class Bracket: Node2D
     }
   }
 
-  private Dictionary beastsOps {
+  private Dictionary beastsOps 
+  {
     get {
       if (_beastsOps == null) {
         var file = new File();
@@ -36,8 +38,9 @@ public class Bracket: Node2D
     }
   }
 
-
-  private void reset_all() {
+  //At the end of the game, this will be reset to default values.
+  private void reset_all() 
+  {
     g.name = "Player";
     for (int i = 0; i < 7; i++) g.oppName[i] = "CPU";
     for (int i = 0; i < 7; i++) g.oppBeast[i] = -1;
@@ -47,28 +50,29 @@ public class Bracket: Node2D
     g.fightOutcome = -1;
   }
 
-  private void for_button() {
+  //This function hides/shows certain things when the buttons big or small are pressed
+  private void for_button() 
+  {
     GetNode<Button>("Big").Hide();
     GetNode<Button>("Small").Hide();
     GetNode<Label>("Welcome").Hide();
     GetNode<Sprite>("Sprite").Show();
-    GetNode<Sprite>("Sprite2").Show();
     GetNode<Button>("Continue").Show();
   }
 
-  public void hideall() {
-    GetNode<Sprite>("Sprite").Hide();
-    GetNode<Sprite>("Sprite2").Hide();
+  //This function hides the continue and exit button
+  public void hideall() 
+  {
     GetNode<Button>("Continue").Hide();
+    GetNode<Sprite>("Sprite").Hide();
     GetNode<Button>("Exit").Hide();
 
   }
-
-  public void hideforwin() {
+  
+  //This displays/hides certain things when the player wins
+  public void display_win() 
+  {
     GetNode<Button>("Continue").Hide();
-  }
-
-  public void display_win() {
     GetNode<Label>("Welcome").Text = "You Win! Press exit to return to title menu.";
     GetNode<Button>("Big").Hide();
     GetNode<Button>("Small").Hide();
@@ -78,8 +82,9 @@ public class Bracket: Node2D
     hide_sprites();
   }
 
-
-  private void get_random_beast(Dictionary opponents, int opp) {
+  //This function uses a random number generator to select a beast for the opponents
+  private void get_random_beast(Dictionary opponents, int opp) 
+  {
     Random rnd = new Random();
     int num = rnd.Next();
     opponents = opponentsOps[(num % 5).ToString()] as Dictionary;
@@ -87,14 +92,18 @@ public class Bracket: Node2D
     g.oppBeast[opp] = Int32.Parse((String) opponents["beast"]);
   }
 
-  private void display_welcome() {
+  //This is what the user is greeted with when first entering the bracket
+  private void display_welcome() 
+  {
     hideall();
     GetNode<Button>("Small").Text = "Small";
     GetNode<Button>("Big").Text ="Big";
     GetNode<Label>("Welcome").Text = "Hi " + g.name + "! Do you want to enter the small or big tournament?";
   }
   
-  private void initialize_player(Globals g, Dictionary beasts) {
+  //This function gets the player's name and beast from globals.cs and initializes them in bracket
+  private void initialize_player(Globals g, Dictionary beasts) 
+  {
     if (g.level == 0) beasts = beastsOps[(g.playerBeastIndex).ToString()] as Dictionary;
     select_beast("Sprite", g.playerBeastIndex, true);
     GetNode<Label>("Sprite/Name").Text = g.name;
@@ -102,7 +111,9 @@ public class Bracket: Node2D
     GetNode<Sprite>("Sprite").Position = new Vector2(90 + 100*g.level, 55+50*g.level);
   }
 
-  private void initialize_opponents(Globals g) {
+  //This gets the opponents that were randomly generated and initializes their names and beasts
+  private void initialize_opponents(Globals g) 
+  {
 
     for (int i = 0; i < 7; i++) {
       select_beast("Sprite" + (i+2).ToString(), i, false);
@@ -110,19 +121,12 @@ public class Bracket: Node2D
       GetNode<Label>("Sprite" + (i+2).ToString() + "/Name").Show();
       if (g.level == 0) GetNode<Sprite>("Sprite" + (i+2).ToString()).Hide();
       if (g.level == 0) GetNode<Sprite>("Sprite" + (i+2).ToString()).Position = new Vector2(110, 40+ 50*(i+2));
-
-    }
-
-    if (g.level == 1) {
-      GetNode<Sprite>("Sprite3").Show();
-      if (g.bracketSize == 1) {
-        GetNode<Sprite>("Sprite5").Show();
-        GetNode<Sprite>("Sprite7").Show();
-      }
     }
   }
 
-  private void show_sprites(int size) {
+  //Function shows the sprites based on which bracket the player chooses
+  private void show_sprites(int size) 
+  {
     GetNode<Sprite>("Sprite").Show();
     GetNode<Sprite>("Sprite2").Show();
     GetNode<Sprite>("Sprite3").Show();
@@ -134,10 +138,11 @@ public class Bracket: Node2D
       GetNode<Sprite>("Sprite7").Show();
       GetNode<Sprite>("Sprite8").Show();
     }
-
   }
   
-    private void hide_sprites() {
+  //This function hides all the sprites
+  private void hide_sprites() 
+  {
     GetNode<Sprite>("Sprite2").Hide();
     GetNode<Sprite>("Sprite3").Hide();
     GetNode<Sprite>("Sprite4").Hide();
@@ -146,18 +151,39 @@ public class Bracket: Node2D
     GetNode<Sprite>("Sprite7").Hide();
     GetNode<Sprite>("Sprite8").Hide();
   }
+  
+  //Shows the beasts that one the last bracket depending on the level
+  private void show_on_bracket() 
+  {
+        if (g.level == 1) {
+      GetNode<Sprite>("Sprite3").Show();
+      if (g.bracketSize == 1) {
+        GetNode<Sprite>("Sprite5").Show();
+        GetNode<Sprite>("Sprite7").Show();
+      }
+    }
+  }
 
-  public override void _Ready() {
+  //This is the function that gets called first
+  public override void _Ready() 
+  {
+    //I hide all sprites to begin with
     hide_sprites();
+    
     Dictionary opponents = null;
     Dictionary beasts = null;
+    
     GetNode<Button>("Exit").Hide();
+    
+    //initialize globals
     g = (Globals)GetNode("/root/Gm");
 
+    //Display welcome if it's the first time
     if (g.bracketSize == -1) {
       display_welcome();
     }
 
+    //Set size depending on which bracket they chose
     if (g.bracketSize == 0) {
       size = 2;
       GetNode<Button>("Small").Hide();
@@ -169,27 +195,34 @@ public class Bracket: Node2D
       size = 4;
       Update();
     }
-
+    
     initialize_player(g, beasts);
     
+    //Tests to see if player won or lost
     if (g.fightOutcome == 1) Won();
     else if (g.fightOutcome == 0) Lost();
     
 
+    //if it's the first time, create random beasts
     if (g.level == 0) {
       for (int i = 0; i < 7; i++) {
         get_random_beast(opponents, i);
       }
     }
+    //then initialize them
     initialize_opponents(g);
+    
+    show_on_bracket();
     
   }
   
-
+ //This draws the bracket
   public override void _Draw()
   {
+    //If a size hasn't been selected, don't do anything
     if (size == 0) return;
 
+    //This creates the vectors necessary for making the bracket
     var points = new Vector2[100];
     var points2 = new Vector2[100];
     var points4 = new Vector2[2];
@@ -210,6 +243,7 @@ public class Bracket: Node2D
     }
 
     levels = levels / 2;
+    
     /*Level 2*/
     for (i = 0; i <  levels; i++) {
       points2[i*6]   = new Vector2(200, 125 + i*200);
@@ -233,8 +267,8 @@ public class Bracket: Node2D
 
     }
     levels = levels / 2;
+    
     /*Level 3*/
-
     for (i = 0; i < levels; i++) {
       points3[i*6] = new Vector2(300, 175);
       points3[i*6+1] = new Vector2(400, 175);
@@ -258,7 +292,7 @@ public class Bracket: Node2D
 
 
 
-
+  //This is called when the player won the last fight
   private void Won()
   {
     GetNode<Sprite>("Sprite").Position = new Vector2(100 + 100*(g.level+1), 50+50*(g.level+1));
@@ -282,21 +316,17 @@ public class Bracket: Node2D
 
     if (g.level == 2 && g.bracketSize == 1) {
       display_win();
-      hideforwin();
-
-
     }
+    
     if (g.level == 1 && g.bracketSize == 0) {
       display_win();
-      hideforwin();
-
-
     }
+    
     g.level++;
-
-
   }
-
+  
+  //When the player loses, this function is called
+  //It makes the player exit back to the title menu
   private void Lost()
   {
     g.name = "Player";
@@ -346,7 +376,10 @@ public class Bracket: Node2D
     GetTree().ChangeScene("res://Menus/TitleMenu.tscn");
   }
 
-  private void select_beast(string sprite, int opp, bool player) {
+  //This will be changed later to be cleaner (without switch statement)
+  //But right now, this function is used to set the sprite's texture
+  private void select_beast(string sprite, int opp, bool player) 
+  {
     int pick;
     if (player) pick = opp;
     else pick = g.oppBeast[opp];

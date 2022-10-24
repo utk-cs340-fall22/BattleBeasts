@@ -4,14 +4,16 @@ using System;
 public class Enter_Name : Godot.LineEdit
 {
   Globals g;
+  
   public override void _Ready()
   {
+    //This is so the player doesn't have to click to type
     GrabFocus();
     GetNode<Button>("Button").Hide();
     g = (Globals)GetNode("/root/Gm");
   }
 
-
+  //When the player enters their name, they will get a message and a button to move to a different scene
   private void _on_LineEdit_text_entered(String new_text)
   {
     g.name = new_text;
@@ -23,13 +25,7 @@ public class Enter_Name : Godot.LineEdit
   
   
   private void _on_Button_pressed()
-{
-  GetTree().ChangeScene("res://Menus/TeamSelect.tscn");
-}
-
-  public override void _Process(float delta)
   {
-
+    GetTree().ChangeScene("res://Menus/TeamSelect.tscn");
   }
-
 }
