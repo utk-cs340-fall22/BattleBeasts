@@ -139,7 +139,6 @@ public class Bracket: Node2D
   }
   
     private void hide_sprites() {
-    //GetNode<Sprite>("Sprite").Hide();
     GetNode<Sprite>("Sprite2").Hide();
     GetNode<Sprite>("Sprite3").Hide();
     GetNode<Sprite>("Sprite4").Hide();
@@ -268,6 +267,7 @@ public class Bracket: Node2D
     if (g.level == 0) {
 
       GetNode<Sprite>("Sprite3").Position = new Vector2(120 + 100*(g.level+1), 180 + 50*(g.level+1));
+      g.currBeast = g.oppBeast[1];
       if (g.bracketSize == 1) {
         GetNode<Sprite>("Sprite5").Position = new Vector2(120 + 100*(g.level+1), 210 + 100*(g.level+1));
         GetNode<Sprite>("Sprite7").Position = new Vector2(120 + 100*(g.level+1), 250 + 150*(g.level+1));
@@ -276,6 +276,7 @@ public class Bracket: Node2D
     }
   
     if (g.level == 1 && g.bracketSize == 1) {
+       g.currBeast = g.oppBeast[6];
        GetNode<Sprite>("Sprite7").Position = new Vector2(120 + 100*(g.level+1), 350);
        GetNode<Sprite>("Sprite7").Show();
      }
