@@ -19,6 +19,7 @@ public class Fight : Node
   Fighter player, opponent;
   Texture playerTexture, opponentTexture;
   HealthInterface pHealthBar, oHealthBar;
+  private AudioStreamPlayer music, se;
   
   // Called when the node enters the scene tree for the first time.
   public override void _Ready() {
@@ -69,6 +70,10 @@ public class Fight : Node
 
     // debug
     GD.Print("opponent health: ", opponent.GetHealth());
+    
+    /* Music */
+   StartMusic();
+    
   }
 
   // AI chooses and performs an attack
@@ -131,6 +136,14 @@ public class Fight : Node
       isPlayerTurn = 0;
       queuedAttack = -1;
     }
+  }
+  
+  private void StartMusic(){
+    music = g.GetNode<AudioStreamPlayer>("Music");
+    music.Stop();
+    music.Stream = ResourceLoader.Load("res://Assets/Music/BattleThemeBase.mp3") as AudioStream;
+    music.Play();
+    
   }
 
   // Called every frame. 'delta' is the elapsed time since the previous frame.

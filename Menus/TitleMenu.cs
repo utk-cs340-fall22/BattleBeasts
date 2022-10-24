@@ -20,6 +20,8 @@ public class TitleMenu : CanvasLayer
     playcount = 0;
   
     titleAnim.Play("test");
+    music.Stop();
+    music.Stream = ResourceLoader.Load("res://Assets/Music/TitleMusic.mp3") as AudioStream;
     music.Play();
   }
 
