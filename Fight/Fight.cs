@@ -19,7 +19,7 @@ public class Fight : Node
   Fighter player, opponent;
   Texture playerTexture, opponentTexture;
   HealthInterface pHealthBar, oHealthBar;
-  private AudioStreamPlayer music, se;
+  private AudioStreamPlayer music, musicP, musicO, se;
   
   // Called when the node enters the scene tree for the first time.
   public override void _Ready() {
@@ -139,10 +139,33 @@ public class Fight : Node
   }
   
   private void StartMusic(){
+    se = g.GetNode<AudioStreamPlayer>("SoundEffects");
     music = g.GetNode<AudioStreamPlayer>("Music");
+    musicP = g.GetNode<AudioStreamPlayer>("MusicPlayer");
+    musicO = g.GetNode<AudioStreamPlayer>("MusicOpponent");
     music.Stop();
     music.Stream = ResourceLoader.Load("res://Assets/Music/BattleThemeBase.mp3") as AudioStream;
+    
+    /* Is this how I should be determing what beasts are playing? */
+    if(g.playerBeastIndex == 0)
+      musicP.Stream = ResourceLoader.Load("res://Assets/Music/AurilMelody.mp3") as AudioStream;
+    if(g.playerBeastIndex == 1)
+      musicP.Stream = ResourceLoader.Load("res://Assets/Music/AlzriusMelody.mp3") as AudioStream;
+    if(g.playerBeastIndex == 2)
+      musicP.Stream = ResourceLoader.Load("res://Assets/Music/AurilMelody.mp3") as AudioStream;
+    
+    /* Same for here, how do I access the opponent beast */
+    if(g.oppBeast[0] == 0)
+      musicO.Stream = ResourceLoader.Load("res://Assets/Music/AurilAcc.mp3") as AudioStream;
+    if(g.oppBeast[0] == 1)
+      musicO.Stream = ResourceLoader.Load("res://Assets/Music/AlzriusAcc.mp3") as AudioStream;
+    if(g.oppBeast[0] == 2)
+      musicO.Stream = ResourceLoader.Load("res://Assets/Music/AurilAcc.mp3") as AudioStream;
+    
+
     music.Play();
+    musicP.Play();
+    musicO.Play();
     
   }
 
