@@ -102,5 +102,10 @@ text = "Go!"
 [node name="Fighter" parent="." instance=ExtResource( 2 )]
 
 [connection signal="item_selected" from="Beasts" to="." method="_on_Beasts_item_selected"]
+[connection signal="item_selected" from="Modifier" to="." method="_on_Modifier_item_selected"]
+[connection signal="item_selected" from="Attack0" to="." method="_on_Attack0_item_selected"]
+[connection signal="item_selected" from="Attack1" to="." method="_on_Attack1_item_selected"]
+[connection signal="item_selected" from="Attack2" to="." method="_on_Attack2_item_selected"]
+[connection signal="item_selected" from="Attack3" to="." method="_on_Attack3_item_selected"]
 [connection signal="pressed" from="Back" to="." method="_on_Back_pressed"]
 [connection signal="pressed" from="Go" to="." method="_on_Go_pressed"]

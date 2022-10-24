@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/AurilMelody.mp3-9d463d3a5a21e66163b7befa76417d6e.mp3str"
+
+[deps]
+
+source_file="res://Assets/Music/AurilMelody.mp3"
+dest_files=[ "res://.import/AurilMelody.mp3-9d463d3a5a21e66163b7befa76417d6e.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

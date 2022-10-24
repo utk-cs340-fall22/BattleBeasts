@@ -5,7 +5,7 @@ public class TitleMenu : CanvasLayer
 {
   // Declare member variables here. Examples:
   private AnimationPlayer titleAnim;
-  private AudioStreamPlayer music;
+  private AudioStreamPlayer music, se;
   private Globals globals;
   
   int playcount;
@@ -41,6 +41,10 @@ public class TitleMenu : CanvasLayer
 
   private void _on_Button_pressed()
   {
+    se = globals.GetNode<AudioStreamPlayer>("SoundEffects");
+    se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
+    se.Play();
+    
     GetTree().ChangeScene("res://Menus/MainMenu.tscn");
   
   }
