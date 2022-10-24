@@ -10,19 +10,15 @@ public class TeamSelect : CanvasLayer
   public PackedScene Fighter;
 #pragma warning restore 649
   
-  private OptionButton beast, modifier;
-  private OptionButton attack0, attack1, attack2, attack3;
+  private OptionButton beastSelector, modifierSelector;
+  private OptionButton attack0Selector, attack1Selector, attack2Selector, attack3Selector;
   private Fighter player;
 
   private static Dictionary _beastOptions = null;
   private static Dictionary _modifierOptions = null;
   private static Dictionary _attackOptions = null;
-  private Dictionary beastStats;
-  private Dictionary modifierStats;
-  private Dictionary attack0Stats;
-  private Dictionary attack1Stats;
-  private Dictionary attack2Stats;
-  private Dictionary attack3Stats;
+  
+  Globals g;
   
   int playerMaxHealth;
   int[] attackSet;
@@ -67,53 +63,53 @@ public class TeamSelect : CanvasLayer
   private void InitMenus()
   {
     int i;
-    Dictionary beasts, modifiers, attacks;
+    Dictionary beast, modifier, attack;
 
     /* Add beast selections */
 
     for (i = 0; i < beastOptions.Count; i++) {
-      beasts = beastOptions[i.ToString()] as Dictionary;
-      beast.AddItem((String) beasts["name"]);
+      beast = beastOptions[i.ToString()] as Dictionary;
+      beastSelector.AddItem((String) beast["name"], i);
 
       // debug
-      GD.Print("Added: ", beasts["name"]);
+      GD.Print("Added: ", beast["name"]);
     }
 
     /* Add modifier selections */
 
     for (i = 0; i < modifierOptions.Count; i++) {
-      modifiers = modifierOptions[i.ToString()] as Dictionary;
-      modifier.AddItem((String) modifiers["name"]);
+      modifier = modifierOptions[i.ToString()] as Dictionary;
+      modifierSelector.AddItem((String) modifier["name"], i);
 
       // debug
-      GD.Print("Added: ", modifiers["name"]);
+      GD.Print("Added: ", modifier["name"]);
     }
     
     /* Add attack selections */
 
     for (i = 0; i < attackOptions.Count; i++) {
-      attacks = attackOptions[i.ToString()] as Dictionary;
-      attack0.AddItem((String) attacks["name"]);
-      attack1.AddItem((String) attacks["name"]);
-      attack2.AddItem((String) attacks["name"]);
-      attack3.AddItem((String) attacks["name"]);
+      attack = attackOptions[i.ToString()] as Dictionary;
+      attack0Selector.AddItem((String) attack["name"], i);
+      attack1Selector.AddItem((String) attack["name"], i);
+      attack2Selector.AddItem((String) attack["name"], i);
+      attack3Selector.AddItem((String) attack["name"], i);
 
       // debug
-      GD.Print("Added: ", attacks["name"]);
+      GD.Print("Added: ", attack["name"]);
     }
   }
 
   // Called when the node enters the scene tree for the first time.
   public override void _Ready()
   {
-    beast = GetNode<OptionButton>("Beasts");
-    modifier = GetNode<OptionButton>("Modifier");
+    beastSelector = GetNode<OptionButton>("Beasts");
+    modifierSelector = GetNode<OptionButton>("Modifier");
     
     /* You can't make arrays of structs in c# */
-    attack0 = GetNode<OptionButton>("Attack0");
-    attack1 = GetNode<OptionButton>("Attack1");
-    attack2= GetNode<OptionButton>("Attack2");
-    attack3 = GetNode<OptionButton>("Attack3");
+    attack0Selector = GetNode<OptionButton>("Attack0");
+    attack1Selector = GetNode<OptionButton>("Attack1");
+    attack2Selector = GetNode<OptionButton>("Attack2");
+    attack3Selector = GetNode<OptionButton>("Attack3");
     
     player = GetNode<Fighter>("Fighter");
     attackSet = new int[] {1, 1, 1, 1};
@@ -124,7 +120,7 @@ public class TeamSelect : CanvasLayer
     tex = ResourceLoader.Load("res://Assets/Character Sprites/Alzrius-1.png") as Texture;
     player.GetNode<Sprite>("Texture").Texture = tex;
 
-    // beast.connect("ItemSelected", this, "OnBeastSelected");
+    // beastSelector.connect("ItemSelected", this, "OnBeastSelected");
     
     InitMenus();
   }
@@ -139,19 +135,11 @@ public class TeamSelect : CanvasLayer
 
   
   private void _on_Beasts_item_selected(int index)
-  {
-    string s;
+  {    
+    Dictionary beast;
     
-    s = beast.GetItemText(beast.GetSelectedId());
-    if(s == "Alzrius"){
-        tex = ResourceLoader.Load("res://Assets/Character Sprites/Alzrius-1.png") as Texture;
-    } else if (s == "Auril"){
-        tex = ResourceLoader.Load("res://Assets/Character Sprites/Auril-1.png") as Texture;
-    } else if (s == "Solanac"){
-        tex = ResourceLoader.Load("res://Assets/Character Sprites/Solanac-1.png") as Texture;
-    } else{
-      tex = null;
-    }
+    beast = beastOptions[beastSelector.GetSelectedId().ToString()] as Dictionary;
+    tex = ResourceLoader.Load((String)beast["texture"]) as Texture;
   
     player.GetNode<Sprite>("Texture").Texture = tex;
   }
@@ -163,8 +151,14 @@ public class TeamSelect : CanvasLayer
   
   private void _on_Go_pressed()
   {
-    /* Pass Fighter here */
+    g = (Globals)GetNode("/root/Gm");
+    
+    g.playerBeastIndex = beastSelector.GetSelectedId();
+    g.playerModifierIndex = modifierSelector.GetSelectedId();
+    g.playerAttackIndices[0] = attack0Selector.GetSelectedId();
+    g.playerAttackIndices[1] = attack1Selector.GetSelectedId();
+    g.playerAttackIndices[2] = attack2Selector.GetSelectedId();
+    g.playerAttackIndices[3] = attack3Selector.GetSelectedId();
     GetTree().ChangeScene("res://Bracket/Bracket.tscn");
   }
-  
 }

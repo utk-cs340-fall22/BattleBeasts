@@ -140,12 +140,12 @@ public class Fight : Node
 
     if (player.GetHealth() <= 0) {
       GD.Print("opponent defeated player");
-      g.fight_outcome = 0;
+      g.fightOutcome = 0;
       GetTree().ChangeScene("res://Bracket/Bracket.tscn");
     }
     else if (opponent.GetHealth() <= 0) {
       GD.Print("player defeated opponent");
-      g.fight_outcome = 1;
+      g.fightOutcome = 1;
       GetTree().ChangeScene("res://Bracket/Bracket.tscn");
     }
     

@@ -43,6 +43,7 @@ size_flags_vertical = 15
 [node name="B0" type="Button" parent="Action Console/VBoxContainer/Top Row"]
 margin_right = 178.0
 margin_bottom = 50.0
+focus_mode = 0
 custom_fonts/font = SubResource( 1 )
 text = "attack 0"
 
@@ -50,6 +51,7 @@ text = "attack 0"
 margin_left = 182.0
 margin_right = 360.0
 margin_bottom = 50.0
+focus_mode = 0
 custom_fonts/font = SubResource( 2 )
 text = "attack 1"
 
@@ -63,6 +65,7 @@ size_flags_vertical = 15
 [node name="B2" type="Button" parent="Action Console/VBoxContainer/Bottom Row"]
 margin_right = 178.0
 margin_bottom = 51.0
+focus_mode = 0
 custom_fonts/font = SubResource( 2 )
 text = "attack 2"
 
@@ -70,6 +73,7 @@ text = "attack 2"
 margin_left = 182.0
 margin_right = 360.0
 margin_bottom = 51.0
+focus_mode = 0
 custom_fonts/font = SubResource( 2 )
 text = "attack 3"
 
