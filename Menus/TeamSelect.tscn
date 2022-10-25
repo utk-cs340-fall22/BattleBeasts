@@ -66,38 +66,40 @@ text = "Modifier"
 align = 1
 
 [node name="Attack0" type="OptionButton" parent="."]
-margin_left = 15.0
+margin_left = 10.0
 margin_top = 450.0
-margin_right = 215.0
+margin_right = 210.0
 margin_bottom = 520.0
-rect_clip_content = true
 custom_fonts/font = SubResource( 2 )
 text = "Attack 1"
 align = 1
 
 [node name="Attack1" type="OptionButton" parent="."]
-margin_left = 225.0
+margin_left = 285.0
 margin_top = 450.0
-margin_right = 425.0
+margin_right = 485.0
 margin_bottom = 520.0
+grow_horizontal = 2
 custom_fonts/font = SubResource( 2 )
 text = "Attack 2"
 align = 1
 
 [node name="Attack2" type="OptionButton" parent="."]
-margin_left = 435.0
+margin_left = 540.0
 margin_top = 450.0
-margin_right = 635.0
+margin_right = 740.0
 margin_bottom = 520.0
+grow_horizontal = 2
 custom_fonts/font = SubResource( 2 )
 text = "Attack 3"
 align = 1
 
 [node name="Attack3" type="OptionButton" parent="."]
-margin_left = 645.0
+margin_left = 815.0
 margin_top = 450.0
-margin_right = 845.0
+margin_right = 1015.0
 margin_bottom = 520.0
+grow_horizontal = 0
 custom_fonts/font = SubResource( 2 )
 text = "Attack 4"
 align = 1

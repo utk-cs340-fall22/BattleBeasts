@@ -9,14 +9,14 @@ script = ExtResource( 1 )
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 2 )
-volume_db = -10.488
+volume_db = -12.236
 
 [node name="SoundEffects" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
-volume_db = -11.798
+volume_db = -14.857
 
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
-volume_db = -13.546
+volume_db = -14.42
 
 [node name="MusicOpponent" type="AudioStreamPlayer" parent="."]
-volume_db = -13.983
+volume_db = -14.857

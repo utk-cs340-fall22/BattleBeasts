@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 using System;
 
 public class TitleMenu : CanvasLayer
@@ -9,6 +10,20 @@ public class TitleMenu : CanvasLayer
   private Globals globals;
   
   int playcount;
+  
+  private static Dictionary _beastOptions = null;
+  
+  private Dictionary beastOptions {
+    get {
+      if (_beastOptions == null) {
+        var file = new File();
+        file.Open("res://Data/Beasts.json", File.ModeFlags.Read);
+        var text = file.GetAsText();
+        _beastOptions = JSON.Parse(text).Result as Dictionary;
+      }
+      return _beastOptions;
+    }
+  }
   
   // Called when the node enters the scene tree for the first time.
   public override void _Ready()
@@ -35,12 +50,14 @@ public class TitleMenu : CanvasLayer
   {
     if( titleAnim.IsPlaying() == false ){
       playcount++;
-      if(playcount % 3 == 0)
-        GetNode<Sprite>("AnimationPlayer/Sprite").Texture = ResourceLoader.Load("res://Assets/Character Sprites/Auril-1.png") as Texture;
-      else if(playcount % 3 == 1)
-        GetNode<Sprite>("AnimationPlayer/Sprite").Texture = ResourceLoader.Load("res://Assets/Character Sprites/Alzrius-1.png") as Texture;
-      else
-        GetNode<Sprite>("AnimationPlayer/Sprite").Texture = ResourceLoader.Load("res://Assets/Character Sprites/Solanac-1.png") as Texture;
+      
+      Dictionary beast;
+      Texture tex;
+    
+      beast = beastOptions[(playcount % 5).ToString()] as Dictionary;
+      tex = ResourceLoader.Load((String) beast["texture"]) as Texture;
+      
+      GetNode<Sprite>("AnimationPlayer/Sprite").Texture = tex;
       
       titleAnim.Play("test");
     } 
