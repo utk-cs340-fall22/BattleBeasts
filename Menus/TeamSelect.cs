@@ -120,7 +120,7 @@ public class TeamSelect : CanvasLayer
     player.Init("player", attackSet, playerMaxHealth);
     player.Position = new Vector2(500, 300);
     player.Scale = new Vector2(6, 6);
-    tex = ResourceLoader.Load("res://Assets/Character Sprites/Alzrius-1.png") as Texture;
+    tex = ResourceLoader.Load("res://Assets/Character Sprites/Auril-1.png") as Texture;
     player.GetNode<Sprite>("Texture").Texture = tex;
 
     // beastSelector.connect("ItemSelected", this, "OnBeastSelected");
