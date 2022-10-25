@@ -1,0 +1,156 @@
+
+PowerSliderMiniGame.cs
+
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400  1) using Godot;
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400  2) using System;
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400  3) 
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400  4) public class PowerSliderMiniGame : Control
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400  5) {
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400  6)     // position of the hslider
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400  7)     float position = 0;
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400  8)     
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400  9)     // direction bar is going false is right true is left
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400 10)     bool direction = false;
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400 11)     private HSlider vol;
+37d34707 (Christopher Canaday 2022-10-22 11:23:41 -0400 12)     private Node fight;
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400 13) 
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400 14)     // Called when the node enters the scene tree for the first time.
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400 15)     public override void _Ready()
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400 16)     {
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400 17)         vol = GetNode<HSlider>("CenterContainer/PowerSlider");
+37d34707 (Christopher Canaday 2022-10-22 11:23:41 -0400 18)         fight = GetNode<Node>("/root/Main");
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400 19)     }
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400 20) 
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400 21)     // Called every frame. 'delta' is the elapsed time since the previous frame.
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400 22)     // moves the position of the slider back and forth
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400 23)     public override void _Process(float delta)
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400 24)     {
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400 25)         if(position <= 200 && direction == false && position >= 0){
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400 26)             vol.Value = position;
+2b1fd8b7 (Christopher Canaday 2022-10-20 09:29:01 -0400 27)             position += 300*delta;
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400 28)         }else if(position <= 200 && direction == true && position >= 0){
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400 29)             vol.Value = position;
+2b1fd8b7 (Christopher Canaday 2022-10-20 09:29:01 -0400 30)             position -= 300*delta;
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400 31)         }else if(position < 0){
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400 32)             position = 0;
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400 33)             direction = false;
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400 34)         }else if(position > 200){
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400 35)             position = 200;
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400 36)             direction = true;
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400 37)         }
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400 38)     }
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400 39)     
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400 40)     // records the score on input event
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400 41)     public override void _Input(InputEvent inputEvent)
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400 42)     {
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400 43)         double ans = 0;
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400 44)         if (inputEvent.IsActionPressed("ui_accept"))
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400 45)         {
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400 46)             if(vol.Value > 100){
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400 47)                 ans = 200 - vol.Value;
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400 48)             }else{
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400 49)                 ans = vol.Value;
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400 50)             }
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400 51)             GD.Print(ans);
+37d34707 (Christopher Canaday 2022-10-22 11:23:41 -0400 52)             fight.Call("MinigameReturn",ans);
+37d34707 (Christopher Canaday 2022-10-22 11:23:41 -0400 53)             QueueFree();
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400 54)         }
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400 55)     }
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400 56) }
+
+Credits.cs
+
+d253ab64 (Christopher Canaday 2022-10-19 22:17:31 -0400 15)     int i;
+
+MainMenu.cs
+
+a79ae2ee (Christopher Canaday 2022-10-19 12:16:01 -0400  7)   private Control Options;
+a79ae2ee (Christopher Canaday 2022-10-19 12:16:01 -0400 28)   //GetTree().ChangeScene("res://Menus/OptionsMenu.tscn");
+a79ae2ee (Christopher Canaday 2022-10-19 12:16:01 -0400 29)         Options = GetNode<Control>("OptionsMenu2");
+a79ae2ee (Christopher Canaday 2022-10-19 12:16:01 -0400 30)         //Options._Load_Options_Menu();
+a79ae2ee (Christopher Canaday 2022-10-19 12:16:01 -0400 31)         Options.Call("_Load_Options_Menu");
+
+OptionsMenu2.cs
+
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400  1) using Godot;
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400  2) using System;
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400  3) 
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400  4) public class OptionsMenu2 : Control
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400  5) {
+40df2c42 (Christopher Canaday 2022-10-19 17:27:14 -0400  6)     int bus_index;
+40df2c42 (Christopher Canaday 2022-10-19 17:27:14 -0400  7)     float val;
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400  8)     private CheckButton fullscreen;
+40df2c42 (Christopher Canaday 2022-10-19 17:27:14 -0400 10)     private HSlider vol;
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400 11) 
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400 12)     // Called when the node enters the scene tree for the first time.
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400 13)     public override void _Ready()
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400 14)     {
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400 15)         this.Hide();
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400 16)         
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400 17)         fullscreen = GetNode<CheckButton>("CenterContainer/VBoxContainer/FullscreenButton");
+40df2c42 (Christopher Canaday 2022-10-19 17:27:14 -0400 18)         audio = GetNode<AudioStreamPlayer>("/root/Gm/Music");
+40df2c42 (Christopher Canaday 2022-10-19 17:27:14 -0400 19)         vol = GetNode<HSlider>("CenterContainer/VBoxContainer/VolumeSlider");
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400 21)         
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400 22)         if(OS.WindowFullscreen){
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400 23)             fullscreen.Pressed = true;
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400 24)         }else{
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400 25)             fullscreen.Pressed = false;  
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400 26)         }
+40df2c42 (Christopher Canaday 2022-10-19 17:27:14 -0400 27)         
+40df2c42 (Christopher Canaday 2022-10-19 17:27:14 -0400 28)         bus_index = AudioServer.GetBusIndex("Master");
+40df2c42 (Christopher Canaday 2022-10-19 17:27:14 -0400 29)         val = GD.Db2Linear(AudioServer.GetBusVolumeDb(bus_index));
+1b157120 (Christopher Canaday 2022-10-19 18:16:13 -0400 30)         vol.Value = val*100;
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400 31)     }
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400 32)     
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400 33)     private void _on_FullscreenButton_pressed()
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400 34)     {
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400 38)         OS.WindowFullscreen = !OS.WindowFullscreen;
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400 39)     }
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400 40)     
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400 41)     public void _Load_Options_Menu()
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400 42)     {
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400 43)         this.Show();     
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400 44)     }
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400 45)     
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400 46)     private void _on_BackButton_pressed()
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400 47)     {
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400 51)         this.Hide();
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400 52)     }
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400 53)     
+40df2c42 (Christopher Canaday 2022-10-19 17:27:14 -0400 54)     private void _on_VolumeSlider_value_changed(float value)
+40df2c42 (Christopher Canaday 2022-10-19 17:27:14 -0400 55)     {
+40df2c42 (Christopher Canaday 2022-10-19 17:27:14 -0400 56)         val = value / 100;
+40df2c42 (Christopher Canaday 2022-10-19 17:27:14 -0400 57)         AudioServer.SetBusVolumeDb(bus_index,GD.Linear2Db(val));
+40df2c42 (Christopher Canaday 2022-10-19 17:27:14 -0400 58)     }
+40df2c42 (Christopher Canaday 2022-10-19 17:27:14 -0400 59) 
+40df2c42 (Christopher Canaday 2022-10-19 17:27:14 -0400 60) 
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400 61) //  // Called every frame. 'delta' is the elapsed time since the previous frame.
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400 62) //  public override void _Process(float delta)
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400 63) //  {
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400 64) //      
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400 65) //  }
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400 66) }
+
+PauseMenu2.cs
+
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400  7)     private Control Options;
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400 36)     private void _on_OptionButton_pressed()
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400 37)     {
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400 38)         Options = GetNode<Control>("OptionsMenu2");
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400 39)         //Options._Load_Options_Menu();
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400 40)         Options.Call("_Load_Options_Menu");
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400 41)     }
+3e359c77 (Christopher Canaday 2022-10-19 12:09:36 -0400 42) 
+dffa778e (Christopher Canaday 2022-10-19 16:38:20 -0400 46)         
+dffa778e (Christopher Canaday 2022-10-19 16:38:20 -0400 47)     }
+dffa778e (Christopher Canaday 2022-10-19 16:38:20 -0400 48)     
+dffa778e (Christopher Canaday 2022-10-19 16:38:20 -0400 49)     public override void _Input(InputEvent inputEvent)
+dffa778e (Christopher Canaday 2022-10-19 16:38:20 -0400 50)     {
+dffa778e (Christopher Canaday 2022-10-19 16:38:20 -0400 51)         if (inputEvent.IsActionPressed("pause"))
+dffa778e (Christopher Canaday 2022-10-19 16:38:20 -0400 52)         {
+dffa778e (Christopher Canaday 2022-10-19 16:38:20 -0400 53)             if(is_paused == true){
+dffa778e (Christopher Canaday 2022-10-19 16:38:20 -0400 54)                 _SetPaused(false);
+dffa778e (Christopher Canaday 2022-10-19 16:38:20 -0400 55)             }else{
+dffa778e (Christopher Canaday 2022-10-19 16:38:20 -0400 56)                 _SetPaused(true);
+dffa778e (Christopher Canaday 2022-10-19 16:38:20 -0400 57)             }
+dffa778e (Christopher Canaday 2022-10-19 16:38:20 -0400 58)         }
