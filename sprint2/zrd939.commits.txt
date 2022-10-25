@@ -1,0 +1,266 @@
+-e 
+Bracket.cs
+
+f53d1fe8 (Noah Dahle     2022-10-23 01:59:25 -0400   3) using Godot.Collections;
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400  10) 
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400  11)   //Will be used for .json file
+f53d1fe8 (Noah Dahle     2022-10-23 01:59:25 -0400  12)   private static Dictionary _beastsOps = null;
+f53d1fe8 (Noah Dahle     2022-10-23 01:59:25 -0400  13)   private static Dictionary _opponentsOps = null;
+f53d1fe8 (Noah Dahle     2022-10-23 01:59:25 -0400  14) 
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400  15)   private Dictionary opponentsOps 
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400  16)   {
+f53d1fe8 (Noah Dahle     2022-10-23 01:59:25 -0400  17)     get {
+f53d1fe8 (Noah Dahle     2022-10-23 01:59:25 -0400  18)       if (_opponentsOps == null) {
+f53d1fe8 (Noah Dahle     2022-10-23 01:59:25 -0400  19)         var file = new File();
+f53d1fe8 (Noah Dahle     2022-10-23 01:59:25 -0400  20)         file.Open("res://Data/Opponents.json", File.ModeFlags.Read);
+f53d1fe8 (Noah Dahle     2022-10-23 01:59:25 -0400  21)         var text = file.GetAsText();
+f53d1fe8 (Noah Dahle     2022-10-23 01:59:25 -0400  22)         _opponentsOps = JSON.Parse(text).Result as Dictionary;
+f53d1fe8 (Noah Dahle     2022-10-23 01:59:25 -0400  23)       }
+f53d1fe8 (Noah Dahle     2022-10-23 01:59:25 -0400  24)       return _opponentsOps;
+f53d1fe8 (Noah Dahle     2022-10-23 01:59:25 -0400  25)     }
+f53d1fe8 (Noah Dahle     2022-10-23 01:59:25 -0400  26)   }
+f53d1fe8 (Noah Dahle     2022-10-23 01:59:25 -0400  27) 
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400  28)   private Dictionary beastsOps 
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400  29)   {
+f53d1fe8 (Noah Dahle     2022-10-23 01:59:25 -0400  30)     get {
+f53d1fe8 (Noah Dahle     2022-10-23 01:59:25 -0400  31)       if (_beastsOps == null) {
+f53d1fe8 (Noah Dahle     2022-10-23 01:59:25 -0400  32)         var file = new File();
+f53d1fe8 (Noah Dahle     2022-10-23 01:59:25 -0400  33)         file.Open("res://Data/Beasts.json", File.ModeFlags.Read);
+f53d1fe8 (Noah Dahle     2022-10-23 01:59:25 -0400  34)         var text = file.GetAsText();
+f53d1fe8 (Noah Dahle     2022-10-23 01:59:25 -0400  35)         _beastsOps = JSON.Parse(text).Result as Dictionary;
+f53d1fe8 (Noah Dahle     2022-10-23 01:59:25 -0400  36)       }
+f53d1fe8 (Noah Dahle     2022-10-23 01:59:25 -0400  37)       return _beastsOps;
+f53d1fe8 (Noah Dahle     2022-10-23 01:59:25 -0400  38)     }
+f53d1fe8 (Noah Dahle     2022-10-23 01:59:25 -0400  39)   }
+f53d1fe8 (Noah Dahle     2022-10-23 01:59:25 -0400  40) 
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400  41)   //At the end of the game, this will be reset to default values.
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400  42)   private void reset_all() 
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400  43)   {
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400  44)     g.name = "Player";
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400  48)     g.level = 0;
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400  51)   }
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400  52) 
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400  53)   //This function hides/shows certain things when the buttons big or small are pressed
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400  54)   private void for_button() 
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400  55)   {
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400  56)     GetNode<Button>("Big").Hide();
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400  57)     GetNode<Button>("Small").Hide();
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400  58)     GetNode<Label>("Welcome").Hide();
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400  59)     GetNode<Sprite>("Sprite").Show();
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400  60)     GetNode<Button>("Continue").Show();
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400  61)   }
+94f570a0 (Noah Dahle     2022-10-18 12:15:57 -0400  62) 
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400  63)   //This function hides the continue and exit button
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400  64)   public void hideall() 
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400  65)   {
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400  67)     GetNode<Sprite>("Sprite").Hide();
+48852403 (Noah Dahle     2022-10-22 16:32:30 -0400  68)     GetNode<Button>("Exit").Hide();
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400  72)   //This displays/hides certain things when the player wins
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400  73)   public void display_win() 
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400  74)   {
+84b33b6c (Noah Dahle     2022-10-11 08:45:20 -0400  76)     GetNode<Label>("Welcome").Text = "You Win! Press exit to return to title menu.";
+b11b7bc5 (Noah Dahle     2022-10-24 13:46:32 -0400  82)     hide_sprites();
+48852403 (Noah Dahle     2022-10-22 16:32:30 -0400  84) 
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400  85)   //This function uses a random number generator to select a beast for the opponents
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400  86)   private void get_random_beast(Dictionary opponents, int opp) 
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400  87)   {
+f53d1fe8 (Noah Dahle     2022-10-23 01:59:25 -0400  88)     Random rnd = new Random();
+f53d1fe8 (Noah Dahle     2022-10-23 01:59:25 -0400  89)     int num = rnd.Next();
+f53d1fe8 (Noah Dahle     2022-10-23 01:59:25 -0400  90)     opponents = opponentsOps[(num % 5).ToString()] as Dictionary;
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400  93)   }
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400  94) 
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400  95)   //This is what the user is greeted with when first entering the bracket
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400  96)   private void display_welcome() 
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400  97)   {
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400  98)     hideall();
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400  99)     GetNode<Button>("Small").Text = "Small";
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 100)     GetNode<Button>("Big").Text ="Big";
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 101)     GetNode<Label>("Welcome").Text = "Hi " + g.name + "! Do you want to enter the small or big tournament?";
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 102)   }
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 103)   
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 104)   //This function gets the player's name and beast from globals.cs and initializes them in bracket
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 105)   private void initialize_player(Globals g, Dictionary beasts) 
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 106)   {
+b11b7bc5 (Noah Dahle     2022-10-24 13:46:32 -0400 108)     select_beast("Sprite", g.playerBeastIndex, true);
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 109)     GetNode<Label>("Sprite/Name").Text = g.name;
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 110)     GetNode<Label>("Sprite/Name").Show();
+805db90d (Noah Dahle     2022-10-23 14:02:58 -0400 111)     GetNode<Sprite>("Sprite").Position = new Vector2(90 + 100*g.level, 55+50*g.level);
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 112)   }
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 113) 
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 114)   //This gets the opponents that were randomly generated and initializes their names and beasts
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 115)   private void initialize_opponents(Globals g) 
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 116)   {
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 117) 
+805db90d (Noah Dahle     2022-10-23 14:02:58 -0400 118)     for (int i = 0; i < 7; i++) {
+b11b7bc5 (Noah Dahle     2022-10-24 13:46:32 -0400 119)       select_beast("Sprite" + (i+2).ToString(), i, false);
+805db90d (Noah Dahle     2022-10-23 14:02:58 -0400 121)       GetNode<Label>("Sprite" + (i+2).ToString() + "/Name").Show();
+b11b7bc5 (Noah Dahle     2022-10-24 13:46:32 -0400 122)       if (g.level == 0) GetNode<Sprite>("Sprite" + (i+2).ToString()).Hide();
+805db90d (Noah Dahle     2022-10-23 14:02:58 -0400 123)       if (g.level == 0) GetNode<Sprite>("Sprite" + (i+2).ToString()).Position = new Vector2(110, 40+ 50*(i+2));
+805db90d (Noah Dahle     2022-10-23 14:02:58 -0400 124)     }
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 125)   }
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 126) 
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 127)   //Function shows the sprites based on which bracket the player chooses
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 128)   private void show_sprites(int size) 
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 129)   {
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 130)     GetNode<Sprite>("Sprite").Show();
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 131)     GetNode<Sprite>("Sprite2").Show();
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 132)     GetNode<Sprite>("Sprite3").Show();
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 133)     GetNode<Sprite>("Sprite4").Show();
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 134) 
+805db90d (Noah Dahle     2022-10-23 14:02:58 -0400 135)     if (size == 4) {
+805db90d (Noah Dahle     2022-10-23 14:02:58 -0400 136)       GetNode<Sprite>("Sprite5").Show();
+805db90d (Noah Dahle     2022-10-23 14:02:58 -0400 137)       GetNode<Sprite>("Sprite6").Show();
+805db90d (Noah Dahle     2022-10-23 14:02:58 -0400 138)       GetNode<Sprite>("Sprite7").Show();
+805db90d (Noah Dahle     2022-10-23 14:02:58 -0400 139)       GetNode<Sprite>("Sprite8").Show();
+f53d1fe8 (Noah Dahle     2022-10-23 01:59:25 -0400 140)     }
+805db90d (Noah Dahle     2022-10-23 14:02:58 -0400 141)   }
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 143)   //This function hides all the sprites
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 144)   private void hide_sprites() 
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 145)   {
+b11b7bc5 (Noah Dahle     2022-10-24 13:46:32 -0400 146)     GetNode<Sprite>("Sprite2").Hide();
+b11b7bc5 (Noah Dahle     2022-10-24 13:46:32 -0400 147)     GetNode<Sprite>("Sprite3").Hide();
+b11b7bc5 (Noah Dahle     2022-10-24 13:46:32 -0400 148)     GetNode<Sprite>("Sprite4").Hide();
+b11b7bc5 (Noah Dahle     2022-10-24 13:46:32 -0400 149)     GetNode<Sprite>("Sprite5").Hide();
+b11b7bc5 (Noah Dahle     2022-10-24 13:46:32 -0400 150)     GetNode<Sprite>("Sprite6").Hide();
+b11b7bc5 (Noah Dahle     2022-10-24 13:46:32 -0400 151)     GetNode<Sprite>("Sprite7").Hide();
+b11b7bc5 (Noah Dahle     2022-10-24 13:46:32 -0400 152)     GetNode<Sprite>("Sprite8").Hide();
+b11b7bc5 (Noah Dahle     2022-10-24 13:46:32 -0400 153)   }
+b11b7bc5 (Noah Dahle     2022-10-24 13:46:32 -0400 154)   
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 155)   //Shows the beasts that one the last bracket depending on the level
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 156)   private void show_on_bracket() 
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 157)   {
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 158)         if (g.level == 1) {
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 159)       GetNode<Sprite>("Sprite3").Show();
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 160)       if (g.bracketSize == 1) {
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 161)         GetNode<Sprite>("Sprite5").Show();
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 162)         GetNode<Sprite>("Sprite7").Show();
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 163)       }
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 164)     }
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 165)   }
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 166) 
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 167)   //This is the function that gets called first
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 168)   public override void _Ready() 
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 169)   {
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 170)     //I hide all sprites to begin with
+b11b7bc5 (Noah Dahle     2022-10-24 13:46:32 -0400 171)     hide_sprites();
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 172)     
+f53d1fe8 (Noah Dahle     2022-10-23 01:59:25 -0400 173)     Dictionary opponents = null;
+f53d1fe8 (Noah Dahle     2022-10-23 01:59:25 -0400 174)     Dictionary beasts = null;
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 175)     
+48852403 (Noah Dahle     2022-10-22 16:32:30 -0400 176)     GetNode<Button>("Exit").Hide();
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 177)     
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 178)     //initialize globals
+48852403 (Noah Dahle     2022-10-22 16:32:30 -0400 179)     g = (Globals)GetNode("/root/Gm");
+f68a641f (Noah Dahle     2022-10-18 09:15:06 -0400 180) 
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 181)     //Display welcome if it's the first time
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 183)       display_welcome();
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 186)     //Set size depending on which bracket they chose
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 199)     initialize_player(g, beasts);
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 200)     
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 201)     //Tests to see if player won or lost
+1e62bf86 (Noah Dahle     2022-10-18 11:01:49 -0400 204)     
+b11b7bc5 (Noah Dahle     2022-10-24 13:46:32 -0400 205) 
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 206)     //if it's the first time, create random beasts
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 207)     if (g.level == 0) {
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 208)       for (int i = 0; i < 7; i++) {
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 209)         get_random_beast(opponents, i);
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 210)       }
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 211)     }
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 212)     //then initialize them
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 213)     initialize_opponents(g);
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 215)     show_on_bracket();
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 217)   }
+b11b7bc5 (Noah Dahle     2022-10-24 13:46:32 -0400 218)   
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 219)  //This draws the bracket
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 222)     //If a size hasn't been selected, don't do anything
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 225)     //This creates the vectors necessary for making the bracket
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 246)     
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 271)     /*Level 3*/
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 295)   //This is called when the player won the last fight
+1e62bf86 (Noah Dahle     2022-10-18 11:01:49 -0400 296)   private void Won()
+94f570a0 (Noah Dahle     2022-10-18 12:15:57 -0400 298)     GetNode<Sprite>("Sprite").Position = new Vector2(100 + 100*(g.level+1), 50+50*(g.level+1));
+94f570a0 (Noah Dahle     2022-10-18 12:15:57 -0400 299) 
+1ef85d86 (Noah Dahle     2022-10-22 16:23:06 -0400 300)     if (g.level == 0) {
+b11b7bc5 (Noah Dahle     2022-10-24 13:46:32 -0400 301) 
+1ef85d86 (Noah Dahle     2022-10-22 16:23:06 -0400 302)       GetNode<Sprite>("Sprite3").Position = new Vector2(120 + 100*(g.level+1), 180 + 50*(g.level+1));
+0be14925 (Noah Dahle     2022-10-24 13:57:19 -0400 303)       g.currBeast = g.oppBeast[1];
+805db90d (Noah Dahle     2022-10-23 14:02:58 -0400 305)         GetNode<Sprite>("Sprite5").Position = new Vector2(120 + 100*(g.level+1), 210 + 100*(g.level+1));
+805db90d (Noah Dahle     2022-10-23 14:02:58 -0400 306)         GetNode<Sprite>("Sprite7").Position = new Vector2(120 + 100*(g.level+1), 250 + 150*(g.level+1));
+805db90d (Noah Dahle     2022-10-23 14:02:58 -0400 307)       }
+805db90d (Noah Dahle     2022-10-23 14:02:58 -0400 308) 
+1ef85d86 (Noah Dahle     2022-10-22 16:23:06 -0400 309)     }
+1e62bf86 (Noah Dahle     2022-10-18 11:01:49 -0400 310)   
+b11b7bc5 (Noah Dahle     2022-10-24 13:46:32 -0400 311)     if (g.level == 1 && g.bracketSize == 1) {
+0be14925 (Noah Dahle     2022-10-24 13:57:19 -0400 312)        g.currBeast = g.oppBeast[6];
+b11b7bc5 (Noah Dahle     2022-10-24 13:46:32 -0400 313)        GetNode<Sprite>("Sprite7").Position = new Vector2(120 + 100*(g.level+1), 350);
+b11b7bc5 (Noah Dahle     2022-10-24 13:46:32 -0400 314)        GetNode<Sprite>("Sprite7").Show();
+b11b7bc5 (Noah Dahle     2022-10-24 13:46:32 -0400 315)      }
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 320)     
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 325)     g.level++;
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 328)   //When the player loses, this function is called
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 329)   //It makes the player exit back to the title menu
+1e62bf86 (Noah Dahle     2022-10-18 11:01:49 -0400 330)   private void Lost()
+1e62bf86 (Noah Dahle     2022-10-18 11:01:49 -0400 332)     g.name = "Player";
+1e62bf86 (Noah Dahle     2022-10-18 11:01:49 -0400 333)     g.level = 0;
+1e62bf86 (Noah Dahle     2022-10-18 11:01:49 -0400 336)     GetNode<Button>("Exit").Show();
+1e62bf86 (Noah Dahle     2022-10-18 11:01:49 -0400 337)     GetNode<Button>("Exit").Text = "Exit";
+1e62bf86 (Noah Dahle     2022-10-18 11:01:49 -0400 338)     GetNode<Button>("Continue").Hide();
+0948d82e (Noah Dahle     2022-10-18 11:18:45 -0400 339)     GetNode<Label>("Welcome").Text = "You lose! Press exit to return to the title menu";
+1e62bf86 (Noah Dahle     2022-10-18 11:01:49 -0400 340) 
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 354)     for_button();
+805db90d (Noah Dahle     2022-10-23 14:02:58 -0400 355)     show_sprites(size);
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 365)     for_button();
+805db90d (Noah Dahle     2022-10-23 14:02:58 -0400 366)     show_sprites(size);
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 370) 
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 371) 
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 375)     reset_all();
+1ef85d86 (Noah Dahle     2022-10-22 16:23:06 -0400 378) 
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 379)   //This will be changed later to be cleaner (without switch statement)
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 380)   //But right now, this function is used to set the sprite's texture
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 381)   private void select_beast(string sprite, int opp, bool player) 
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 382)   {
+b11b7bc5 (Noah Dahle     2022-10-24 13:46:32 -0400 383)     int pick;
+b11b7bc5 (Noah Dahle     2022-10-24 13:46:32 -0400 384)     if (player) pick = opp;
+b11b7bc5 (Noah Dahle     2022-10-24 13:46:32 -0400 385)     else pick = g.oppBeast[opp];
+b11b7bc5 (Noah Dahle     2022-10-24 13:46:32 -0400 386)       
+b11b7bc5 (Noah Dahle     2022-10-24 13:46:32 -0400 387)     
+b11b7bc5 (Noah Dahle     2022-10-24 13:46:32 -0400 388)     switch (pick) {
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 389)       case 0:
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 390)         GetNode<Sprite>(sprite).Texture = ResourceLoader.Load("res://Assets/Character Sprites/Auril-1.png") as Texture;
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 391)         break;
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 392)       case 1:
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 393)         GetNode<Sprite>(sprite).Texture = ResourceLoader.Load("res://Assets/Character Sprites/Solanac-1.png") as Texture;
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 394)         break;
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 395)       case 2:
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 396)         GetNode<Sprite>(sprite).Texture = ResourceLoader.Load("res://Assets/Character Sprites/Alzrius-1.png") as Texture;
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 397)         break;
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 398)       case 3:
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 399)         GetNode<Sprite>(sprite).Texture = ResourceLoader.Load("res://Assets/Character Sprites/Glabbagool.png") as Texture;
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 400)         break;
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 401)       case 4:
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 402)         GetNode<Sprite>(sprite).Texture = ResourceLoader.Load("res://Assets/Character Sprites/Bunpir.png") as Texture;
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 403)         break;
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 404)       default:
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 405)         GetNode<Sprite>(sprite).Texture = ResourceLoader.Load("res://Assets/Character Sprites/Auril-1.png") as Texture;
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 406)         break;
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 407)     } 
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 408)   }
+e0b60a52 (Noah Dahle     2022-10-23 13:21:13 -0400 409) 
+-e 
+Fight.cs
+
+f1853ded (Noah Dahle     2022-10-18 10:07:45 -0400  16)   Globals g;
+f1853ded (Noah Dahle     2022-10-18 10:07:45 -0400  70)     g = (Globals)GetNode("/root/Gm");
+-e 
+Globals.cs
+
+0be14925 (Noah Dahle     2022-10-24 13:57:19 -0400 12)     public int currBeast = -1;
+-e 
+Enter_Name.cs
+
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400  7)   
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 10)     //This is so the player doesn't have to click to type
+0aa8828e (Noah Dahle     2022-10-24 19:23:17 -0400 16)   //When the player enters their name, they will get a message and a button to move to a different scene
+84b33b6c (Noah Dahle     2022-10-11 08:45:20 -0400 20)     GetNode<Label>("Exit").Text = "Hello " + new_text + ". Welcome to the world of Battle Beasts.";
+84b33b6c (Noah Dahle     2022-10-11 08:45:20 -0400 21)     GetNode<Label>("press_here").Text = "Press here to enter the tournament.";
+84b33b6c (Noah Dahle     2022-10-11 08:45:20 -0400 22)     GetNode<Button>("Button").Text = "Let's Go " + new_text + "!";
