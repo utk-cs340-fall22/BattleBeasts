@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using Godot.Collections;
 
 
 public class Bracket: Node2D
@@ -7,81 +8,221 @@ public class Bracket: Node2D
   Globals g;
   int size = 0;
 
+  //Will be used for .json file
+  private static Dictionary _beastsOps = null;
+  private static Dictionary _opponentsOps = null;
 
-  public void hideall() {
-    GetNode<Sprite>("Sprite").Hide();
-    GetNode<Sprite>("Sprite2").Hide();
+  private Dictionary opponentsOps 
+  {
+    get {
+      if (_opponentsOps == null) {
+        var file = new File();
+        file.Open("res://Data/Opponents.json", File.ModeFlags.Read);
+        var text = file.GetAsText();
+        _opponentsOps = JSON.Parse(text).Result as Dictionary;
+      }
+      return _opponentsOps;
+    }
+  }
+
+  private Dictionary beastsOps 
+  {
+    get {
+      if (_beastsOps == null) {
+        var file = new File();
+        file.Open("res://Data/Beasts.json", File.ModeFlags.Read);
+        var text = file.GetAsText();
+        _beastsOps = JSON.Parse(text).Result as Dictionary;
+      }
+      return _beastsOps;
+    }
+  }
+
+  //At the end of the game, this will be reset to default values.
+  private void reset_all() 
+  {
+    g.name = "Player";
+    for (int i = 0; i < 7; i++) g.oppName[i] = "CPU";
+    for (int i = 0; i < 7; i++) g.oppBeast[i] = -1;
+    g.playerBeastIndex = -1;
+    g.level = 0;
+    g.bracketSize = -1;
+    g.fightOutcome = -1;
+  }
+
+  //This function hides/shows certain things when the buttons big or small are pressed
+  private void for_button() 
+  {
+    GetNode<Button>("Big").Hide();
+    GetNode<Button>("Small").Hide();
+    GetNode<Label>("Welcome").Hide();
+    GetNode<Sprite>("Sprite").Show();
+    GetNode<Button>("Continue").Show();
+  }
+
+  //This function hides the continue and exit button
+  public void hideall() 
+  {
     GetNode<Button>("Continue").Hide();
+    GetNode<Sprite>("Sprite").Hide();
     GetNode<Button>("Exit").Hide();
 
   }
-
-  public void hideforwin() {
+  
+  //This displays/hides certain things when the player wins
+  public void display_win() 
+  {
     GetNode<Button>("Continue").Hide();
-  }
-
-  public void display_win() {
     GetNode<Label>("Welcome").Text = "You Win! Press exit to return to title menu.";
     GetNode<Button>("Big").Hide();
     GetNode<Button>("Small").Hide();
     GetNode<Button>("Exit").Show();
     GetNode<Button>("Exit").Text = "Exit";
     GetNode<Sprite>("Sprite").Show();
-    GetNode<Sprite>("Sprite2").Show();
-    GetNode<Sprite>("Sprite3").Show();
+    hide_sprites();
   }
 
-  public override void _Ready() {
+  //This function uses a random number generator to select a beast for the opponents
+  private void get_random_beast(Dictionary opponents, int opp) 
+  {
+    Random rnd = new Random();
+    int num = rnd.Next();
+    opponents = opponentsOps[(num % 5).ToString()] as Dictionary;
+    g.oppName[opp] = (String) opponents["name"];
+    g.oppBeast[opp] = Int32.Parse((String) opponents["beast"]);
+  }
 
-
-    GetNode<Button>("Exit").Hide();
-
-    g = (Globals)GetNode("/root/Gm");
-
+  //This is what the user is greeted with when first entering the bracket
+  private void display_welcome() 
+  {
+    hideall();
+    GetNode<Button>("Small").Text = "Small";
+    GetNode<Button>("Big").Text ="Big";
+    GetNode<Label>("Welcome").Text = "Hi " + g.name + "! Do you want to enter the small or big tournament?";
+  }
+  
+  //This function gets the player's name and beast from globals.cs and initializes them in bracket
+  private void initialize_player(Globals g, Dictionary beasts) 
+  {
+    if (g.level == 0) beasts = beastsOps[(g.playerBeastIndex).ToString()] as Dictionary;
+    select_beast("Sprite", g.playerBeastIndex, true);
     GetNode<Label>("Sprite/Name").Text = g.name;
     GetNode<Label>("Sprite/Name").Show();
-    GetNode<Label>("Sprite2/Name").Show();
-    GetNode<Sprite>("Sprite").Position = new Vector2(100 + 100*g.level, 50+50*g.level);
+    GetNode<Sprite>("Sprite").Position = new Vector2(90 + 100*g.level, 55+50*g.level);
+  }
 
+  //This gets the opponents that were randomly generated and initializes their names and beasts
+  private void initialize_opponents(Globals g) 
+  {
 
-    if (g.bracket_size == -1) {
-      hideall();
-      GetNode<Button>("Small").Text = "Small";
-      GetNode<Button>("Big").Text ="Big";
-      GetNode<Label>("Welcome").Text = "Hi " + g.name + "! Do you want to enter the small or big tournament?";
+    for (int i = 0; i < 7; i++) {
+      select_beast("Sprite" + (i+2).ToString(), i, false);
+      GetNode<Label>("Sprite" + (i+2).ToString() + "/Name").Text = g.oppName[i];
+      GetNode<Label>("Sprite" + (i+2).ToString() + "/Name").Show();
+      if (g.level == 0) GetNode<Sprite>("Sprite" + (i+2).ToString()).Hide();
+      if (g.level == 0) GetNode<Sprite>("Sprite" + (i+2).ToString()).Position = new Vector2(110, 40+ 50*(i+2));
+    }
+  }
+
+  //Function shows the sprites based on which bracket the player chooses
+  private void show_sprites(int size) 
+  {
+    GetNode<Sprite>("Sprite").Show();
+    GetNode<Sprite>("Sprite2").Show();
+    GetNode<Sprite>("Sprite3").Show();
+    GetNode<Sprite>("Sprite4").Show();
+
+    if (size == 4) {
+      GetNode<Sprite>("Sprite5").Show();
+      GetNode<Sprite>("Sprite6").Show();
+      GetNode<Sprite>("Sprite7").Show();
+      GetNode<Sprite>("Sprite8").Show();
+    }
+  }
+  
+  //This function hides all the sprites
+  private void hide_sprites() 
+  {
+    GetNode<Sprite>("Sprite2").Hide();
+    GetNode<Sprite>("Sprite3").Hide();
+    GetNode<Sprite>("Sprite4").Hide();
+    GetNode<Sprite>("Sprite5").Hide();
+    GetNode<Sprite>("Sprite6").Hide();
+    GetNode<Sprite>("Sprite7").Hide();
+    GetNode<Sprite>("Sprite8").Hide();
+  }
+  
+  //Shows the beasts that one the last bracket depending on the level
+  private void show_on_bracket() 
+  {
+        if (g.level == 1) {
+      GetNode<Sprite>("Sprite3").Show();
+      if (g.bracketSize == 1) {
+        GetNode<Sprite>("Sprite5").Show();
+        GetNode<Sprite>("Sprite7").Show();
+      }
+    }
+  }
+
+  //This is the function that gets called first
+  public override void _Ready() 
+  {
+    //I hide all sprites to begin with
+    hide_sprites();
+    
+    Dictionary opponents = null;
+    Dictionary beasts = null;
+    
+    GetNode<Button>("Exit").Hide();
+    
+    //initialize globals
+    g = (Globals)GetNode("/root/Gm");
+
+    //Display welcome if it's the first time
+    if (g.bracketSize == -1) {
+      display_welcome();
     }
 
-    if (g.bracket_size == 0) {
+    //Set size depending on which bracket they chose
+    if (g.bracketSize == 0) {
       size = 2;
       GetNode<Button>("Small").Hide();
       GetNode<Button>("Big").Hide();
       Update();
-    } else if (g.bracket_size == 1) {
+    } else if (g.bracketSize == 1) {
       GetNode<Button>("Small").Hide();
       GetNode<Button>("Big").Hide();
       size = 4;
       Update();
     }
+    
+    initialize_player(g, beasts);
+    
+    //Tests to see if player won or lost
+    if (g.fightOutcome == 1) Won();
+    else if (g.fightOutcome == 0) Lost();
+    
 
-    if (g.fight_outcome == 1) Won();
-    else if (g.fight_outcome == 0) Lost();
-
+    //if it's the first time, create random beasts
     if (g.level == 0) {
-      Random rnd = new Random();
-      int num = rnd.Next();
-      g.opp_name = g.names[num % 8];
+      for (int i = 0; i < 7; i++) {
+        get_random_beast(opponents, i);
+      }
     }
-
-    GetNode<Label>("Sprite2/Name").Text = g.opp_name;
-    if (g.level != 0) GetNode<Sprite>("Sprite2").Hide();
-
+    //then initialize them
+    initialize_opponents(g);
+    
+    show_on_bracket();
+    
   }
-
-  //public RandomNumberGenerator rng = new RandomNumberGenerator();
+  
+ //This draws the bracket
   public override void _Draw()
   {
+    //If a size hasn't been selected, don't do anything
     if (size == 0) return;
 
+    //This creates the vectors necessary for making the bracket
     var points = new Vector2[100];
     var points2 = new Vector2[100];
     var points4 = new Vector2[2];
@@ -102,6 +243,7 @@ public class Bracket: Node2D
     }
 
     levels = levels / 2;
+    
     /*Level 2*/
     for (i = 0; i <  levels; i++) {
       points2[i*6]   = new Vector2(200, 125 + i*200);
@@ -125,8 +267,8 @@ public class Bracket: Node2D
 
     }
     levels = levels / 2;
+    
     /*Level 3*/
-
     for (i = 0; i < levels; i++) {
       points3[i*6] = new Vector2(300, 175);
       points3[i*6+1] = new Vector2(400, 175);
@@ -150,46 +292,47 @@ public class Bracket: Node2D
 
 
 
-
+  //This is called when the player won the last fight
   private void Won()
   {
-
     GetNode<Sprite>("Sprite").Position = new Vector2(100 + 100*(g.level+1), 50+50*(g.level+1));
 
     if (g.level == 0) {
-      GetNode<Sprite>("Sprite2").Hide();
-      GetNode<Sprite>("Sprite3").Position = new Vector2(120 + 100*(g.level+1), 180 + 50*(g.level+1));   
-      GetNode<Label>("Sprite3/Name").Text = "CPU";
-      GetNode<Sprite>("Sprite3").Texture = ResourceLoader.Load("res://Assets/Character Sprites/Auril-1.png") as Texture;
-      GetNode<Label>("Sprite3/Name").Show(); 
-      GetNode<Sprite>("Sprite3").Show();
+
+      GetNode<Sprite>("Sprite3").Position = new Vector2(120 + 100*(g.level+1), 180 + 50*(g.level+1));
+      g.currBeast = g.oppBeast[1];
+      if (g.bracketSize == 1) {
+        GetNode<Sprite>("Sprite5").Position = new Vector2(120 + 100*(g.level+1), 210 + 100*(g.level+1));
+        GetNode<Sprite>("Sprite7").Position = new Vector2(120 + 100*(g.level+1), 250 + 150*(g.level+1));
+      }
+
     }
+  
+    if (g.level == 1 && g.bracketSize == 1) {
+       g.currBeast = g.oppBeast[6];
+       GetNode<Sprite>("Sprite7").Position = new Vector2(120 + 100*(g.level+1), 350);
+       GetNode<Sprite>("Sprite7").Show();
+     }
 
-
-
-    if (g.level == 2 && g.bracket_size == 1) {
+    if (g.level == 2 && g.bracketSize == 1) {
       display_win();
-      hideforwin();
-
-
     }
-    if (g.level == 1 && g.bracket_size == 0) {
+    
+    if (g.level == 1 && g.bracketSize == 0) {
       display_win();
-      hideforwin();
-
-
     }
+    
     g.level++;
-
-
   }
-
+  
+  //When the player loses, this function is called
+  //It makes the player exit back to the title menu
   private void Lost()
   {
     g.name = "Player";
     g.level = 0;
-    g.bracket_size = -1;
-    g.fight_outcome = 0;
+    g.bracketSize = -1;
+    g.fightOutcome = 0;
     GetNode<Button>("Exit").Show();
     GetNode<Button>("Exit").Text = "Exit";
     GetNode<Button>("Continue").Hide();
@@ -206,15 +349,10 @@ public class Bracket: Node2D
   private void _on_Big_pressed()
   {
     g = (Globals)GetNode("/root/Gm");
-    g.bracket_size = 1;
+    g.bracketSize = 1;
     size = 4;
-
-    GetNode<Button>("Big").Hide();
-    GetNode<Button>("Small").Hide();
-    GetNode<Label>("Welcome").Hide();
-    GetNode<Sprite>("Sprite").Show();
-    GetNode<Sprite>("Sprite2").Show();
-    GetNode<Button>("Continue").Show();
+    for_button();
+    show_sprites(size);
     Update();
   }
 
@@ -222,25 +360,51 @@ public class Bracket: Node2D
   private void _on_Small_pressed()
   {
     g = (Globals)GetNode("/root/Gm");
-    g.bracket_size = 0;
+    g.bracketSize = 0;
     size = 2;
-    GetNode<Button>("Big").Hide();
-    GetNode<Button>("Small").Hide();
-    GetNode<Label>("Welcome").Hide();
-    GetNode<Sprite>("Sprite").Show();
-    GetNode<Sprite>("Sprite2").Show();
-    GetNode<Button>("Continue").Show();
+    for_button();
+    show_sprites(size);
     Update();
   }
+
+
 
   private void _on_Exit_pressed()
   {
     GetNode<Sprite>("Sprite").Position = new Vector2(0,0);
-    g.name = "Player";
-    g.level = 0;
-    g.bracket_size = -1;
-    g.fight_outcome = -1;
+    reset_all();
     GetTree().ChangeScene("res://Menus/TitleMenu.tscn");
+  }
+
+  //This will be changed later to be cleaner (without switch statement)
+  //But right now, this function is used to set the sprite's texture
+  private void select_beast(string sprite, int opp, bool player) 
+  {
+    int pick;
+    if (player) pick = opp;
+    else pick = g.oppBeast[opp];
+      
+    
+    switch (pick) {
+      case 0:
+        GetNode<Sprite>(sprite).Texture = ResourceLoader.Load("res://Assets/Character Sprites/Auril-1.png") as Texture;
+        break;
+      case 1:
+        GetNode<Sprite>(sprite).Texture = ResourceLoader.Load("res://Assets/Character Sprites/Solanac-1.png") as Texture;
+        break;
+      case 2:
+        GetNode<Sprite>(sprite).Texture = ResourceLoader.Load("res://Assets/Character Sprites/Alzrius-1.png") as Texture;
+        break;
+      case 3:
+        GetNode<Sprite>(sprite).Texture = ResourceLoader.Load("res://Assets/Character Sprites/Glabbagool.png") as Texture;
+        break;
+      case 4:
+        GetNode<Sprite>(sprite).Texture = ResourceLoader.Load("res://Assets/Character Sprites/Bunpir.png") as Texture;
+        break;
+      default:
+        GetNode<Sprite>(sprite).Texture = ResourceLoader.Load("res://Assets/Character Sprites/Auril-1.png") as Texture;
+        break;
+    } 
   }
 
 }

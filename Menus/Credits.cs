@@ -7,6 +7,7 @@ public class Credits : Control
   private VBoxContainer credits;
   private File file = new File();
   private List<String> lines = new List<string>();
+  private AudioStreamPlayer se;
 
   // Called when the node enters the scene tree for the first time.
   public override void _Ready()
@@ -52,6 +53,10 @@ public class Credits : Control
 
   private void _on_Back_pressed()
   {
+    se = GetNode<AudioStreamPlayer>("/root/Gm/SoundEffects");
+    se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
+    se.Play();
+    
     GetTree().ChangeScene("res://Menus/MainMenu.tscn");
   }
 

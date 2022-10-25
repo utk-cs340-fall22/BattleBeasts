@@ -8,7 +8,6 @@ public class Fighter : Sprite
   int maxHealth; // max health
   int[] attackStats = new int[4]; // attack damage for the 4 different attacks
   public Sprite texture;
-  Texture tex;
 
   /*
   Initialize as player or opponent and load stats
@@ -19,9 +18,6 @@ public class Fighter : Sprite
   public void Init(string controller, int[] attackSet, int maxHealth) {
     int i;
     
-    tex = ResourceLoader.Load("res://Assets/Character Sprites/Auril-1.png") as Texture;
-    GetNode<Sprite>("Texture").Texture = tex;
-
     // Load attack identifiers
     this.controller = controller;
     this.maxHealth = maxHealth;

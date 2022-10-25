@@ -3,12 +3,14 @@ using System;
 
 public class Globals : Node
 {
-
-    public string[] names = {"Noah", "Jake", "Steph", "Chris", "Colin", "Reid", "Adam", "CPU"};
     public string name = "Player";
-    public string opp_name;
+    public string[] oppName = {"CPU", "CPU", "CPU", "CPU", "CPU", "CPU", "CPU"};
+    public int[] oppBeast = {-1, -1, -1, -1, -1, -1, -1};
     public int level = 0;
-    public int bracket_size = -1;
-    public int fight_outcome = -1;
-    
+    public int bracketSize = -1;
+    public int fightOutcome = -1;   
+    public int currBeast = -1;
+    public int playerBeastIndex = 0;
+    public int playerModifierIndex = 0;
+    public int[] playerAttackIndices = {0, 0, 0, 0};
 }

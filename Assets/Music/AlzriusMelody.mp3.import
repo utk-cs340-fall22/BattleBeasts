@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/AlzriusMelody.mp3-b561e3b671b7060893ac0dabbf43dfd8.mp3str"
+
+[deps]
+
+source_file="res://Assets/Music/AlzriusMelody.mp3"
+dest_files=[ "res://.import/AlzriusMelody.mp3-b561e3b671b7060893ac0dabbf43dfd8.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

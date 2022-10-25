@@ -6,7 +6,7 @@ public class OptionsMenu2 : Control
     int bus_index;
     float val;
     private CheckButton fullscreen;
-    private AudioStreamPlayer audio;
+    private AudioStreamPlayer audio, se;
     private HSlider vol;
 
     // Called when the node enters the scene tree for the first time.
@@ -17,6 +17,7 @@ public class OptionsMenu2 : Control
         fullscreen = GetNode<CheckButton>("CenterContainer/VBoxContainer/FullscreenButton");
         audio = GetNode<AudioStreamPlayer>("/root/Gm/Music");
         vol = GetNode<HSlider>("CenterContainer/VBoxContainer/VolumeSlider");
+        se = GetNode<AudioStreamPlayer>("/root/Gm/SoundEffects");
         
         if(OS.WindowFullscreen){
             fullscreen.Pressed = true;
@@ -31,6 +32,9 @@ public class OptionsMenu2 : Control
     
     private void _on_FullscreenButton_pressed()
     {
+      se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
+      se.Play();
+      
         OS.WindowFullscreen = !OS.WindowFullscreen;
     }
     
@@ -41,6 +45,9 @@ public class OptionsMenu2 : Control
     
     private void _on_BackButton_pressed()
     {
+        se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
+        se.Play();
+      
         this.Hide();
     }
     
