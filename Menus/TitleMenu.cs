@@ -5,7 +5,7 @@ public class TitleMenu : CanvasLayer
 {
   // Declare member variables here. Examples:
   private AnimationPlayer titleAnim;
-  private AudioStreamPlayer music, se;
+  private AudioStreamPlayer music, musicP, musicO, se;
   private Globals globals;
   
   int playcount;
@@ -16,11 +16,16 @@ public class TitleMenu : CanvasLayer
     titleAnim = GetNode<AnimationPlayer>("AnimationPlayer");
     globals = GetNode<Globals>("/root/Gm");
     music = globals.GetNode<AudioStreamPlayer>("Music");
+    musicP = globals.GetNode<AudioStreamPlayer>("MusicPlayer");
+    musicO = globals.GetNode<AudioStreamPlayer>("MusicOpponent");
+    
   
     playcount = 0;
   
     titleAnim.Play("test");
     music.Stop();
+    musicP.Stop();
+    musicO.Stop();
     music.Stream = ResourceLoader.Load("res://Assets/Music/TitleMusic.mp3") as AudioStream;
     music.Play();
   }
