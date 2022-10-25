@@ -10,7 +10,7 @@ public class Globals : Node
     public int bracketSize = -1;
     public int fightOutcome = -1;   
     public int currBeast = -1;
-    public int playerBeastIndex = -1;
-    public int playerModifierIndex = -1;
-    public int[] playerAttackIndices = {-1, -1, -1, -1};
+    public int playerBeastIndex = 0;
+    public int playerModifierIndex = 0;
+    public int[] playerAttackIndices = {0, 0, 0, 0};
 }

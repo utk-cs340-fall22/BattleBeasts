@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 using System;
 
 public class Fight : Node
@@ -19,10 +20,54 @@ public class Fight : Node
   Fighter player, opponent;
   Texture playerTexture, opponentTexture;
   HealthInterface pHealthBar, oHealthBar;
-  private AudioStreamPlayer music, se;
+  private AudioStreamPlayer music;
+  //private AudioStreamPlayer se;
+  private static Dictionary _beastOptions = null;
+  private static Dictionary _modifierOptions = null;
+  private static Dictionary _attackOptions = null;
+  
+  /* Make JSON files accessible */
+  
+  private Dictionary beastOptions {
+    get {
+      if (_beastOptions == null) {
+        var file = new File();
+        file.Open("res://Data/Beasts.json", File.ModeFlags.Read);
+        var text = file.GetAsText();
+        _beastOptions = JSON.Parse(text).Result as Dictionary;
+      }
+      return _beastOptions;
+    }
+  }
+
+  private Dictionary modifierOptions {
+    get {
+      if (_modifierOptions == null) {
+        var file = new File();
+        file.Open("res://Data/Modifiers.json", File.ModeFlags.Read); // WILL BE MODIFIERS.JSON
+        var text = file.GetAsText();
+        _modifierOptions = JSON.Parse(text).Result as Dictionary;
+      }
+      return _modifierOptions;
+    }
+  }
+
+  private Dictionary attackOptions {
+    get {
+      if (_attackOptions == null) {
+        var file = new File();
+        file.Open("res://Data/Attacks.json", File.ModeFlags.Read);
+        var text = file.GetAsText();
+        _attackOptions = JSON.Parse(text).Result as Dictionary;
+      }
+      return _attackOptions;
+    }
+  }
   
   // Called when the node enters the scene tree for the first time.
   public override void _Ready() {
+    Dictionary beast, modifier;
+    
     g = (Globals)GetNode("/root/Gm");
     int[] attackSet = new int[4];
     playerMaxHealth = 100;
@@ -36,18 +81,20 @@ public class Fight : Node
 
     player = (Fighter)Fighter.Instance();
     AddChild(player);
-    playerTexture = ResourceLoader.Load("res://Assets/Character Sprites/Auril-1.png") as Texture;
+    beast = beastOptions[g.playerBeastIndex.ToString()] as Dictionary;
+    modifier = modifierOptions[g.playerModifierIndex.ToString()] as Dictionary;
+    playerTexture = ResourceLoader.Load((String)beast["texture"]) as Texture;
     player.GetNode<Sprite>("Texture").Texture = playerTexture;
     player.Position = new Vector2(190, 280);
     player.Scale = new Vector2(6, 6);
-    attackSet = new int[] {1, 2, 13, 1000};
+    attackSet = new int[] {1, 5, 30, 1000};
     player.Init("player", attackSet, playerMaxHealth);
 
     /* Initialize player health bar */
 
     pHealthBar = (HealthInterface)HPinterface.Instance();
     AddChild(pHealthBar);
-    pHealthBar.CreateLabel(g.name, "modifier"); //need to change to accept modifier
+    pHealthBar.CreateLabel(g.name, (String)modifier["name"]);
 
     /* Initialize opponent character */
 
@@ -57,7 +104,7 @@ public class Fight : Node
     opponent.GetNode<Sprite>("Texture").Texture = opponentTexture;
     opponent.Position = new Vector2(850, 170);
     opponent.Scale = new Vector2(6, 6);
-    attackSet = new int[] {1, 2, 13, 50};
+    attackSet = new int[] {1, 2, 13, 20};
     opponent.Init("opponent", attackSet, opponentMaxHealth);
 
      /* Initialize opponent health bar */ 
@@ -66,7 +113,7 @@ public class Fight : Node
     AddChild(oHealthBar);
     Vector2 oHpBar = new Vector2(-600, -500);
     oHealthBar.SetPosition(oHpBar, false);
-    oHealthBar.CreateLabel("opponent", "modifier"); //need to change to accept opponent name & modifier
+    oHealthBar.CreateLabel("opponent", "modifier"); // need to change to accept opponent name & modifier
 
     // debug
     GD.Print("opponent health: ", opponent.GetHealth());
@@ -171,7 +218,7 @@ public class Fight : Node
 
     /* Perform queued attack */
 
-    //PerformQueuedAttack(); // UNCOMMENT WHEN MINIGAMES DONT SOFTLOCK THE GAME
+    PerformQueuedAttack(); // UNCOMMENT WHEN MINIGAMES DONT SOFTLOCK THE GAME
 
     /* AI turn */
 
@@ -186,40 +233,28 @@ public class Fight : Node
   private void _on_B0_pressed() {
     if (CheckAttackSignalPermission() == 1) return;
     queuedAttack = 0;
-    GD.Print("player attack 0 to opponent. opponent health remaining: ", opponent.ReduceHealth(player.GetAttackStrength(0))); // to remove
-    isPlayerTurn = 0; // to remove
     minigameResult = -1;
-    // CREATE MINIGAME
-    minigameResult = 100; // to remove
+    AddChild(PowerSliderMinigame.Instance());
   }
 
-  private void _on_B1_pressed() { // DEBUG: spawns slider minigame
+  private void _on_B1_pressed() {
     if (CheckAttackSignalPermission() == 1) return;
     queuedAttack = 1;
-    GD.Print("player attack 1 to opponent. opponent health remaining: ", opponent.ReduceHealth(player.GetAttackStrength(1))); // to remove
-    isPlayerTurn = 0; // to remove
     minigameResult = -1;
     AddChild(PowerSliderMinigame.Instance()); // some logic to determine what minigame to create will be needed eventually
-    minigameResult = 100; // to remove
   }
 
   private void _on_B2_pressed() {
     if (CheckAttackSignalPermission() == 1) return;
     queuedAttack = 2;
-    GD.Print("player attack 2 to opponent. opponent health remaining: ", opponent.ReduceHealth(player.GetAttackStrength(2))); // to remove
-    isPlayerTurn = 0; // to remove
     minigameResult = -1;
-    // CREATE MINIGAME
-    minigameResult = 100; // to remove
+    AddChild(PowerSliderMinigame.Instance());
   }
 
   private void _on_B3_pressed() {
     if (CheckAttackSignalPermission() == 1) return;
     queuedAttack = 3;
-    GD.Print("player attack 3 to opponent. opponent health remaining: ", opponent.ReduceHealth(player.GetAttackStrength(3))); // to remove
-    isPlayerTurn = 0; // to remove
     minigameResult = -1;
-    // CREATE MINIGAME
-    minigameResult = 100; // to remove
+    AddChild(PowerSliderMinigame.Instance());
   }
 }

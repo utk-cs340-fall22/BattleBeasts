@@ -74,7 +74,6 @@ public class TeamSelect : CanvasLayer
       beastSelector.AddItem((String) beast["name"], i);
 
       // debug
-      GD.Print("Added: ", beast["name"]);
     }
 
     /* Add modifier selections */
@@ -84,7 +83,6 @@ public class TeamSelect : CanvasLayer
       modifierSelector.AddItem((String) modifier["name"], i);
 
       // debug
-      GD.Print("Added: ", modifier["name"]);
     }
     
     /* Add attack selections */
@@ -97,7 +95,6 @@ public class TeamSelect : CanvasLayer
       attack3Selector.AddItem((String) attack["name"], i);
 
       // debug
-      GD.Print("Added: ", attack["name"]);
     }
   }
 
@@ -121,7 +118,7 @@ public class TeamSelect : CanvasLayer
     attackSet = new int[] {1, 1, 1, 1};
     playerMaxHealth = 100;
     player.Init("player", attackSet, playerMaxHealth);
-    player.Position = new Vector2(500, 200);
+    player.Position = new Vector2(500, 300);
     player.Scale = new Vector2(6, 6);
     tex = ResourceLoader.Load("res://Assets/Character Sprites/Alzrius-1.png") as Texture;
     player.GetNode<Sprite>("Texture").Texture = tex;
