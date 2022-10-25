@@ -1,0 +1,185 @@
+-e 
+Fight.cs
+
+321f7526 (Jake Looney    2022-10-24 19:58:05 -0400  23)   private AudioStreamPlayer music, musicP, musicO, se;
+eaf57961 (Jake Looney    2022-10-24 19:30:02 -0400 119)     
+eaf57961 (Jake Looney    2022-10-24 19:30:02 -0400 120)     /* Music */
+eaf57961 (Jake Looney    2022-10-24 19:30:02 -0400 121)    StartMusic();
+eaf57961 (Jake Looney    2022-10-24 19:30:02 -0400 122)     
+eaf57961 (Jake Looney    2022-10-24 19:30:02 -0400 187)   private void StartMusic(){
+321f7526 (Jake Looney    2022-10-24 19:58:05 -0400 188)     se = g.GetNode<AudioStreamPlayer>("SoundEffects");
+eaf57961 (Jake Looney    2022-10-24 19:30:02 -0400 189)     music = g.GetNode<AudioStreamPlayer>("Music");
+321f7526 (Jake Looney    2022-10-24 19:58:05 -0400 190)     musicP = g.GetNode<AudioStreamPlayer>("MusicPlayer");
+321f7526 (Jake Looney    2022-10-24 19:58:05 -0400 191)     musicO = g.GetNode<AudioStreamPlayer>("MusicOpponent");
+eaf57961 (Jake Looney    2022-10-24 19:30:02 -0400 192)     music.Stop();
+eaf57961 (Jake Looney    2022-10-24 19:30:02 -0400 193)     music.Stream = ResourceLoader.Load("res://Assets/Music/BattleThemeBase.mp3") as AudioStream;
+321f7526 (Jake Looney    2022-10-24 19:58:05 -0400 194) 
+449d1f03 (Jake Looney    2022-10-24 22:40:00 -0400 195)         
+321f7526 (Jake Looney    2022-10-24 19:58:05 -0400 196)     /* Is this how I should be determing what beasts are playing? */
+321f7526 (Jake Looney    2022-10-24 19:58:05 -0400 197)     if(g.playerBeastIndex == 0)
+321f7526 (Jake Looney    2022-10-24 19:58:05 -0400 198)       musicP.Stream = ResourceLoader.Load("res://Assets/Music/AurilMelody.mp3") as AudioStream;
+321f7526 (Jake Looney    2022-10-24 19:58:05 -0400 199)     if(g.playerBeastIndex == 1)
+449d1f03 (Jake Looney    2022-10-24 22:40:00 -0400 200)       musicP.Stream = ResourceLoader.Load("res://Assets/Music/SolanacMelody.mp3") as AudioStream;
+321f7526 (Jake Looney    2022-10-24 19:58:05 -0400 201)     if(g.playerBeastIndex == 2)
+449d1f03 (Jake Looney    2022-10-24 22:40:00 -0400 202)       musicP.Stream = ResourceLoader.Load("res://Assets/Music/AlzriusMelody.mp3") as AudioStream;
+449d1f03 (Jake Looney    2022-10-24 22:40:00 -0400 203)     if(g.playerBeastIndex == 3) {}
+449d1f03 (Jake Looney    2022-10-24 22:40:00 -0400 204)       /* here goes the glabbagool */
+449d1f03 (Jake Looney    2022-10-24 22:40:00 -0400 205)     if(g.playerBeastIndex == 4) {}
+449d1f03 (Jake Looney    2022-10-24 22:40:00 -0400 206)       /* here goes Bunpir */
+449d1f03 (Jake Looney    2022-10-24 22:40:00 -0400 207)     
+321f7526 (Jake Looney    2022-10-24 19:58:05 -0400 208)     
+321f7526 (Jake Looney    2022-10-24 19:58:05 -0400 209)     /* Same for here, how do I access the opponent beast */
+321f7526 (Jake Looney    2022-10-24 19:58:05 -0400 210)     if(g.oppBeast[0] == 0)
+321f7526 (Jake Looney    2022-10-24 19:58:05 -0400 211)       musicO.Stream = ResourceLoader.Load("res://Assets/Music/AurilAcc.mp3") as AudioStream;
+321f7526 (Jake Looney    2022-10-24 19:58:05 -0400 212)     if(g.oppBeast[0] == 1)
+449d1f03 (Jake Looney    2022-10-24 22:40:00 -0400 213)       musicO.Stream = ResourceLoader.Load("res://Assets/Music/SolanacAcc.mp3") as AudioStream;
+321f7526 (Jake Looney    2022-10-24 19:58:05 -0400 214)     if(g.oppBeast[0] == 2)
+449d1f03 (Jake Looney    2022-10-24 22:40:00 -0400 215)       musicO.Stream = ResourceLoader.Load("res://Assets/Music/AlzriusAcc.mp3") as AudioStream;
+449d1f03 (Jake Looney    2022-10-24 22:40:00 -0400 216)     if(g.oppBeast[0] == 3) {}
+449d1f03 (Jake Looney    2022-10-24 22:40:00 -0400 217)       /* Here goes the glabbagool */
+449d1f03 (Jake Looney    2022-10-24 22:40:00 -0400 218)     if(g.oppBeast[0] == 4) {}
+449d1f03 (Jake Looney    2022-10-24 22:40:00 -0400 219)       /* Here goes bunpir */
+321f7526 (Jake Looney    2022-10-24 19:58:05 -0400 220) 
+eaf57961 (Jake Looney    2022-10-24 19:30:02 -0400 221)     music.Play();
+321f7526 (Jake Looney    2022-10-24 19:58:05 -0400 222)     musicP.Play();
+321f7526 (Jake Looney    2022-10-24 19:58:05 -0400 223)     musicO.Play();
+eaf57961 (Jake Looney    2022-10-24 19:30:02 -0400 224)     
+eaf57961 (Jake Looney    2022-10-24 19:30:02 -0400 225)   }
+eaf57961 (Jake Looney    2022-10-24 19:30:02 -0400 226) 
+-e 
+Credits.cs
+
+449d1f03 (Jake Looney         2022-10-24 22:40:00 -0400 10)   private AudioStreamPlayer se;
+449d1f03 (Jake Looney         2022-10-24 22:40:00 -0400 56)     se = GetNode<AudioStreamPlayer>("/root/Gm/SoundEffects");
+449d1f03 (Jake Looney         2022-10-24 22:40:00 -0400 57)     se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
+449d1f03 (Jake Looney         2022-10-24 22:40:00 -0400 58)     se.Play();
+449d1f03 (Jake Looney         2022-10-24 22:40:00 -0400 59)     
+-e 
+MainMenu.cs
+
+5f590c00 (Jake Looney         2022-10-24 19:04:38 -0400  6)   private Globals globals;
+5f590c00 (Jake Looney         2022-10-24 19:04:38 -0400  8)   private AudioStreamPlayer se;
+5f590c00 (Jake Looney         2022-10-24 19:04:38 -0400 12)     globals = GetNode<Globals>("/root/Gm");
+5f590c00 (Jake Looney         2022-10-24 19:04:38 -0400 24)     se = globals.GetNode<AudioStreamPlayer>("SoundEffects");
+5f590c00 (Jake Looney         2022-10-24 19:04:38 -0400 25)     se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
+5f590c00 (Jake Looney         2022-10-24 19:04:38 -0400 26)     se.Play();
+5f590c00 (Jake Looney         2022-10-24 19:04:38 -0400 27)      
+5f590c00 (Jake Looney         2022-10-24 19:04:38 -0400 37)     se = globals.GetNode<AudioStreamPlayer>("SoundEffects");
+5f590c00 (Jake Looney         2022-10-24 19:04:38 -0400 38)     se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
+5f590c00 (Jake Looney         2022-10-24 19:04:38 -0400 39)     se.Play();  
+5f590c00 (Jake Looney         2022-10-24 19:04:38 -0400 40)     
+5f590c00 (Jake Looney         2022-10-24 19:04:38 -0400 46)     se = globals.GetNode<AudioStreamPlayer>("SoundEffects");
+5f590c00 (Jake Looney         2022-10-24 19:04:38 -0400 47)     se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
+5f590c00 (Jake Looney         2022-10-24 19:04:38 -0400 48)     se.Play();
+5f590c00 (Jake Looney         2022-10-24 19:04:38 -0400 49)     
+-e 
+OptionsMenu2.cs
+
+449d1f03 (Jake Looney         2022-10-24 22:40:00 -0400  9)     private AudioStreamPlayer audio, se;
+449d1f03 (Jake Looney         2022-10-24 22:40:00 -0400 20)         se = GetNode<AudioStreamPlayer>("/root/Gm/SoundEffects");
+449d1f03 (Jake Looney         2022-10-24 22:40:00 -0400 35)       se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
+449d1f03 (Jake Looney         2022-10-24 22:40:00 -0400 36)       se.Play();
+449d1f03 (Jake Looney         2022-10-24 22:40:00 -0400 37)       
+449d1f03 (Jake Looney         2022-10-24 22:40:00 -0400 48)         se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
+449d1f03 (Jake Looney         2022-10-24 22:40:00 -0400 49)         se.Play();
+449d1f03 (Jake Looney         2022-10-24 22:40:00 -0400 50)       
+-e 
+TeamSelect.cs
+
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400  21)   private AudioStreamPlayer se;
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400  22)   
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 104)     g = (Globals)GetNode("/root/Gm");
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 105)     
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 106)     se = g.GetNode<AudioStreamPlayer>("SoundEffects");
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 107)     
+a580b0ee (Jake Looney    2022-10-24 22:09:34 -0400 123)     tex = ResourceLoader.Load("res://Assets/Character Sprites/Auril-1.png") as Texture;
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 148)     
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 149)     /* Play menu sound */
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 150)     se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 151)     se.Play();
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 152)   }
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 153)   
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 154)   /* These all just play the menu sound */
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 155)   private void _on_Modifier_item_selected(int index)
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 156)   {
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 157)     se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 158)     se.Play();
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 159)   }
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 160)   
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 161)   private void _on_Attack0_item_selected(int index)
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 162)   {
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 163)     se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 164)     se.Play();
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 165)   }
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 166)   
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 167)   private void _on_Attack1_item_selected(int index)
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 168)   {
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 169)     se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 170)     se.Play();
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 171)   }
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 172)   
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 173)   private void _on_Attack2_item_selected(int index)
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 174)   {
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 175)     se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 176)     se.Play();
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 177)   }
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 178)   
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 179)   private void _on_Attack3_item_selected(int index)
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 180)   {
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 181)     se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 182)     se.Play();
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 187)     /* Plays sound */
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 188)     se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 189)     se.Play();
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 190)     
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 196)     // moved this to _Ready()
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 197)     //  g = (Globals)GetNode("/root/Gm");
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 205)     
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 206)     /* Play sound effect */
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 207)     se = g.GetNode<AudioStreamPlayer>("SoundEffects");
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 208)     se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 209)     se.Play();
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 210)     
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 214) 
+d40c495d (Jake Looney    2022-10-24 19:20:57 -0400 215) 
+-e 
+TitleMenu.cs
+
+819b0780 (Jake Looney    2022-10-24 23:05:28 -0400  2) using Godot.Collections;
+321f7526 (Jake Looney    2022-10-24 19:58:05 -0400  9)   private AudioStreamPlayer music, musicP, musicO, se;
+d926cee8 (Jake Looney    2022-10-18 09:20:13 -0400 10)   private Globals globals;
+819b0780 (Jake Looney    2022-10-24 23:05:28 -0400 14)   private static Dictionary _beastOptions = null;
+819b0780 (Jake Looney    2022-10-24 23:05:28 -0400 15)   
+819b0780 (Jake Looney    2022-10-24 23:05:28 -0400 16)   private Dictionary beastOptions {
+819b0780 (Jake Looney    2022-10-24 23:05:28 -0400 17)     get {
+819b0780 (Jake Looney    2022-10-24 23:05:28 -0400 18)       if (_beastOptions == null) {
+819b0780 (Jake Looney    2022-10-24 23:05:28 -0400 19)         var file = new File();
+819b0780 (Jake Looney    2022-10-24 23:05:28 -0400 20)         file.Open("res://Data/Beasts.json", File.ModeFlags.Read);
+819b0780 (Jake Looney    2022-10-24 23:05:28 -0400 21)         var text = file.GetAsText();
+819b0780 (Jake Looney    2022-10-24 23:05:28 -0400 22)         _beastOptions = JSON.Parse(text).Result as Dictionary;
+819b0780 (Jake Looney    2022-10-24 23:05:28 -0400 23)       }
+819b0780 (Jake Looney    2022-10-24 23:05:28 -0400 24)       return _beastOptions;
+819b0780 (Jake Looney    2022-10-24 23:05:28 -0400 25)     }
+819b0780 (Jake Looney    2022-10-24 23:05:28 -0400 26)   }
+819b0780 (Jake Looney    2022-10-24 23:05:28 -0400 27)   
+d926cee8 (Jake Looney    2022-10-18 09:20:13 -0400 32)     globals = GetNode<Globals>("/root/Gm");
+d926cee8 (Jake Looney    2022-10-18 09:20:13 -0400 33)     music = globals.GetNode<AudioStreamPlayer>("Music");
+321f7526 (Jake Looney    2022-10-24 19:58:05 -0400 34)     musicP = globals.GetNode<AudioStreamPlayer>("MusicPlayer");
+321f7526 (Jake Looney    2022-10-24 19:58:05 -0400 35)     musicO = globals.GetNode<AudioStreamPlayer>("MusicOpponent");
+321f7526 (Jake Looney    2022-10-24 19:58:05 -0400 36)     
+eaf57961 (Jake Looney    2022-10-24 19:30:02 -0400 41)     music.Stop();
+321f7526 (Jake Looney    2022-10-24 19:58:05 -0400 42)     musicP.Stop();
+321f7526 (Jake Looney    2022-10-24 19:58:05 -0400 43)     musicO.Stop();
+eaf57961 (Jake Looney    2022-10-24 19:30:02 -0400 44)     music.Stream = ResourceLoader.Load("res://Assets/Music/TitleMusic.mp3") as AudioStream;
+819b0780 (Jake Looney    2022-10-24 23:05:28 -0400 53)       
+819b0780 (Jake Looney    2022-10-24 23:05:28 -0400 54)       Dictionary beast;
+819b0780 (Jake Looney    2022-10-24 23:05:28 -0400 55)       Texture tex;
+819b0780 (Jake Looney    2022-10-24 23:05:28 -0400 56)     
+819b0780 (Jake Looney    2022-10-24 23:05:28 -0400 57)       beast = beastOptions[(playcount % 5).ToString()] as Dictionary;
+819b0780 (Jake Looney    2022-10-24 23:05:28 -0400 58)       tex = ResourceLoader.Load((String) beast["texture"]) as Texture;
+819b0780 (Jake Looney    2022-10-24 23:05:28 -0400 59)       
+819b0780 (Jake Looney    2022-10-24 23:05:28 -0400 60)       GetNode<Sprite>("AnimationPlayer/Sprite").Texture = tex;
+5f590c00 (Jake Looney    2022-10-24 19:04:38 -0400 68)     se = globals.GetNode<AudioStreamPlayer>("SoundEffects");
+5f590c00 (Jake Looney    2022-10-24 19:04:38 -0400 69)     se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
+5f590c00 (Jake Looney    2022-10-24 19:04:38 -0400 70)     se.Play();
+5f590c00 (Jake Looney    2022-10-24 19:04:38 -0400 71)     
