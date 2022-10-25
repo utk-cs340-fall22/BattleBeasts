@@ -1,0 +1,301 @@
+
+Bracket.cs
+
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400  45)     for (int i = 0; i < 7; i++) g.oppName[i] = "CPU";
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400  46)     for (int i = 0; i < 7; i++) g.oppBeast[i] = -1;
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400  47)     g.playerBeastIndex = -1;
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400  49)     g.bracketSize = -1;
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400  50)     g.fightOutcome = -1;
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400  91)     g.oppName[opp] = (String) opponents["name"];
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400  92)     g.oppBeast[opp] = Int32.Parse((String) opponents["beast"]);
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400 107)     if (g.level == 0) beasts = beastsOps[(g.playerBeastIndex).ToString()] as Dictionary;
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400 120)       GetNode<Label>("Sprite" + (i+2).ToString() + "/Name").Text = g.oppName[i];
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400 182)     if (g.bracketSize == -1) {
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400 187)     if (g.bracketSize == 0) {
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400 192)     } else if (g.bracketSize == 1) {
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400 202)     if (g.fightOutcome == 1) Won();
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400 203)     else if (g.fightOutcome == 0) Lost();
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400 304)       if (g.bracketSize == 1) {
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400 317)     if (g.level == 2 && g.bracketSize == 1) {
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400 321)     if (g.level == 1 && g.bracketSize == 0) {
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400 334)     g.bracketSize = -1;
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400 335)     g.fightOutcome = 0;
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400 352)     g.bracketSize = 1;
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400 363)     g.bracketSize = 0;
+
+Fight.cs
+
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400   2) using Godot.Collections;
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400  10)   [Export]
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400  11)   public PackedScene PowerSliderMinigame;
+3b6edb20 (Colin Canonaco 2022-10-16 18:12:40 -0400  17)   int playerMaxHealth, opponentMaxHealth, isPlayerTurn, aiAttackChoice;
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400  18)   int queuedAttack; // index of submitted attack in attackSet of attacking fighter | -1 for no queued attack | integer in [0, 3] for player | integer in [10, 13] for opponent
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400  19)   int minigameResult; // -1: minigame active | [0, 100]: result of previous minigame, no minigame active
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  24)   private static Dictionary _beastOptions = null;
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  25)   private static Dictionary _modifierOptions = null;
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  26)   private static Dictionary _attackOptions = null;
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  27)   
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  28)   /* Make JSON files accessible */
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  29)   
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  30)   private Dictionary beastOptions {
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  31)     get {
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  32)       if (_beastOptions == null) {
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  33)         var file = new File();
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  34)         file.Open("res://Data/Beasts.json", File.ModeFlags.Read);
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  35)         var text = file.GetAsText();
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  36)         _beastOptions = JSON.Parse(text).Result as Dictionary;
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  37)       }
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  38)       return _beastOptions;
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  39)     }
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  40)   }
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  41) 
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  42)   private Dictionary modifierOptions {
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  43)     get {
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  44)       if (_modifierOptions == null) {
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  45)         var file = new File();
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  46)         file.Open("res://Data/Modifiers.json", File.ModeFlags.Read); // WILL BE MODIFIERS.JSON
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  47)         var text = file.GetAsText();
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  48)         _modifierOptions = JSON.Parse(text).Result as Dictionary;
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  49)       }
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  50)       return _modifierOptions;
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  51)     }
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  52)   }
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  53) 
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  54)   private Dictionary attackOptions {
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  55)     get {
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  56)       if (_attackOptions == null) {
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  57)         var file = new File();
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  58)         file.Open("res://Data/Attacks.json", File.ModeFlags.Read);
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  59)         var text = file.GetAsText();
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  60)         _attackOptions = JSON.Parse(text).Result as Dictionary;
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  61)       }
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  62)       return _attackOptions;
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  63)     }
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  64)   }
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  68)     Dictionary beast, modifier;
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  69)     
+3b6edb20 (Colin Canonaco 2022-10-16 18:12:40 -0400  74)     isPlayerTurn = 1;
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400  75)     minigameResult = 0;
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400  76)     queuedAttack = -1;
+3b6edb20 (Colin Canonaco 2022-10-16 18:12:40 -0400  77)     GD.Randomize();
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  83)     beast = beastOptions[g.playerBeastIndex.ToString()] as Dictionary;
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  84)     modifier = modifierOptions[g.playerModifierIndex.ToString()] as Dictionary;
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  85)     playerTexture = ResourceLoader.Load((String)beast["texture"]) as Texture;
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  89)     attackSet = new int[] {1, 5, 30, 1000};
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400  96)     pHealthBar.CreateLabel(g.name, (String)modifier["name"]);
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400 106)     attackSet = new int[] {1, 2, 13, 20};
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 125)   // AI chooses and performs an attack
+3b6edb20 (Colin Canonaco 2022-10-16 18:12:40 -0400 126)   public void AITakeTurn() {
+3b6edb20 (Colin Canonaco 2022-10-16 18:12:40 -0400 127)     /* Ensure method is called on opponent's turn */
+3b6edb20 (Colin Canonaco 2022-10-16 18:12:40 -0400 128) 
+3b6edb20 (Colin Canonaco 2022-10-16 18:12:40 -0400 129)     if (isPlayerTurn == 1) {
+3b6edb20 (Colin Canonaco 2022-10-16 18:12:40 -0400 130)       GD.Print("AI cannot take a turn on the player's turn");
+3b6edb20 (Colin Canonaco 2022-10-16 18:12:40 -0400 131)       return;
+3b6edb20 (Colin Canonaco 2022-10-16 18:12:40 -0400 132)     }
+3b6edb20 (Colin Canonaco 2022-10-16 18:12:40 -0400 133) 
+3b6edb20 (Colin Canonaco 2022-10-16 18:12:40 -0400 134)     /* Choose attack */
+3b6edb20 (Colin Canonaco 2022-10-16 18:12:40 -0400 135) 
+3b6edb20 (Colin Canonaco 2022-10-16 18:12:40 -0400 136)     aiAttackChoice = (int)(GD.Randi() % 4); // random number between 0 and 3
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 137)     queuedAttack = aiAttackChoice + 10;
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 138)     minigameResult = -1;
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 139)     // CREATE MINIGAME
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 140)     GD.Print("opponent attack ", aiAttackChoice, " to player. player health remaining: ", player.ReduceHealth(opponent.GetAttackStrength(aiAttackChoice))); // to remove
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 141)     minigameResult = 100; // to remove
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 142)     isPlayerTurn = 1; // to remove
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 143)   }
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 144) 
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 145)   // Returns 1 if attack button signals shouldn't be obeyed
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 146)   public int CheckAttackSignalPermission () {
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 147)     if (isPlayerTurn == 0) {
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 148)       GD.Print("Cannot attack on opponent's turn.");
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 149)       return 1;
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 150)     }
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 151)     if (minigameResult == -1) {
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 152)       GD.Print("Cannot attack during active minigame.");
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 153)       return 1;
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 154)     }
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 155) 
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 156)     return 0;
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 157)   }
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 158) 
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 159)   public void MinigameReturn(int result) {
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 160)     if (result < 0 || result > 100) {
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 161)       GD.Print("Minigames may only return integer values in [0, 100]");
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 162)       return;
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 163)     }
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 164)     minigameResult = result;
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 165)   }
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 166) 
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 167)   // Performs the queued attack whether its from the player or the opponent
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 168)   public void PerformQueuedAttack() {
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 169)     // no queued attack
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 170)     if (queuedAttack == -1) return;
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 171) 
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 172)     // opponent attacking
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 173)     if (queuedAttack >= 10) {
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 174)       GD.Print("opponent attack ", queuedAttack - 10, " to player. player health remaining: ", player.ReduceHealth(opponent.GetAttackStrength(queuedAttack - 10)));
+3b6edb20 (Colin Canonaco 2022-10-16 18:12:40 -0400 175)       isPlayerTurn = 1;
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 176)       queuedAttack = -1;
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 177)     }
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 178) 
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 179)     // player attacking
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 180)     else {
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 181)       GD.Print("player attack ", queuedAttack, " to opponent. opponent health remaining: ", opponent.ReduceHealth(player.GetAttackStrength(queuedAttack)));
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 182)       isPlayerTurn = 0;
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 183)       queuedAttack = -1;
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 184)     }
+3b6edb20 (Colin Canonaco 2022-10-16 18:12:40 -0400 185)   }
+3b6edb20 (Colin Canonaco 2022-10-16 18:12:40 -0400 186)   
+3b6edb20 (Colin Canonaco 2022-10-16 18:12:40 -0400 230)     /* End fight once a beast has 0 health */
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 233)       GD.Print("opponent defeated player");
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400 234)       g.fightOutcome = 0;
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 238)       GD.Print("player defeated opponent");
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400 239)       g.fightOutcome = 1;
+3b6edb20 (Colin Canonaco 2022-10-16 18:12:40 -0400 242)     
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 246)     /* Everything below is skipped if a minigame is active */
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 247) 
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 248)     if (minigameResult == -1) return;
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 249) 
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 250)     /* Perform queued attack */
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 251) 
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400 252)     PerformQueuedAttack(); // UNCOMMENT WHEN MINIGAMES DONT SOFTLOCK THE GAME
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 253) 
+3b6edb20 (Colin Canonaco 2022-10-16 18:12:40 -0400 254)     /* AI turn */
+3b6edb20 (Colin Canonaco 2022-10-16 18:12:40 -0400 255) 
+3b6edb20 (Colin Canonaco 2022-10-16 18:12:40 -0400 256)     // it seems signals can be recieved in the middle of _Process() so checking health here is necessary
+3b6edb20 (Colin Canonaco 2022-10-16 18:12:40 -0400 257)     if (isPlayerTurn == 0 && opponent.GetHealth() != 0) {
+3b6edb20 (Colin Canonaco 2022-10-16 18:12:40 -0400 258)       AITakeTurn();
+3b6edb20 (Colin Canonaco 2022-10-16 18:12:40 -0400 259)     }
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 265)     if (CheckAttackSignalPermission() == 1) return;
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 266)     queuedAttack = 0;
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 267)     minigameResult = -1;
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400 268)     AddChild(PowerSliderMinigame.Instance());
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400 271)   private void _on_B1_pressed() {
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 272)     if (CheckAttackSignalPermission() == 1) return;
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 273)     queuedAttack = 1;
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 274)     minigameResult = -1;
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 275)     AddChild(PowerSliderMinigame.Instance()); // some logic to determine what minigame to create will be needed eventually
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 279)     if (CheckAttackSignalPermission() == 1) return;
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 280)     queuedAttack = 2;
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 281)     minigameResult = -1;
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400 282)     AddChild(PowerSliderMinigame.Instance());
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 286)     if (CheckAttackSignalPermission() == 1) return;
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 287)     queuedAttack = 3;
+151edbbc (Colin Canonaco 2022-10-21 22:28:09 -0400 288)     minigameResult = -1;
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400 289)     AddChild(PowerSliderMinigame.Instance());
+
+Fighter.cs
+
+3b6edb20 (Colin Canonaco 2022-10-16 18:12:40 -0400 13)   Initialize as player or opponent and load stats
+
+Globals.cs
+
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400  7)     public string[] oppName = {"CPU", "CPU", "CPU", "CPU", "CPU", "CPU", "CPU"};
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400  8)     public int[] oppBeast = {-1, -1, -1, -1, -1, -1, -1};
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400 10)     public int bracketSize = -1;
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400 11)     public int fightOutcome = -1;   
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400 13)     public int playerBeastIndex = 0;
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400 14)     public int playerModifierIndex = 0;
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400 15)     public int[] playerAttackIndices = {0, 0, 0, 0};
+
+TeamSelect.cs
+
+5e5df89c (Colin Canonaco 2022-10-18 12:50:25 -0400   2) using Godot.Collections;
+5e5df89c (Colin Canonaco 2022-10-18 12:50:25 -0400   4) //using System.Collections.Generic;
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400  13)   private OptionButton beastSelector, modifierSelector;
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400  14)   private OptionButton attack0Selector, attack1Selector, attack2Selector, attack3Selector;
+5e5df89c (Colin Canonaco 2022-10-18 12:50:25 -0400  17)   private static Dictionary _beastOptions = null;
+5e5df89c (Colin Canonaco 2022-10-18 12:50:25 -0400  18)   private static Dictionary _modifierOptions = null;
+5e5df89c (Colin Canonaco 2022-10-18 12:50:25 -0400  19)   private static Dictionary _attackOptions = null;
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400  20)   
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400  23)   Globals g;
+10055c81 (Colin Canonaco 2022-10-18 09:44:36 -0400  24)   
+5e5df89c (Colin Canonaco 2022-10-18 12:50:25 -0400  29)   private Dictionary beastOptions {
+10055c81 (Colin Canonaco 2022-10-18 09:44:36 -0400  30)     get {
+5e5df89c (Colin Canonaco 2022-10-18 12:50:25 -0400  31)       if (_beastOptions == null) {
+10055c81 (Colin Canonaco 2022-10-18 09:44:36 -0400  32)         var file = new File();
+10055c81 (Colin Canonaco 2022-10-18 09:44:36 -0400  33)         file.Open("res://Data/Beasts.json", File.ModeFlags.Read);
+10055c81 (Colin Canonaco 2022-10-18 09:44:36 -0400  34)         var text = file.GetAsText();
+5e5df89c (Colin Canonaco 2022-10-18 12:50:25 -0400  35)         _beastOptions = JSON.Parse(text).Result as Dictionary;
+10055c81 (Colin Canonaco 2022-10-18 09:44:36 -0400  36)       }
+88a626a7 (Colin Canonaco 2022-10-18 13:52:24 -0400  37)       return _beastOptions;
+10055c81 (Colin Canonaco 2022-10-18 09:44:36 -0400  38)     }
+10055c81 (Colin Canonaco 2022-10-18 09:44:36 -0400  39)   }
+10055c81 (Colin Canonaco 2022-10-18 09:44:36 -0400  40) 
+10055c81 (Colin Canonaco 2022-10-18 09:44:36 -0400  41)   private Dictionary modifierOptions {
+10055c81 (Colin Canonaco 2022-10-18 09:44:36 -0400  42)     get {
+5e5df89c (Colin Canonaco 2022-10-18 12:50:25 -0400  43)       if (_modifierOptions == null) {
+10055c81 (Colin Canonaco 2022-10-18 09:44:36 -0400  44)         var file = new File();
+5e5df89c (Colin Canonaco 2022-10-18 12:50:25 -0400  45)         file.Open("res://Data/Modifiers.json", File.ModeFlags.Read); // WILL BE MODIFIERS.JSON
+10055c81 (Colin Canonaco 2022-10-18 09:44:36 -0400  46)         var text = file.GetAsText();
+5e5df89c (Colin Canonaco 2022-10-18 12:50:25 -0400  47)         _modifierOptions = JSON.Parse(text).Result as Dictionary;
+10055c81 (Colin Canonaco 2022-10-18 09:44:36 -0400  48)       }
+88a626a7 (Colin Canonaco 2022-10-18 13:52:24 -0400  49)       return _modifierOptions;
+10055c81 (Colin Canonaco 2022-10-18 09:44:36 -0400  50)     }
+10055c81 (Colin Canonaco 2022-10-18 09:44:36 -0400  51)   }
+10055c81 (Colin Canonaco 2022-10-18 09:44:36 -0400  52) 
+10055c81 (Colin Canonaco 2022-10-18 09:44:36 -0400  53)   private Dictionary attackOptions {
+10055c81 (Colin Canonaco 2022-10-18 09:44:36 -0400  54)     get {
+5e5df89c (Colin Canonaco 2022-10-18 12:50:25 -0400  55)       if (_attackOptions == null) {
+10055c81 (Colin Canonaco 2022-10-18 09:44:36 -0400  56)         var file = new File();
+10055c81 (Colin Canonaco 2022-10-18 09:44:36 -0400  57)         file.Open("res://Data/Attacks.json", File.ModeFlags.Read);
+10055c81 (Colin Canonaco 2022-10-18 09:44:36 -0400  58)         var text = file.GetAsText();
+5e5df89c (Colin Canonaco 2022-10-18 12:50:25 -0400  59)         _attackOptions = JSON.Parse(text).Result as Dictionary;
+10055c81 (Colin Canonaco 2022-10-18 09:44:36 -0400  60)       }
+88a626a7 (Colin Canonaco 2022-10-18 13:52:24 -0400  61)       return _attackOptions;
+10055c81 (Colin Canonaco 2022-10-18 09:44:36 -0400  62)     }
+5e5df89c (Colin Canonaco 2022-10-18 12:50:25 -0400  63)   }
+10055c81 (Colin Canonaco 2022-10-18 09:44:36 -0400  64)   
+5e5df89c (Colin Canonaco 2022-10-18 12:50:25 -0400  67)     int i;
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400  68)     Dictionary beast, modifier, attack;
+10055c81 (Colin Canonaco 2022-10-18 09:44:36 -0400  69) 
+5e5df89c (Colin Canonaco 2022-10-18 12:50:25 -0400  70)     /* Add beast selections */
+10055c81 (Colin Canonaco 2022-10-18 09:44:36 -0400  71) 
+88a626a7 (Colin Canonaco 2022-10-18 13:52:24 -0400  72)     for (i = 0; i < beastOptions.Count; i++) {
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400  73)       beast = beastOptions[i.ToString()] as Dictionary;
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400  74)       beastSelector.AddItem((String) beast["name"], i);
+5e5df89c (Colin Canonaco 2022-10-18 12:50:25 -0400  75) 
+88a626a7 (Colin Canonaco 2022-10-18 13:52:24 -0400  76)       // debug
+88a626a7 (Colin Canonaco 2022-10-18 13:52:24 -0400  77)     }
+5e5df89c (Colin Canonaco 2022-10-18 12:50:25 -0400  78) 
+5e5df89c (Colin Canonaco 2022-10-18 12:50:25 -0400  79)     /* Add modifier selections */
+fa62044f (Colin Canonaco 2022-10-19 14:47:32 -0400  81)     for (i = 0; i < modifierOptions.Count; i++) {
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400  82)       modifier = modifierOptions[i.ToString()] as Dictionary;
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400  83)       modifierSelector.AddItem((String) modifier["name"], i);
+fa62044f (Colin Canonaco 2022-10-19 14:47:32 -0400  84) 
+fa62044f (Colin Canonaco 2022-10-19 14:47:32 -0400  85)       // debug
+fa62044f (Colin Canonaco 2022-10-19 14:47:32 -0400  86)     }
+5e5df89c (Colin Canonaco 2022-10-18 12:50:25 -0400  88)     /* Add attack selections */
+5e5df89c (Colin Canonaco 2022-10-18 12:50:25 -0400  89) 
+fa62044f (Colin Canonaco 2022-10-19 14:47:32 -0400  90)     for (i = 0; i < attackOptions.Count; i++) {
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400  91)       attack = attackOptions[i.ToString()] as Dictionary;
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400  92)       attack0Selector.AddItem((String) attack["name"], i);
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400  93)       attack1Selector.AddItem((String) attack["name"], i);
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400  94)       attack2Selector.AddItem((String) attack["name"], i);
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400  95)       attack3Selector.AddItem((String) attack["name"], i);
+fa62044f (Colin Canonaco 2022-10-19 14:47:32 -0400  96) 
+fa62044f (Colin Canonaco 2022-10-19 14:47:32 -0400  97)       // debug
+fa62044f (Colin Canonaco 2022-10-19 14:47:32 -0400  98)     }
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400 108)     beastSelector = GetNode<OptionButton>("Beasts");
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400 109)     modifierSelector = GetNode<OptionButton>("Modifier");
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400 112)     attack0Selector = GetNode<OptionButton>("Attack0");
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400 113)     attack1Selector = GetNode<OptionButton>("Attack1");
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400 114)     attack2Selector = GetNode<OptionButton>("Attack2");
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400 115)     attack3Selector = GetNode<OptionButton>("Attack3");
+4a1cfca9 (Colin Canonaco 2022-10-24 20:59:58 -0400 121)     player.Position = new Vector2(500, 300);
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400 126)     // beastSelector.connect("ItemSelected", this, "OnBeastSelected");
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400 142)     Dictionary beast;
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400 144)     beast = beastOptions[beastSelector.GetSelectedId().ToString()] as Dictionary;
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400 145)     tex = ResourceLoader.Load((String)beast["texture"]) as Texture;
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400 198)     
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400 199)     g.playerBeastIndex = beastSelector.GetSelectedId();
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400 200)     g.playerModifierIndex = modifierSelector.GetSelectedId();
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400 201)     g.playerAttackIndices[0] = attack0Selector.GetSelectedId();
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400 202)     g.playerAttackIndices[1] = attack1Selector.GetSelectedId();
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400 203)     g.playerAttackIndices[2] = attack2Selector.GetSelectedId();
+d8c43b25 (Colin Canonaco 2022-10-24 01:27:29 -0400 204)     g.playerAttackIndices[3] = attack3Selector.GetSelectedId();
+5e5df89c (Colin Canonaco 2022-10-18 12:50:25 -0400 211)     GetTree().ChangeScene("res://Bracket/Bracket.tscn");
+
+Enter_Name.cs
+
+5e5df89c (Colin Canonaco 2022-10-18 12:50:25 -0400 29)     GetTree().ChangeScene("res://Menus/TeamSelect.tscn");
