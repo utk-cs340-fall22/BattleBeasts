@@ -5,8 +5,8 @@
     "health": 0,
     "armor": 0,
     "type": "Ice",
-    "modifiers": "100",
-    "attacks": "1111"
+    "modifiers": [0, 1, 2],
+    "attacks": [18, 19, 20, 21, 22, 23]
   },
   "1": {
     "name": "Solanac",
@@ -14,8 +14,8 @@
     "health": 0,
     "armor": 0,
     "type": "Poison",
-    "modifiers": "010",
-    "attacks": "1111"
+    "modifiers": [0, 1, 2],
+    "attacks": [12, 13, 14, 15, 16, 17]
   },
   "2": {
     "name": "Alzrius",
@@ -23,8 +23,8 @@
     "health": 0,
     "armor": 0,
     "type": "Fire",
-    "modifiers": "001",
-    "attacks": "1111"
+    "modifiers": [0, 1, 2],
+    "attacks": [0, 1, 2, 3, 4, 5]
   },
   "3": {
     "name": "Glabbagool",
@@ -32,8 +32,8 @@
     "health": 0,
     "armor": 0,
     "type": "Electric",
-    "modifiers": "000",
-    "attacks": "0000"
+    "modifiers": [0, 1, 2],
+    "attacks": [6, 7, 8, 9, 10, 11]
   },
   "4": {
     "name": "Bunpir",
@@ -41,7 +41,7 @@
     "health": 0,
     "armor": 0,
     "type": "Dark Magic",
-    "modifiers": "000",
-    "attacks": "0000"
+    "modifiers": [0, 1, 2],
+    "attacks": [24, 25, 26, 27, 28, 29]
   }
 }
