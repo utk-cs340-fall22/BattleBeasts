@@ -38,11 +38,15 @@ custom_fonts/font = SubResource( 2 )
 text = "Go!"
 
 [node name="Title" type="Label" parent="."]
-margin_top = 13.0
-margin_right = 1024.0
-margin_bottom = 81.0
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -462.0
+margin_top = 8.0
+margin_right = 564.0
+margin_bottom = 78.0
+rect_scale = Vector2( 0.9, 0.9 )
 custom_fonts/font = SubResource( 1 )
-text = "Build Your Beast!!"
+text = "Beast Customization"
 align = 1
 
 [node name="Fighter" parent="." instance=ExtResource( 2 )]
