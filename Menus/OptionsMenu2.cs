@@ -8,6 +8,7 @@ public class OptionsMenu2 : Control
     private CheckButton fullscreen;
     private AudioStreamPlayer audio, se;
     private HSlider vol;
+    private Control Pause;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -47,6 +48,8 @@ public class OptionsMenu2 : Control
     {
         se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
         se.Play();
+        Pause = GetNode<Control>("..");
+        Pause.Call("_set_options_open",false);
       
         this.Hide();
     }
