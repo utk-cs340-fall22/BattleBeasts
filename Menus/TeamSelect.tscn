@@ -1,7 +1,6 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Menus/TeamSelect.cs" type="Script" id=1]
-[ext_resource path="res://Fight/Fighter.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Fonts/PublicPixel-z84yD.ttf" type="DynamicFontData" id=3]
 
 [sub_resource type="DynamicFont" id=2]
@@ -49,7 +48,7 @@ custom_fonts/font = SubResource( 1 )
 text = "Beast Customization"
 align = 1
 
-[node name="Fighter" parent="." instance=ExtResource( 2 )]
+[node name="Beast Preview" type="Sprite" parent="."]
 
 [node name="Beasts" type="OptionButton" parent="."]
 margin_left = 15.0

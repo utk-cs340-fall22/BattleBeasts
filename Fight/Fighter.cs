@@ -1,13 +1,23 @@
 using Godot;
+using Godot.Collections;
 using System;
 
 public class Fighter : Sprite
 {
-  string controller; // fighter is controlled by player or the opponent (computer)
-  int health; // current health
-  int maxHealth; // max health
-  int[] attackStats = new int[4]; // attack damage for the 4 different attacks
   public Sprite texture;
+  string controller; // fighter is controlled by player or the opponent (computer)
+
+  string beastName; // beast name
+  int maxHealth; // max health
+  int health; // current health
+  int armor; // beast armor
+  string type; // beast type
+
+  string modifierName; // modifier name
+  int healthModifier, armorModifier;
+
+  int[] attackStats = new int[4]; // attack damage for the 4 different attacks
+  Dictionary[] attacksDict = new Dictionary[4];
 
   /*
   Initialize as player or opponent and load stats
@@ -15,23 +25,27 @@ public class Fighter : Sprite
   attackSet: array of attack IDs indicating what attacks this fighter has
   maxHealth: maximum health value
   */
-  public void Init(string controller, int[] attackSet, int maxHealth) {
+  public void Init(string controller, Dictionary beastDict, Dictionary modifierDict, Dictionary[] attacksDict) {
     int i;
     
-    // Load attack identifiers
+    // Load initialization data
     this.controller = controller;
-    this.maxHealth = maxHealth;
+    beastName = (string)beastDict["name"];
+    maxHealth = Convert.ToInt32(beastDict["health"]);
     health = maxHealth;
-    for (i = 0; i < attackSet.Length; i++) {
-      attackStats[i] = attackSet[i];
-    }
-    
+    armor = Convert.ToInt32(beastDict["armor"]);
+    type = (string)beastDict["type"];
+    modifierName = (string)modifierDict["name"];
+    healthModifier = Convert.ToInt32(modifierDict["health_modifier"]);
+    armorModifier = Convert.ToInt32(modifierDict["armor_modifier"]);
+    this.attacksDict = attacksDict;
 
     // debugging
     GD.Print("controller: ", controller);
-    for (i = 0; i < attackSet.Length; i++) {
-      GD.Print("attack", i, ": ", attackSet[i]);
-    }
+    GD.Print("maxHealth: ", maxHealth, " | armor: ", armor, " | type: ", type);
+    GD.Print("modifierName: ", modifierName, "healthModifier: ", healthModifier, "armorModifier: ", armorModifier);
+    
+    for (i = 0; i < attacksDict.Length; i++) GD.Print("attack", i, ": ", attacksDict[i]["name"]);
   }
 
   /*
@@ -40,7 +54,16 @@ public class Fighter : Sprite
   return: Damage value of attack
   */
   public int GetAttackStrength(int attackID) {
-    return attackStats[attackID];
+    return Convert.ToInt32(attacksDict[attackID]["strike_damage"]);
+  }
+
+  /*
+  Return how many strikes an attack performs
+  attackID: ID of the attack
+  return: Strike count of attack
+  */
+  public int GetAttackCount(int attackID) {
+    return Convert.ToInt32(attacksDict[attackID]["strike_count"]);
   }
 
   /*
@@ -49,6 +72,14 @@ public class Fighter : Sprite
   */
   public int GetHealth() {
     return health;
+  }
+
+  /*
+  Return this fighter's armor value
+  Return: Fighter's armor value
+  */
+  public int GetArmor() {
+    return armor;
   }
 
   /*

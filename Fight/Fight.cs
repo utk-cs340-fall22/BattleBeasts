@@ -66,6 +66,8 @@ public class Fight : Node
   // Called when the node enters the scene tree for the first time.
   public override void _Ready() {
     Dictionary beast, modifier;
+    Dictionary[] attacks = new Dictionary[4];
+    int i;
     
     g = (Globals)GetNode("/root/Gm");
     int[] attackSet = new int[4];
@@ -82,12 +84,12 @@ public class Fight : Node
     AddChild(player);
     beast = beastOptions[g.playerBeastIndex.ToString()] as Dictionary;
     modifier = modifierOptions[g.playerModifierIndex.ToString()] as Dictionary;
+    for (i = 0; i < g.playerAttackIndices.Length; i++) attacks[i] = attackOptions[g.playerAttackIndices[i].ToString()] as Dictionary;
     playerTexture = ResourceLoader.Load((String)beast["texture"]) as Texture;
     player.GetNode<Sprite>("Texture").Texture = playerTexture;
     player.Position = new Vector2(190, 280);
     player.Scale = new Vector2(6, 6);
-    attackSet = new int[] {1, 5, 30, 1000};
-    player.Init("player", attackSet, playerMaxHealth);
+    player.Init("player", beast, modifier, attacks);
 
     /* Initialize player health bar */
 
@@ -103,10 +105,9 @@ public class Fight : Node
     opponent.GetNode<Sprite>("Texture").Texture = opponentTexture;
     opponent.Position = new Vector2(850, 170);
     opponent.Scale = new Vector2(6, 6);
-    attackSet = new int[] {1, 2, 13, 20};
-    opponent.Init("opponent", attackSet, opponentMaxHealth);
+    opponent.Init("opponent", beast, modifier, attacks);
 
-     /* Initialize opponent health bar */ 
+    /* Initialize opponent health bar */
 
     oHealthBar = (HealthInterface)HPinterface.Instance();
     AddChild(oHealthBar);
@@ -118,8 +119,8 @@ public class Fight : Node
     GD.Print("opponent health: ", opponent.GetHealth());
     
     /* Music */
-   StartMusic();
-    
+
+    StartMusic();
   }
 
   // AI chooses and performs an attack
@@ -166,6 +167,8 @@ public class Fight : Node
 
   // Performs the queued attack whether its from the player or the opponent
   public void PerformQueuedAttack() {
+    int damage;
+
     // no queued attack
     if (queuedAttack == -1) return;
 
@@ -178,7 +181,10 @@ public class Fight : Node
 
     // player attacking
     else {
-      GD.Print("player attack ", queuedAttack, " to opponent. opponent health remaining: ", opponent.ReduceHealth(player.GetAttackStrength(queuedAttack)));
+      damage = player.GetAttackStrength(queuedAttack) - player.GetArmor();
+      if (damage < 1) damage = 1; // lowest damage dealt per strike is 1
+      opponent.ReduceHealth(damage * player.GetAttackCount(queuedAttack));
+      GD.Print("player attack ", queuedAttack, " dealt ", damage * player.GetAttackCount(queuedAttack), " damage. opponent health remaining: ", opponent.GetHealth());
       isPlayerTurn = 0;
       queuedAttack = -1;
     }
@@ -249,7 +255,7 @@ public class Fight : Node
 
     /* Perform queued attack */
 
-    PerformQueuedAttack(); // UNCOMMENT WHEN MINIGAMES DONT SOFTLOCK THE GAME
+    PerformQueuedAttack();
 
     /* AI turn */
 

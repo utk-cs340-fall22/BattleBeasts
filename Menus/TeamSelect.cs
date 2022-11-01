@@ -13,7 +13,7 @@ public class TeamSelect : CanvasLayer
   private OptionButton beastSelector, modifierSelector;
   private OptionButton attack0Selector, attack1Selector, attack2Selector, attack3Selector;
   private BaseButton goButton;
-  private Fighter player;
+  private Sprite player;
 
   private static Dictionary _beastOptions = null;
   private static Dictionary _modifierOptions = null;
@@ -23,8 +23,7 @@ public class TeamSelect : CanvasLayer
   
   Globals g;
   
-  int playerMaxHealth, attack0Prev, attack1Prev, attack2Prev, attack3Prev;
-  int[] attackSet;
+  int attack0Prev, attack1Prev, attack2Prev, attack3Prev;
   Texture tex;
   
   private Dictionary beastOptions {
@@ -166,10 +165,7 @@ public class TeamSelect : CanvasLayer
     attack2Selector = GetNode<OptionButton>("Attack2");
     attack3Selector = GetNode<OptionButton>("Attack3");
     
-    player = GetNode<Fighter>("Fighter");
-    attackSet = new int[] {1, 1, 1, 1};
-    playerMaxHealth = 100;
-    player.Init("player", attackSet, playerMaxHealth);
+    player = GetNode<Sprite>("Beast Preview");
     player.Position = new Vector2(500, 300);
     player.Scale = new Vector2(6, 6);
 
@@ -195,7 +191,7 @@ public class TeamSelect : CanvasLayer
     beast = beastOptions[beastSelector.GetSelectedId().ToString()] as Dictionary;
     tex = ResourceLoader.Load((String)beast["texture"]) as Texture;
   
-    player.GetNode<Sprite>("Texture").Texture = tex;
+    player.Texture = tex;
     
     /* Play menu sound */
     se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
@@ -297,10 +293,7 @@ public class TeamSelect : CanvasLayer
   }
   
   private void _on_Go_pressed()
-  {
-    // moved this to _Ready()
-    //  g = (Globals)GetNode("/root/Gm");
-    
+  {    
     g.playerBeastIndex = beastSelector.GetSelectedId();
     g.playerModifierIndex = modifierSelector.GetSelectedId();
     g.playerAttackIndices[0] = attack0Selector.GetSelectedId();
