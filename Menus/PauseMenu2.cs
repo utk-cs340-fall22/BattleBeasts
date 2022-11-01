@@ -38,20 +38,19 @@ public class PauseMenu2 : Control
     {
         Options = GetNode<Control>("OptionsMenu2");
         options_open = true;
-        //Options._Load_Options_Menu();
-        Options.Call("_Load_Options_Menu");
+        Options.Call("_Load_Options_Menu",true);
     }
     
     public void _set_options_open(bool i){
         options_open = i;
     }
 
-    // on escape key pressed we pull up the pause menu
     public override void _Process(float delta)
     {
         
     }
     
+    // on escape key pressed we pull up the pause menu
     public override void _Input(InputEvent inputEvent)
     {
         if (inputEvent.IsActionPressed("pause") && options_open == false)

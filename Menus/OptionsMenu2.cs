@@ -5,6 +5,7 @@ public class OptionsMenu2 : Control
 {
     int bus_index;
     float val;
+    bool parent;
     private CheckButton fullscreen;
     private AudioStreamPlayer audio, se;
     private HSlider vol;
@@ -14,6 +15,7 @@ public class OptionsMenu2 : Control
     public override void _Ready()
     {
         this.Hide();
+        parent = false;
         
         fullscreen = GetNode<CheckButton>("CenterContainer/VBoxContainer/FullscreenButton");
         audio = GetNode<AudioStreamPlayer>("/root/Gm/Music");
@@ -39,8 +41,9 @@ public class OptionsMenu2 : Control
         OS.WindowFullscreen = !OS.WindowFullscreen;
     }
     
-    public void _Load_Options_Menu()
+    public void _Load_Options_Menu(bool main)
     {
+        parent = main;
         this.Show();     
     }
     
@@ -48,8 +51,10 @@ public class OptionsMenu2 : Control
     {
         se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
         se.Play();
-        Pause = GetNode<Control>("..");
-        Pause.Call("_set_options_open",false);
+        if(parent){
+          Pause = GetNode<Control>("..");
+          Pause.Call("_set_options_open",false);
+        }
       
         this.Hide();
     }
