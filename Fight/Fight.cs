@@ -14,8 +14,8 @@ public class Fight : Node
 
 #pragma warning restore 649
   Globals g;
-  int playerMaxHealth, opponentMaxHealth, isPlayerTurn, aiAttackChoice;
-  int queuedAttack; // index of submitted attack in attackSet of attacking fighter | -1 for no queued attack | integer in [0, 3] for player | integer in [10, 13] for opponent
+  int isPlayerTurn, aiAttackChoice;
+  int queuedAttack; // index of submitted attack in attack dictionary of attacking fighter | -1 for no queued attack | integer in [0, 3] for player | integer in [10, 13] for opponent
   int minigameResult; // -1: minigame active | [0, 100]: result of previous minigame, no minigame active
   Fighter player, opponent;
   Texture playerTexture, opponentTexture;
@@ -70,9 +70,6 @@ public class Fight : Node
     int i;
     
     g = (Globals)GetNode("/root/Gm");
-    int[] attackSet = new int[4];
-    playerMaxHealth = 100;
-    opponentMaxHealth = 132;
     isPlayerTurn = 1;
     minigameResult = 0;
     queuedAttack = -1;
@@ -138,7 +135,6 @@ public class Fight : Node
     queuedAttack = aiAttackChoice + 10;
     minigameResult = -1;
     // CREATE MINIGAME
-    GD.Print("opponent attack ", aiAttackChoice, " to player. player health remaining: ", player.ReduceHealth(opponent.GetAttackStrength(aiAttackChoice))); // to remove
     minigameResult = 100; // to remove
     isPlayerTurn = 1; // to remove
   }
@@ -246,8 +242,8 @@ public class Fight : Node
       GetTree().ChangeScene("res://Bracket/Bracket.tscn");
     }
     
-    pHealthBar.AdjustHealth((player.GetHealth()* 100) / playerMaxHealth); // adjusts the player's HP bar
-    oHealthBar.AdjustHealth((opponent.GetHealth()* 100) / opponentMaxHealth); // adjusts the opponent's HP bar
+    pHealthBar.AdjustHealth((player.GetHealth() * 100) / player.GetMaxHealth()); // adjusts the player's HP bar
+    oHealthBar.AdjustHealth((opponent.GetHealth() * 100) / opponent.GetMaxHealth()); // adjusts the opponent's HP bar
     
     /* Everything below is skipped if a minigame is active */
 

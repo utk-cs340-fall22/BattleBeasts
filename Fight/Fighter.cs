@@ -31,19 +31,19 @@ public class Fighter : Sprite
     // Load initialization data
     this.controller = controller;
     beastName = (string)beastDict["name"];
-    maxHealth = Convert.ToInt32(beastDict["health"]);
-    health = maxHealth;
-    armor = Convert.ToInt32(beastDict["armor"]);
-    type = (string)beastDict["type"];
     modifierName = (string)modifierDict["name"];
     healthModifier = Convert.ToInt32(modifierDict["health_modifier"]);
     armorModifier = Convert.ToInt32(modifierDict["armor_modifier"]);
+    maxHealth = Convert.ToInt32(beastDict["health"]) + healthModifier;
+    health = maxHealth;
+    armor = Convert.ToInt32(beastDict["armor"]) + armorModifier;
+    type = (string)beastDict["type"];
     this.attacksDict = attacksDict;
 
     // debugging
     GD.Print("controller: ", controller);
     GD.Print("maxHealth: ", maxHealth, " | armor: ", armor, " | type: ", type);
-    GD.Print("modifierName: ", modifierName, "healthModifier: ", healthModifier, "armorModifier: ", armorModifier);
+    GD.Print("modifierName: ", modifierName, " | healthModifier: ", healthModifier, " | armorModifier: ", armorModifier);
     
     for (i = 0; i < attacksDict.Length; i++) GD.Print("attack", i, ": ", attacksDict[i]["name"]);
   }
@@ -72,6 +72,14 @@ public class Fighter : Sprite
   */
   public int GetHealth() {
     return health;
+  }
+
+  /*
+  Return this fighter's maximum health value
+  Return: Fighter's maximum health value
+  */
+  public int GetMaxHealth() {
+    return maxHealth;
   }
 
   /*
