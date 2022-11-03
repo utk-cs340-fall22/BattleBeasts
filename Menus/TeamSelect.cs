@@ -1,7 +1,8 @@
 using Godot;
 using Godot.Collections;
 using System;
-//using System.Collections.Generic;
+using System.Collections.Generic;
+using System.Linq;
 
 public class TeamSelect : CanvasLayer
 {
@@ -62,6 +63,11 @@ public class TeamSelect : CanvasLayer
     }
   }
 
+  private int IsInArray(int[] array, int num) {
+    foreach (int i in array) if (i == num) return 1;
+    return 0;
+  }
+
   private void MakeBeastSelection() {
     int i;
     Dictionary beast;
@@ -74,26 +80,95 @@ public class TeamSelect : CanvasLayer
     }
     beastSelector.Select(beastSelector.GetItemIndex(1000));
     beastSelector.SetItemDisabled(beastSelector.GetItemIndex(1000), true);
+
+    // set up default selector values for modifier and attacks then disable them
+    modifierSelector.Clear();
+    attack0Selector.Clear();
+    attack1Selector.Clear();
+    attack2Selector.Clear();
+    attack3Selector.Clear();
+    modifierSelector.AddItem("Modifier", 1000);
+    attack0Selector.AddItem("Attack 1", 1000);
+    attack1Selector.AddItem("Attack 2", 1000);
+    attack2Selector.AddItem("Attack 3", 1000);
+    attack3Selector.AddItem("Attack 4", 1000);
+    modifierSelector.Select(modifierSelector.GetItemIndex(1000));
+    attack0Selector.Select(attack0Selector.GetItemIndex(1000));
+    attack1Selector.Select(attack1Selector.GetItemIndex(1000));
+    attack2Selector.Select(attack2Selector.GetItemIndex(1000));
+    attack3Selector.Select(attack3Selector.GetItemIndex(1000));
+    modifierSelector.Disabled = true;
+    attack0Selector.Disabled = true;
+    attack1Selector.Disabled = true;
+    attack2Selector.Disabled = true;
+    attack3Selector.Disabled = true;
   }
 
   private void MakeModifierSelection() {
-    int i;
-    Dictionary modifier;
+    int i, selectedBeastIndex;
+    int[] modifiersAllowed;
+    Godot.Collections.Array beastGArray;
+    Dictionary beast, modifier;
 
+    // set up default selector values for attacks then disable
+    attack0Selector.Clear();
+    attack1Selector.Clear();
+    attack2Selector.Clear();
+    attack3Selector.Clear();
+    attack0Selector.AddItem("Attack 1", 1000);
+    attack1Selector.AddItem("Attack 2", 1000);
+    attack2Selector.AddItem("Attack 3", 1000);
+    attack3Selector.AddItem("Attack 4", 1000);
+    attack0Selector.Select(attack0Selector.GetItemIndex(1000));
+    attack1Selector.Select(attack1Selector.GetItemIndex(1000));
+    attack2Selector.Select(attack2Selector.GetItemIndex(1000));
+    attack3Selector.Select(attack3Selector.GetItemIndex(1000));
+    attack0Selector.Disabled = true;
+    attack1Selector.Disabled = true;
+    attack2Selector.Disabled = true;
+    attack3Selector.Disabled = true;
+    
+    // enable modifier selector, disable attack selectors, set up up modifier selector, get selected beast index
+    modifierSelector.Clear();
+    modifierSelector.Disabled = false;
+    attack0Selector.Disabled = true;
+    attack1Selector.Disabled = true;
+    attack2Selector.Disabled = true;
+    attack3Selector.Disabled = true;
     modifierSelector.AddItem("Modifier", 1000);
     modifierSelector.AddSeparator();
-    for (i = 0; i < modifierOptions.Count; i++) {
-      modifier = modifierOptions[i.ToString()] as Dictionary;
-      modifierSelector.AddItem((String) modifier["name"], i);
+    selectedBeastIndex = beastSelector.GetItemIndex(beastSelector.GetSelectedId());
+    
+    // find allowed options
+    beast = beastOptions[beastSelector.GetSelectedId().ToString()] as Dictionary;
+    beastGArray = (Godot.Collections.Array)beast["modifiers"];
+    modifiersAllowed = new int[beastGArray.Count];
+    for (i = 0; i < modifiersAllowed.Length; i++) modifiersAllowed[i] = (int)(float)beastGArray[i];
+    
+    // add options
+    foreach (int item in modifiersAllowed) {
+      modifier = modifierOptions[item.ToString()] as Dictionary;
+      modifierSelector.AddItem((String) modifier["name"], item);
     }
     modifierSelector.Select(modifierSelector.GetItemIndex(1000));
     modifierSelector.SetItemDisabled(modifierSelector.GetItemIndex(1000), true);
   }
 
   private void MakeAttackSelection() {
-    int i;
-    Dictionary attack;
+    int i, j;
+    int[] attacksAllowed, used;
+    Godot.Collections.Array beastGArray, modifierGArray;
+    Dictionary beast, modifier, attack;
 
+    // set up default attack selections
+    attack0Selector.Disabled = false;
+    attack1Selector.Disabled = false;
+    attack2Selector.Disabled = false;
+    attack3Selector.Disabled = false;
+    attack0Selector.Clear();
+    attack1Selector.Clear();
+    attack2Selector.Clear();
+    attack3Selector.Clear();
     attack0Selector.AddItem("Attack 1", 1000);
     attack1Selector.AddItem("Attack 2", 1000);
     attack2Selector.AddItem("Attack 3", 1000);
@@ -102,13 +177,6 @@ public class TeamSelect : CanvasLayer
     attack1Selector.AddSeparator();
     attack2Selector.AddSeparator();
     attack3Selector.AddSeparator();
-    for (i = 0; i < attackOptions.Count; i++) {
-      attack = attackOptions[i.ToString()] as Dictionary;
-      attack0Selector.AddItem((String) attack["name"], i);
-      attack1Selector.AddItem((String) attack["name"], i);
-      attack2Selector.AddItem((String) attack["name"], i);
-      attack3Selector.AddItem((String) attack["name"], i);
-    }
     attack0Selector.Select(attack0Selector.GetItemIndex(1000));
     attack1Selector.Select(attack1Selector.GetItemIndex(1000));
     attack2Selector.Select(attack2Selector.GetItemIndex(1000));
@@ -117,6 +185,30 @@ public class TeamSelect : CanvasLayer
     attack1Selector.SetItemDisabled(attack1Selector.GetItemIndex(1000), true);
     attack2Selector.SetItemDisabled(attack2Selector.GetItemIndex(1000), true);
     attack3Selector.SetItemDisabled(attack3Selector.GetItemIndex(1000), true);
+    
+    // find allowed options
+    beast = beastOptions[beastSelector.GetSelectedId().ToString()] as Dictionary;
+    modifier = modifierOptions[modifierSelector.GetSelectedId().ToString()] as Dictionary;
+    beastGArray = (Godot.Collections.Array)beast["attacks"];
+    modifierGArray = (Godot.Collections.Array)modifier["attacks"];
+    attacksAllowed = new int[beastGArray.Count + modifierGArray.Count];
+    for (i = 0; i < attacksAllowed.Length; i++) attacksAllowed[i] = -1;
+    for (i = 0; i < beastGArray.Count; i++) attacksAllowed[i] = (int)(float)beastGArray[i];
+    for (j = 0; j < modifierGArray.Count; j++) if (IsInArray(attacksAllowed, (int)(float)modifierGArray[j]) == 0) attacksAllowed[i + j] = (int)(float)modifierGArray[j];
+
+    // add options
+    used = new int[attacksAllowed.Length];
+    for (i = 0; i < used.Length; i++) used[i] = -1;
+    for (i = 0; i < attacksAllowed.Length; i++) {
+      if (IsInArray(used, i) == 0 && i != -1) {
+        used[i] = attacksAllowed[i];
+        attack = attackOptions[attacksAllowed[i].ToString()] as Dictionary;
+        attack0Selector.AddItem((String) attack["name"], attacksAllowed[i]);
+        attack1Selector.AddItem((String) attack["name"], attacksAllowed[i]);
+        attack2Selector.AddItem((String) attack["name"], attacksAllowed[i]);
+        attack3Selector.AddItem((String) attack["name"], attacksAllowed[i]);
+      }
+    }
   }
 
   // enables the Go button when all selections are valid
@@ -139,11 +231,9 @@ public class TeamSelect : CanvasLayer
     attack1Prev = -1;
     attack2Prev = -1;
     attack3Prev = -1;
-    /* Create selection options */
 
+    // Create selection options
     MakeBeastSelection();
-    MakeModifierSelection();
-    MakeAttackSelection();
   }
 
   // Called when the node enters the scene tree for the first time.
@@ -186,6 +276,7 @@ public class TeamSelect : CanvasLayer
   {    
     Dictionary beast;
 
+    MakeModifierSelection();
     areSelectionsValid();
     
     beast = beastOptions[beastSelector.GetSelectedId().ToString()] as Dictionary;
@@ -201,6 +292,7 @@ public class TeamSelect : CanvasLayer
   /* These all just play the menu sound */
   private void _on_Modifier_item_selected(int index)
   {
+    MakeAttackSelection();
     areSelectionsValid();
 
     se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
@@ -211,7 +303,7 @@ public class TeamSelect : CanvasLayer
   {
     areSelectionsValid();
 
-    if (attack3Prev != -1) {
+    if (attack0Prev != -1) {
       attack0Selector.SetItemDisabled(attack0Prev, false);
       attack1Selector.SetItemDisabled(attack0Prev, false);
       attack2Selector.SetItemDisabled(attack0Prev, false);
@@ -230,7 +322,7 @@ public class TeamSelect : CanvasLayer
   {
     areSelectionsValid();
 
-    if (attack3Prev != -1) {
+    if (attack1Prev != -1) {
       attack0Selector.SetItemDisabled(attack1Prev, false);
       attack1Selector.SetItemDisabled(attack1Prev, false);
       attack2Selector.SetItemDisabled(attack1Prev, false);
@@ -249,7 +341,7 @@ public class TeamSelect : CanvasLayer
   {
     areSelectionsValid();
 
-    if (attack3Prev != -1) {
+    if (attack2Prev != -1) {
       attack0Selector.SetItemDisabled(attack2Prev, false);
       attack1Selector.SetItemDisabled(attack2Prev, false);
       attack2Selector.SetItemDisabled(attack2Prev, false);
