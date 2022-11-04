@@ -49,7 +49,7 @@ public class OptionsMenu2 : Control
     
     private void _on_BackButton_pressed()
     {
-        se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
+        se.Stream = ResourceLoader.Load("res://Assets/Music/BackSound.tres") as AudioStream;
         se.Play();
         if(parent){
           Pause = GetNode<Control>("..");
