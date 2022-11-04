@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/BracketTheme.mp3-54f17c28c70745000a8f19a42403f53f.mp3str"
+
+[deps]
+
+source_file="res://Assets/Music/BracketTheme.mp3"
+dest_files=[ "res://.import/BracketTheme.mp3-54f17c28c70745000a8f19a42403f53f.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
