@@ -3,13 +3,14 @@ using System;
 
 public class PauseMenu2 : Control
 {
-    bool is_paused;
+    bool is_paused, options_open;
     private Control Options;
 
     // initialize the scene to be hidden
     public override void _Ready()
     {
         is_paused = false;
+        options_open = false;
         this.Hide();
     }
 
@@ -36,19 +37,23 @@ public class PauseMenu2 : Control
     private void _on_OptionButton_pressed()
     {
         Options = GetNode<Control>("OptionsMenu2");
-        //Options._Load_Options_Menu();
-        Options.Call("_Load_Options_Menu");
+        options_open = true;
+        Options.Call("_Load_Options_Menu",true);
+    }
+    
+    public void _set_options_open(bool i){
+        options_open = i;
     }
 
-    // on escape key pressed we pull up the pause menu
     public override void _Process(float delta)
     {
         
     }
     
+    // on escape key pressed we pull up the pause menu
     public override void _Input(InputEvent inputEvent)
     {
-        if (inputEvent.IsActionPressed("pause"))
+        if (inputEvent.IsActionPressed("pause") && options_open == false)
         {
             if(is_paused == true){
                 _SetPaused(false);

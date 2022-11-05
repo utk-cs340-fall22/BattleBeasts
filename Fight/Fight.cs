@@ -14,8 +14,8 @@ public class Fight : Node
 
 #pragma warning restore 649
   Globals g;
-  int playerMaxHealth, opponentMaxHealth, isPlayerTurn, aiAttackChoice;
-  int queuedAttack; // index of submitted attack in attackSet of attacking fighter | -1 for no queued attack | integer in [0, 3] for player | integer in [10, 13] for opponent
+  int isPlayerTurn, aiAttackChoice;
+  int queuedAttack; // index of submitted attack in attack dictionary of attacking fighter | -1 for no queued attack | integer in [0, 3] for player | integer in [10, 13] for opponent
   int minigameResult; // -1: minigame active | [0, 100]: result of previous minigame, no minigame active
   Fighter player, opponent;
   Texture playerTexture, opponentTexture;
@@ -66,11 +66,10 @@ public class Fight : Node
   // Called when the node enters the scene tree for the first time.
   public override void _Ready() {
     Dictionary beast, modifier;
+    Dictionary[] attacks = new Dictionary[4];
+    int i;
     
     g = (Globals)GetNode("/root/Gm");
-    int[] attackSet = new int[4];
-    playerMaxHealth = 100;
-    opponentMaxHealth = 132;
     isPlayerTurn = 1;
     minigameResult = 0;
     queuedAttack = -1;
@@ -82,12 +81,12 @@ public class Fight : Node
     AddChild(player);
     beast = beastOptions[g.playerBeastIndex.ToString()] as Dictionary;
     modifier = modifierOptions[g.playerModifierIndex.ToString()] as Dictionary;
+    for (i = 0; i < g.playerAttackIndices.Length; i++) attacks[i] = attackOptions[g.playerAttackIndices[i].ToString()] as Dictionary;
     playerTexture = ResourceLoader.Load((String)beast["texture"]) as Texture;
     player.GetNode<Sprite>("Texture").Texture = playerTexture;
     player.Position = new Vector2(190, 280);
     player.Scale = new Vector2(6, 6);
-    attackSet = new int[] {1, 5, 30, 1000};
-    player.Init("player", attackSet, playerMaxHealth);
+    player.Init("player", beast, modifier, attacks);
 
     /* Initialize player health bar */
 
@@ -103,10 +102,9 @@ public class Fight : Node
     opponent.GetNode<Sprite>("Texture").Texture = opponentTexture;
     opponent.Position = new Vector2(850, 170);
     opponent.Scale = new Vector2(6, 6);
-    attackSet = new int[] {1, 2, 13, 20};
-    opponent.Init("opponent", attackSet, opponentMaxHealth);
+    opponent.Init("opponent", beast, modifier, attacks);
 
-     /* Initialize opponent health bar */ 
+    /* Initialize opponent health bar */
 
     oHealthBar = (HealthInterface)HPinterface.Instance();
     AddChild(oHealthBar);
@@ -118,8 +116,8 @@ public class Fight : Node
     GD.Print("opponent health: ", opponent.GetHealth());
     
     /* Music */
-   StartMusic();
-    
+
+    StartMusic();
   }
 
   // AI chooses and performs an attack
@@ -137,7 +135,6 @@ public class Fight : Node
     queuedAttack = aiAttackChoice + 10;
     minigameResult = -1;
     // CREATE MINIGAME
-    GD.Print("opponent attack ", aiAttackChoice, " to player. player health remaining: ", player.ReduceHealth(opponent.GetAttackStrength(aiAttackChoice))); // to remove
     minigameResult = 100; // to remove
     isPlayerTurn = 1; // to remove
   }
@@ -166,6 +163,8 @@ public class Fight : Node
 
   // Performs the queued attack whether its from the player or the opponent
   public void PerformQueuedAttack() {
+    int damage;
+
     // no queued attack
     if (queuedAttack == -1) return;
 
@@ -178,7 +177,10 @@ public class Fight : Node
 
     // player attacking
     else {
-      GD.Print("player attack ", queuedAttack, " to opponent. opponent health remaining: ", opponent.ReduceHealth(player.GetAttackStrength(queuedAttack)));
+      damage = player.GetAttackStrength(queuedAttack) - player.GetArmor();
+      if (damage < 1) damage = 1; // lowest damage dealt per strike is 1
+      opponent.ReduceHealth(damage * player.GetAttackCount(queuedAttack));
+      GD.Print("player attack ", queuedAttack, " dealt ", damage * player.GetAttackCount(queuedAttack), " damage. opponent health remaining: ", opponent.GetHealth());
       isPlayerTurn = 0;
       queuedAttack = -1;
     }
@@ -201,22 +203,9 @@ public class Fight : Node
     if(g.playerBeastIndex == 2)
       musicP.Stream = ResourceLoader.Load("res://Assets/Music/AlzriusMelody.mp3") as AudioStream;
     if(g.playerBeastIndex == 3) {}
-      /* here goes the glabbagool */
+      musicP.Stream = ResourceLoader.Load("res://Assets/Music/BunpirMelody.mp3") as AudioStream;
     if(g.playerBeastIndex == 4) {}
-      /* here goes Bunpir */
-    
-    
-    /* Same for here, how do I access the opponent beast */
-    if(g.oppBeast[0] == 0)
-      musicO.Stream = ResourceLoader.Load("res://Assets/Music/AurilAcc.mp3") as AudioStream;
-    if(g.oppBeast[0] == 1)
-      musicO.Stream = ResourceLoader.Load("res://Assets/Music/SolanacAcc.mp3") as AudioStream;
-    if(g.oppBeast[0] == 2)
-      musicO.Stream = ResourceLoader.Load("res://Assets/Music/AlzriusAcc.mp3") as AudioStream;
-    if(g.oppBeast[0] == 3) {}
-      /* Here goes the glabbagool */
-    if(g.oppBeast[0] == 4) {}
-      /* Here goes bunpir */
+      musicP.Stream = ResourceLoader.Load("res://Assets/Music/GlabbagoolMelody.mp3") as AudioStream;
 
     music.Play();
     musicP.Play();
@@ -240,8 +229,8 @@ public class Fight : Node
       GetTree().ChangeScene("res://Bracket/Bracket.tscn");
     }
     
-    pHealthBar.AdjustHealth((player.GetHealth()* 100) / playerMaxHealth); // adjusts the player's HP bar
-    oHealthBar.AdjustHealth((opponent.GetHealth()* 100) / opponentMaxHealth); // adjusts the opponent's HP bar
+    pHealthBar.AdjustHealth((player.GetHealth() * 100) / player.GetMaxHealth()); // adjusts the player's HP bar
+    oHealthBar.AdjustHealth((opponent.GetHealth() * 100) / opponent.GetMaxHealth()); // adjusts the opponent's HP bar
     
     /* Everything below is skipped if a minigame is active */
 
@@ -249,7 +238,7 @@ public class Fight : Node
 
     /* Perform queued attack */
 
-    PerformQueuedAttack(); // UNCOMMENT WHEN MINIGAMES DONT SOFTLOCK THE GAME
+    PerformQueuedAttack();
 
     /* AI turn */
 

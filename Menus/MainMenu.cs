@@ -14,8 +14,8 @@ public class MainMenu : CanvasLayer
   
   private void _on_Exit_pressed()
   {
-  // Replace with function body.
-  GetTree().Quit();
+    // Replace with function body.
+    GetTree().Quit();
   }
 
 
@@ -25,10 +25,8 @@ public class MainMenu : CanvasLayer
     se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
     se.Play();
      
-  //GetTree().ChangeScene("res://Menus/OptionsMenu.tscn");
-        Options = GetNode<Control>("OptionsMenu2");
-        //Options._Load_Options_Menu();
-        Options.Call("_Load_Options_Menu");
+    Options = GetNode<Control>("OptionsMenu2");
+    Options.Call("_Load_Options_Menu",false);
   }
 
 
