@@ -378,7 +378,7 @@ public class TeamSelect : CanvasLayer
   private void _on_Back_pressed()
   {
     /* Plays sound */
-    se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
+    se.Stream = ResourceLoader.Load("res://Assets/Music/BackSound.tres") as AudioStream;
     se.Play();
     
     GetTree().ChangeScene("res://Menus/MainMenu.tscn");

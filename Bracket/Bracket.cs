@@ -11,6 +11,8 @@ public class Bracket: Node2D
   //Will be used for .json file
   private static Dictionary _beastsOps = null;
   private static Dictionary _opponentsOps = null;
+  
+  private AudioStreamPlayer music, musicP, se;
 
   private Dictionary opponentsOps 
   {
@@ -163,6 +165,18 @@ public class Bracket: Node2D
       }
     }
   }
+  
+    private void StartMusic(){
+    se = g.GetNode<AudioStreamPlayer>("SoundEffects");
+    music = g.GetNode<AudioStreamPlayer>("Music");
+    musicP = g.GetNode<AudioStreamPlayer>("MusicPlayer");
+    music.Stop();
+    musicP.Stop();
+    
+    music.Stream = ResourceLoader.Load("res://Assets/Music/BracketTheme.mp3") as AudioStream;
+    music.Play();
+
+  }
 
   //This is the function that gets called first
   public override void _Ready() 
@@ -214,6 +228,7 @@ public class Bracket: Node2D
     
     show_on_bracket();
     
+    StartMusic();
   }
   
  //This draws the bracket

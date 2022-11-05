@@ -203,22 +203,9 @@ public class Fight : Node
     if(g.playerBeastIndex == 2)
       musicP.Stream = ResourceLoader.Load("res://Assets/Music/AlzriusMelody.mp3") as AudioStream;
     if(g.playerBeastIndex == 3) {}
-      /* here goes the glabbagool */
+      musicP.Stream = ResourceLoader.Load("res://Assets/Music/BunpirMelody.mp3") as AudioStream;
     if(g.playerBeastIndex == 4) {}
-      /* here goes Bunpir */
-    
-    
-    /* Same for here, how do I access the opponent beast */
-    if(g.oppBeast[0] == 0)
-      musicO.Stream = ResourceLoader.Load("res://Assets/Music/AurilAcc.mp3") as AudioStream;
-    if(g.oppBeast[0] == 1)
-      musicO.Stream = ResourceLoader.Load("res://Assets/Music/SolanacAcc.mp3") as AudioStream;
-    if(g.oppBeast[0] == 2)
-      musicO.Stream = ResourceLoader.Load("res://Assets/Music/AlzriusAcc.mp3") as AudioStream;
-    if(g.oppBeast[0] == 3) {}
-      /* Here goes the glabbagool */
-    if(g.oppBeast[0] == 4) {}
-      /* Here goes bunpir */
+      musicP.Stream = ResourceLoader.Load("res://Assets/Music/GlabbagoolMelody.mp3") as AudioStream;
 
     music.Play();
     musicP.Play();
