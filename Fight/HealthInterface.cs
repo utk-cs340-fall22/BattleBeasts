@@ -15,6 +15,11 @@ public class HealthInterface : Control
     {
         GetNode<Label>("UserMods").Text = name + " / " + modifier;
     }
+
+    public void UpdateHealthFrac(int maxHealth, int currHealth)
+    {
+        GetNode<Label>("HealthFrac").Text = currHealth + " / " + maxHealth;
+    }
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
