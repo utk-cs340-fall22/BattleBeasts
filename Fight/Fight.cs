@@ -93,6 +93,7 @@ public class Fight : Node
     pHealthBar = (HealthInterface)HPinterface.Instance();
     AddChild(pHealthBar);
     pHealthBar.CreateLabel(g.name, (String)modifier["name"]);
+   
 
     /* Initialize opponent character */
 
@@ -230,7 +231,9 @@ public class Fight : Node
     }
     
     pHealthBar.AdjustHealth((player.GetHealth() * 100) / player.GetMaxHealth()); // adjusts the player's HP bar
+    pHealthBar.UpdateHealthFrac(player.GetMaxHealth(), player.GetHealth()); // adjusts players's HP fraction
     oHealthBar.AdjustHealth((opponent.GetHealth() * 100) / opponent.GetMaxHealth()); // adjusts the opponent's HP bar
+    oHealthBar.UpdateHealthFrac(opponent.GetMaxHealth(), opponent.GetHealth()); // adjusts opponent's HP fraction
     
     /* Everything below is skipped if a minigame is active */
 

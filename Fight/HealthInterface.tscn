@@ -27,6 +27,15 @@ theme = ExtResource( 2 )
 step = 1.0
 value = 100.0
 rounded = true
+percent_visible = false
+
+[node name="HealthFrac" type="Label" parent="."]
+margin_left = 746.0
+margin_top = 546.0
+margin_right = 886.0
+margin_bottom = 577.0
+align = 1
+valign = 1
 
 [node name="UserMods" type="Label" parent="."]
 margin_left = 684.0
