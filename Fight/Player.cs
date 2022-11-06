@@ -4,12 +4,12 @@ using System;
 
 public class Player : KinematicBody2D
 {
-    [Export] public int speed = 200;
-    public Vector2 velocity = new Vector2();
-    Vector2 startpos;
+    [Export] public int speed = 300;
     private static Dictionary _beastOptions = null;
-    Globals g;
+    public Vector2 velocity = new Vector2();
     Texture playerTexture;
+    Vector2 startpos;
+    Globals g;
     
     
     private Dictionary beastOptions {
@@ -29,12 +29,14 @@ public class Player : KinematicBody2D
     {
         Dictionary beast;
       
+        // start the beast in middle of screen
         startpos.x = GetViewport().Size.x/2;
         startpos.y = GetViewport().Size.y/2;
         this.Position = startpos;
         
         g = (Globals)GetNode("/root/Gm");
         
+        // import beast texture and set it
         beast = beastOptions[g.playerBeastIndex.ToString()] as Dictionary;
         playerTexture = ResourceLoader.Load((String)beast["texture"]) as Texture;
         GetNode<Sprite>("Texture").Texture = playerTexture;
