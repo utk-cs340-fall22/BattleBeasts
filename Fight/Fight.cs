@@ -96,10 +96,10 @@ public class Fight : Node
    
 
     /* Initialize opponent character */
-
+    beast = beastOptions[g.currBeast.ToString()] as Dictionary;
     opponent = (Fighter)Fighter.Instance();
     AddChild(opponent);
-    opponentTexture = ResourceLoader.Load("res://Assets/Character Sprites/Alzrius-1.png") as Texture;
+    opponentTexture = ResourceLoader.Load((String) beast["texture"]) as Texture;
     opponent.GetNode<Sprite>("Texture").Texture = opponentTexture;
     opponent.Position = new Vector2(850, 170);
     opponent.Scale = new Vector2(6, 6);
@@ -111,7 +111,7 @@ public class Fight : Node
     AddChild(oHealthBar);
     Vector2 oHpBar = new Vector2(-600, -500);
     oHealthBar.SetPosition(oHpBar, false);
-    oHealthBar.CreateLabel("opponent", "modifier"); // need to change to accept opponent name & modifier
+    oHealthBar.CreateLabel(g.oppName[g.currBeast], "modifier"); // need to change to accept opponent name & modifier
 
     // debug
     GD.Print("opponent health: ", opponent.GetHealth());

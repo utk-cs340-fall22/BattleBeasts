@@ -10,11 +10,11 @@ margin_right = 73.0
 margin_bottom = 69.0
 expand = true
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="Background" type="TextureRect" parent="."]
 show_behind_parent = true
 margin_right = 1033.0
 margin_bottom = 602.0
-color = Color( 0.333333, 0.435294, 0.235294, 1 )
+expand = true
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 704, 160 )
@@ -116,8 +116,10 @@ margin_right = 295.0
 margin_bottom = 76.0
 
 [node name="Player" type="Sprite" parent="."]
+scale = Vector2( 2, 2 )
 
 [node name="Other" type="Sprite" parent="."]
+scale = Vector2( 2, 2 )
 
 [connection signal="draw" from="." to="." method="_Draw"]
 [connection signal="pressed" from="Continue" to="." method="_on_Continue_pressed"]
