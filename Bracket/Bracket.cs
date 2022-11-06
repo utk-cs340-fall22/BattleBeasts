@@ -123,14 +123,31 @@ public class Bracket: Node2D
   private void get_random_beast(Dictionary opponents, int opp) 
   {
     Godot.Collections.Array attacks;
+    Dictionary beast;
     Random rnd = new Random();
     int num = rnd.Next();
     opponents = opponentsOps[(num % 5).ToString()] as Dictionary;
+    beast = beastsOps[(num % 5).ToString()] as Dictionary;
+    attacks = (Godot.Collections.Array)beast["attacks"];
     g.oppName[opp] = (String) opponents["name"];
     g.oppBeast[opp] = Int32.Parse((String) opponents["beast"]);
     num = rnd.Next() % 3;
     g.oppMods[opp] = num;
     
+    for (int i = 0; i < 4; i++) {
+      num = rnd.Next();
+      num %= 6;
+      g.oppAttacks[opp,i] = (int)(float)attacks[num];
+      for (int j = 0; j < i; j++) {
+        if (g.oppAttacks[opp, i] == g.oppAttacks[opp, j]) {
+          i--;
+          break;
+        }
+      }
+    }
+
+
+    GD.Print((String) beast["name"] + ": " + g.oppAttacks[opp,0] + " " + g.oppAttacks[opp, 1] + " " + g.oppAttacks[opp, 2] + " " + g.oppAttacks[opp, 3]);
   }
 
   //This is what the user is greeted with when first entering the bracket
@@ -314,8 +331,8 @@ public class Bracket: Node2D
   GetNode<TextureRect>("TextureRect").RectPosition = center;
   GetNode<TextureRect>("TextureRect").Texture = ResourceLoader.Load("res://Assets/Logo.png") as Texture;
 
-  DrawCircleArc(left, 80, 0, 370, col);
-  DrawCircleArc(right, 80, 0, 370, col);
+  DrawCircleArc(left, 80, 0, 380, col);
+  DrawCircleArc(right, 80, 0, 380, col);
   GetNode<Sprite>("Player").Position = left;
   GetNode<Sprite>("Other").Position = right;
   
