@@ -54,11 +54,11 @@ public class BulletHell : Node2D
     
     // returns value to fight scene and exits
     private void _GameOver(){
-      /*if(PlayerHealth > 0){
+      if(PlayerHealth > 0){
         fight.Call("MinigameReturn",PlayerHealth);
       }else{
         fight.Call("MinigameReturn",0);
-      }*/
+      }
       QueueFree(); 
     }
     
