@@ -3,32 +3,24 @@ using System;
 
 public class HealthInterface : Control
 {
-    // Declare member variables here. Examples:
-    // private int a = 2;
-    // private string b = "text";
+    /* Controls the health bar's progress */
     public void AdjustHealth(int health)
     {
         GetNode<ProgressBar>("HealthBar").Value = health;
     }
 
+    /* Controls the fraction the appears in the health bar*/
+    public void UpdateHealthFrac(int maxHealth, int currHealth)
+    {
+        GetNode<Label>("HealthFrac").Text = currHealth + " / " + maxHealth;
+    }
+
+    /* Creates the label for player/opponent name and modifier */
     public void CreateLabel(string name, string modifier)
     {
         GetNode<Label>("UserMods").Text = name + " / " + modifier;
     }
 
-    public void UpdateHealthFrac(int maxHealth, int currHealth)
-    {
-        GetNode<Label>("HealthFrac").Text = currHealth + " / " + maxHealth;
-    }
-    // Called when the node enters the scene tree for the first time.
-    public override void _Ready()
-    {
-        
-    }
-
-//  // Called every frame. 'delta' is the elapsed time since the previous frame.
-//  public override void _Process(float delta)
-//  {
-//      
-//  }
+    
+    
 }
