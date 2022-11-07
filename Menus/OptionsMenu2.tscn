@@ -19,9 +19,9 @@ margin_bottom = 600.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
 margin_left = 437.0
-margin_top = 261.0
+margin_top = 242.0
 margin_right = 587.0
-margin_bottom = 339.0
+margin_bottom = 358.0
 
 [node name="FullscreenButton" type="CheckButton" parent="CenterContainer/VBoxContainer"]
 margin_right = 150.0
@@ -29,16 +29,27 @@ margin_bottom = 40.0
 rect_min_size = Vector2( 76, 40 )
 text = "Full Screen"
 
-[node name="VolumeLabel" type="Label" parent="CenterContainer/VBoxContainer"]
+[node name="MusicLabel" type="Label" parent="CenterContainer/VBoxContainer"]
 margin_top = 44.0
 margin_right = 150.0
 margin_bottom = 58.0
-text = "Master Volume"
+text = "Music Volume"
 
-[node name="VolumeSlider" type="HSlider" parent="CenterContainer/VBoxContainer"]
+[node name="VolumeSliderMusic" type="HSlider" parent="CenterContainer/VBoxContainer"]
 margin_top = 62.0
 margin_right = 150.0
 margin_bottom = 78.0
+
+[node name="SELabel" type="Label" parent="CenterContainer/VBoxContainer"]
+margin_top = 82.0
+margin_right = 150.0
+margin_bottom = 96.0
+text = "Sound Effects Volume"
+
+[node name="VolumeSliderSE" type="HSlider" parent="CenterContainer/VBoxContainer"]
+margin_top = 100.0
+margin_right = 150.0
+margin_bottom = 116.0
 
 [node name="BackButton" type="Button" parent="."]
 margin_left = 6.0
@@ -48,5 +59,6 @@ margin_bottom = 601.0
 text = "Back"
 
 [connection signal="pressed" from="CenterContainer/VBoxContainer/FullscreenButton" to="." method="_on_FullscreenButton_pressed"]
-[connection signal="value_changed" from="CenterContainer/VBoxContainer/VolumeSlider" to="." method="_on_VolumeSlider_value_changed"]
+[connection signal="value_changed" from="CenterContainer/VBoxContainer/VolumeSliderMusic" to="." method="_on_VolumeSliderMusic_value_changed"]
+[connection signal="value_changed" from="CenterContainer/VBoxContainer/VolumeSliderSE" to="." method="_on_VolumeSliderSE_value_changed"]
 [connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]
