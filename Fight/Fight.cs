@@ -91,7 +91,12 @@ public class Fight : Node
     pHealthBar = (HealthInterface)HPinterface.Instance();
     AddChild(pHealthBar);
     pHealthBar.CreateLabel(g.name, (String)modifier["name"]);
-   
+
+    /* Initialize player attack options bottom right */
+    GetNode<Button>("Action Console/VBoxContainer/Top Row/B0").Text = (String)attacks[0]["name"];
+    GetNode<Button>("Action Console/VBoxContainer/Top Row/B1").Text = (String)attacks[1]["name"];
+    GetNode<Button>("Action Console/VBoxContainer/Bottom Row/B2").Text = (String)attacks[2]["name"];
+    GetNode<Button>("Action Console/VBoxContainer/Bottom Row/B3").Text = (String)attacks[3]["name"];
 
     /* Initialize opponent character */
     opponent = (Fighter)Fighter.Instance();
