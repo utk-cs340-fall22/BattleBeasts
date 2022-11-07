@@ -320,13 +320,13 @@ public class Bracket: Node2D
     var points2 = new Vector2[100];
     var points4 = new Vector2[2];
     var points3 = new Vector2[100];
-    var color = new Color((float) 0.941176, (float)0.972549, 1, 1 );
+    var color = new Color(1, 1, 1, 1 );
     int i, levels;
     levels = size;
     var left = new Vector2(500, 500);
     var right = new Vector2(875, 500);
     var center = new Vector2(650, 450);
-    var col = new Color((float) 0.941176, (float)0.972549, 1, 1 );
+    var col = new Color(1, 1, 1, 1 );
     
   GetNode<TextureRect>("TextureRect").RectPosition = center;
   GetNode<TextureRect>("TextureRect").Texture = ResourceLoader.Load("res://Assets/Logo.png") as Texture;
