@@ -8,11 +8,11 @@
 [ext_resource path="res://Fight/HealthInterface.tscn" type="PackedScene" id=6]
 
 [sub_resource type="DynamicFont" id=1]
-size = 20
+size = 12
 font_data = ExtResource( 2 )
 
 [sub_resource type="DynamicFont" id=2]
-size = 20
+size = 12
 font_data = ExtResource( 2 )
 
 [node name="Main" type="Node"]
@@ -32,18 +32,21 @@ margin_left = 7.0
 margin_top = 7.0
 margin_right = 367.0
 margin_bottom = 112.0
-size_flags_horizontal = 6
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="Top Row" type="HBoxContainer" parent="Action Console/VBoxContainer"]
 margin_right = 360.0
 margin_bottom = 50.0
-size_flags_horizontal = 15
-size_flags_vertical = 15
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="B0" type="Button" parent="Action Console/VBoxContainer/Top Row"]
 margin_right = 178.0
 margin_bottom = 50.0
 focus_mode = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 custom_fonts/font = SubResource( 1 )
 text = "attack 0"
 
@@ -52,6 +55,8 @@ margin_left = 182.0
 margin_right = 360.0
 margin_bottom = 50.0
 focus_mode = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 custom_fonts/font = SubResource( 2 )
 text = "attack 1"
 
@@ -66,6 +71,8 @@ size_flags_vertical = 15
 margin_right = 178.0
 margin_bottom = 51.0
 focus_mode = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 custom_fonts/font = SubResource( 2 )
 text = "attack 2"
 
@@ -74,6 +81,8 @@ margin_left = 182.0
 margin_right = 360.0
 margin_bottom = 51.0
 focus_mode = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 custom_fonts/font = SubResource( 2 )
 text = "attack 3"
 
