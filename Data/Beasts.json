@@ -6,7 +6,8 @@
     "armor": 2,
     "type": "Ice",
     "modifiers": [0, 1, 2],
-    "attacks": [18, 19, 20, 21, 22, 23]
+    "attacks": [18, 19, 20, 21, 22, 23],
+    "music": "res://Assets/Music/AurilMelody.mp3"
   },
   "1": {
     "name": "Solanac",
@@ -15,7 +16,8 @@
     "armor": 0,
     "type": "Poison",
     "modifiers": [0, 1, 2],
-    "attacks": [12, 13, 14, 15, 16, 17]
+    "attacks": [12, 13, 14, 15, 16, 17],
+    "music": "res://Assets/Music/SolanacMelody.mp3"
   },
   "2": {
     "name": "Alzrius",
@@ -24,7 +26,8 @@
     "armor": 1,
     "type": "Fire",
     "modifiers": [0, 1, 2],
-    "attacks": [0, 1, 2, 3, 4, 5]
+    "attacks": [0, 1, 2, 3, 4, 5],
+    "music": "res://Assets/Music/AlzriusMelody.mp3"
   },
   "3": {
     "name": "Glabbagool",
@@ -33,7 +36,8 @@
     "armor": 3,
     "type": "Electric",
     "modifiers": [0, 1, 2],
-    "attacks": [6, 7, 8, 9, 10, 11]
+    "attacks": [6, 7, 8, 9, 10, 11],
+    "music": "res://Assets/Music/GlabbagoolMelody.mp3"
   },
   "4": {
     "name": "Bunpir",
@@ -42,6 +46,7 @@
     "armor": 5,
     "type": "Dark Magic",
     "modifiers": [0, 1, 2],
-    "attacks": [24, 25, 26, 27, 28, 29]
+    "attacks": [24, 25, 26, 27, 28, 29],
+    "music": "res://Assets/Music/BunpirMelody.mp3"
   }
 }

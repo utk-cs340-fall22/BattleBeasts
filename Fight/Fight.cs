@@ -188,30 +188,19 @@ public class Fight : Node
   }
   
   private void StartMusic(){
+    Dictionary beast;
+    
     se = g.GetNode<AudioStreamPlayer>("SoundEffects");
     music = g.GetNode<AudioStreamPlayer>("Music");
     musicP = g.GetNode<AudioStreamPlayer>("MusicPlayer");
-    musicO = g.GetNode<AudioStreamPlayer>("MusicOpponent");
-    music.Stop();
+    music.Stop(); musicP.Stop();
+    
     music.Stream = ResourceLoader.Load("res://Assets/Music/BattleThemeBase.mp3") as AudioStream;
-
-        
-    /* Is this how I should be determing what beasts are playing? */
-    if(g.playerBeastIndex == 0)
-      musicP.Stream = ResourceLoader.Load("res://Assets/Music/AurilMelody.mp3") as AudioStream;
-    if(g.playerBeastIndex == 1)
-      musicP.Stream = ResourceLoader.Load("res://Assets/Music/SolanacMelody.mp3") as AudioStream;
-    if(g.playerBeastIndex == 2)
-      musicP.Stream = ResourceLoader.Load("res://Assets/Music/AlzriusMelody.mp3") as AudioStream;
-    if(g.playerBeastIndex == 3) {}
-      musicP.Stream = ResourceLoader.Load("res://Assets/Music/BunpirMelody.mp3") as AudioStream;
-    if(g.playerBeastIndex == 4) {}
-      musicP.Stream = ResourceLoader.Load("res://Assets/Music/GlabbagoolMelody.mp3") as AudioStream;
+    beast = beastOptions[g.playerBeastIndex.ToString()] as Dictionary;
+    musicP.Stream = ResourceLoader.Load((String)beast["music"]) as AudioStream;
 
     music.Play();
     musicP.Play();
-    musicO.Play();
-    
   }
 
   // Called every frame. 'delta' is the elapsed time since the previous frame.
