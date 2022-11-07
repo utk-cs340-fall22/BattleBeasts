@@ -103,6 +103,7 @@ public class Fight : Node
     AddChild(opponent);
     beast = beastOptions[g.currBeast.ToString()] as Dictionary;
     modifier = modifierOptions[g.oppMods[g.currBeast].ToString()] as Dictionary;
+    for (i = 0; i < g.oppAttacks.GetLength(1); i++) attacks[i] = attackOptions[g.oppAttacks[g.currBeast, i].ToString()] as Dictionary;
     opponentTexture = ResourceLoader.Load((String) beast["texture"]) as Texture;
     opponent.GetNode<Sprite>("Texture").Texture = opponentTexture;
     opponent.Position = new Vector2(850, 170);
@@ -175,17 +176,22 @@ public class Fight : Node
 
     // opponent attacking
     if (queuedAttack >= 10) {
-      GD.Print("opponent attack ", queuedAttack - 10, " to player. player health remaining: ", player.ReduceHealth(opponent.GetAttackStrength(queuedAttack - 10)));
+      damage = opponent.GetAttackStrength(queuedAttack - 10) - player.GetArmor();
+      minigameResult = 70; // nerf the opponent while the game isn't balanced at all so you can actually win
+      if (damage < 1) damage = 1; // lowest damage dealt per strike is 1
+      player.ReduceHealth(damage * opponent.GetAttackCount(queuedAttack - 10) * minigameResult / 100);
+      GD.Print("opponent attack ", queuedAttack - 10, " dealt ", damage * opponent.GetAttackCount(queuedAttack - 10) * minigameResult / 100, " damage.");
       isPlayerTurn = 1;
       queuedAttack = -1;
     }
 
     // player attacking
     else {
-      damage = player.GetAttackStrength(queuedAttack) - player.GetArmor();
-      if (damage < 1) damage = 1; // lowest damage dealt per strike is 1
-      opponent.ReduceHealth(damage * player.GetAttackCount(queuedAttack));
-      GD.Print("player attack ", queuedAttack, " dealt ", damage * player.GetAttackCount(queuedAttack), " damage. opponent health remaining: ", opponent.GetHealth());
+      damage = player.GetAttackStrength(queuedAttack) - opponent.GetArmor();
+      if (damage < 1) damage = 1;
+      if (minigameResult >= 90) minigameResult = 120;
+      opponent.ReduceHealth(damage * player.GetAttackCount(queuedAttack) * minigameResult / 100);
+      GD.Print("player attack ", queuedAttack, " dealt ", damage * player.GetAttackCount(queuedAttack) * minigameResult / 100, " damage.");
       isPlayerTurn = 0;
       queuedAttack = -1;
     }
