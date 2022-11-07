@@ -63,7 +63,7 @@ public class Fight : Node
     }
   }
   
-  // Called when the node enters the scene tree for the first time.
+  /* Called when the node enters the scene tree for the first time. */
   public override void _Ready() {
     Dictionary beast, modifier;
     Dictionary[] attacks = new Dictionary[4];
@@ -76,7 +76,6 @@ public class Fight : Node
     GD.Randomize();
 
     /* Initialize player character */
-
     player = (Fighter)Fighter.Instance();
     AddChild(player);
     beast = beastOptions[g.playerBeastIndex.ToString()] as Dictionary;
@@ -88,30 +87,30 @@ public class Fight : Node
     player.Scale = new Vector2(6, 6);
     player.Init("player", beast, modifier, attacks);
 
-    /* Initialize player health bar */
-
+    /* Initialize player health bar to bottom right*/
     pHealthBar = (HealthInterface)HPinterface.Instance();
     AddChild(pHealthBar);
     pHealthBar.CreateLabel(g.name, (String)modifier["name"]);
    
 
     /* Initialize opponent character */
-    beast = beastOptions[g.currBeast.ToString()] as Dictionary;
     opponent = (Fighter)Fighter.Instance();
     AddChild(opponent);
+    beast = beastOptions[g.currBeast.ToString()] as Dictionary;
+    modifier = modifierOptions[g.oppMods[g.currBeast].ToString()] as Dictionary;
     opponentTexture = ResourceLoader.Load((String) beast["texture"]) as Texture;
     opponent.GetNode<Sprite>("Texture").Texture = opponentTexture;
     opponent.Position = new Vector2(850, 170);
     opponent.Scale = new Vector2(6, 6);
     opponent.Init("opponent", beast, modifier, attacks);
 
-    /* Initialize opponent health bar */
-
+    /* Initialize opponent health bar to top left*/
     oHealthBar = (HealthInterface)HPinterface.Instance();
     AddChild(oHealthBar);
+    oHealthBar.CreateLabel(g.oppName[g.currBeast], (String)modifier["name"]); 
     Vector2 oHpBar = new Vector2(-600, -500);
     oHealthBar.SetPosition(oHpBar, false);
-    oHealthBar.CreateLabel(g.oppName[g.currBeast], "modifier"); // need to change to accept opponent name & modifier
+    
 
     // debug
     GD.Print("opponent health: ", opponent.GetHealth());
@@ -121,7 +120,7 @@ public class Fight : Node
     StartMusic();
   }
 
-  // AI chooses and performs an attack
+  /* AI chooses and performs an attack */
   public void AITakeTurn() {
     /* Ensure method is called on opponent's turn */
 
