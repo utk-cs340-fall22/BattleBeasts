@@ -12,7 +12,8 @@ public class TeamSelect : CanvasLayer
 #pragma warning restore 649
   
   private OptionButton beastSelector, modifierSelector;
-  private OptionButton attack0Selector, attack1Selector, attack2Selector, attack3Selector;
+  private VBoxContainer AttacksList;
+  public PackedScene Attack;
   private BaseButton goButton;
   private Sprite player;
 
@@ -83,25 +84,9 @@ public class TeamSelect : CanvasLayer
 
     // set up default selector values for modifier and attacks then disable them
     modifierSelector.Clear();
-    attack0Selector.Clear();
-    attack1Selector.Clear();
-    attack2Selector.Clear();
-    attack3Selector.Clear();
     modifierSelector.AddItem("Modifier", 1000);
-    attack0Selector.AddItem("Attack 1", 1000);
-    attack1Selector.AddItem("Attack 2", 1000);
-    attack2Selector.AddItem("Attack 3", 1000);
-    attack3Selector.AddItem("Attack 4", 1000);
     modifierSelector.Select(modifierSelector.GetItemIndex(1000));
-    attack0Selector.Select(attack0Selector.GetItemIndex(1000));
-    attack1Selector.Select(attack1Selector.GetItemIndex(1000));
-    attack2Selector.Select(attack2Selector.GetItemIndex(1000));
-    attack3Selector.Select(attack3Selector.GetItemIndex(1000));
     modifierSelector.Disabled = true;
-    attack0Selector.Disabled = true;
-    attack1Selector.Disabled = true;
-    attack2Selector.Disabled = true;
-    attack3Selector.Disabled = true;
   }
 
   private void MakeModifierSelection() {
@@ -111,30 +96,14 @@ public class TeamSelect : CanvasLayer
     Dictionary beast, modifier;
 
     // set up default selector values for attacks then disable
-    attack0Selector.Clear();
-    attack1Selector.Clear();
-    attack2Selector.Clear();
-    attack3Selector.Clear();
-    attack0Selector.AddItem("Attack 1", 1000);
-    attack1Selector.AddItem("Attack 2", 1000);
-    attack2Selector.AddItem("Attack 3", 1000);
-    attack3Selector.AddItem("Attack 4", 1000);
-    attack0Selector.Select(attack0Selector.GetItemIndex(1000));
-    attack1Selector.Select(attack1Selector.GetItemIndex(1000));
-    attack2Selector.Select(attack2Selector.GetItemIndex(1000));
-    attack3Selector.Select(attack3Selector.GetItemIndex(1000));
-    attack0Selector.Disabled = true;
-    attack1Selector.Disabled = true;
-    attack2Selector.Disabled = true;
-    attack3Selector.Disabled = true;
+    attack0Prev = -1;
+    attack1Prev = -1;
+    attack2Prev = -1;
+    attack3Prev = -1;
     
     // enable modifier selector, disable attack selectors, set up up modifier selector, get selected beast index
     modifierSelector.Clear();
     modifierSelector.Disabled = false;
-    attack0Selector.Disabled = true;
-    attack1Selector.Disabled = true;
-    attack2Selector.Disabled = true;
-    attack3Selector.Disabled = true;
     modifierSelector.AddItem("Modifier", 1000);
     modifierSelector.AddSeparator();
     selectedBeastIndex = beastSelector.GetItemIndex(beastSelector.GetSelectedId());
@@ -159,32 +128,12 @@ public class TeamSelect : CanvasLayer
     int[] attacksAllowed, used;
     Godot.Collections.Array beastGArray, modifierGArray;
     Dictionary beast, modifier, attack;
-
-    // set up default attack selections
-    attack0Selector.Disabled = false;
-    attack1Selector.Disabled = false;
-    attack2Selector.Disabled = false;
-    attack3Selector.Disabled = false;
-    attack0Selector.Clear();
-    attack1Selector.Clear();
-    attack2Selector.Clear();
-    attack3Selector.Clear();
-    attack0Selector.AddItem("Attack 1", 1000);
-    attack1Selector.AddItem("Attack 2", 1000);
-    attack2Selector.AddItem("Attack 3", 1000);
-    attack3Selector.AddItem("Attack 4", 1000);
-    attack0Selector.AddSeparator();
-    attack1Selector.AddSeparator();
-    attack2Selector.AddSeparator();
-    attack3Selector.AddSeparator();
-    attack0Selector.Select(attack0Selector.GetItemIndex(1000));
-    attack1Selector.Select(attack1Selector.GetItemIndex(1000));
-    attack2Selector.Select(attack2Selector.GetItemIndex(1000));
-    attack3Selector.Select(attack3Selector.GetItemIndex(1000));
-    attack0Selector.SetItemDisabled(attack0Selector.GetItemIndex(1000), true);
-    attack1Selector.SetItemDisabled(attack1Selector.GetItemIndex(1000), true);
-    attack2Selector.SetItemDisabled(attack2Selector.GetItemIndex(1000), true);
-    attack3Selector.SetItemDisabled(attack3Selector.GetItemIndex(1000), true);
+    
+    // remove old moves
+    foreach (Control n in AttacksList.GetChildren()){
+      AttacksList.RemoveChild(n);
+      n.QueueFree();  
+    }
     
     // find allowed options
     beast = beastOptions[beastSelector.GetSelectedId().ToString()] as Dictionary;
@@ -200,13 +149,18 @@ public class TeamSelect : CanvasLayer
     used = new int[attacksAllowed.Length];
     for (i = 0; i < used.Length; i++) used[i] = -1;
     for (i = 0; i < attacksAllowed.Length; i++) {
-      if (IsInArray(used, i) == 0 && i != -1) {
+      if (IsInArray(used, i) == 0 && i != -1) {   
         used[i] = attacksAllowed[i];
         attack = attackOptions[attacksAllowed[i].ToString()] as Dictionary;
-        attack0Selector.AddItem((String) attack["name"], attacksAllowed[i]);
-        attack1Selector.AddItem((String) attack["name"], attacksAllowed[i]);
-        attack2Selector.AddItem((String) attack["name"], attacksAllowed[i]);
-        attack3Selector.AddItem((String) attack["name"], attacksAllowed[i]);
+        
+        var AttackInstance = (Control) Attack.Instance();
+        GD.Print(attack["name"]);
+        GD.Print(Convert.ToInt32(attack["strike_damage"]));
+        GD.Print(Convert.ToInt32(attack["strike_count"]));
+        GD.Print(attack["type"]);
+        GD.Print("Attacks allowed "+ attacksAllowed[i]);
+        AttackInstance.Call("setup_AttackNode",(String) attack["name"],Convert.ToInt32(attack["strike_damage"]),Convert.ToInt32(attack["strike_count"]),(String) attack["type"],attacksAllowed[i],this);
+        AttacksList.AddChild(AttackInstance);
       }
     }
   }
@@ -217,10 +171,10 @@ public class TeamSelect : CanvasLayer
 
     badBeast = beastSelector.IsItemDisabled(beastSelector.GetItemIndex(beastSelector.GetSelectedId()));
     badModifier = modifierSelector.IsItemDisabled(modifierSelector.GetItemIndex(modifierSelector.GetSelectedId()));
-    badAttack0 = attack0Selector.IsItemDisabled(attack0Selector.GetItemIndex(attack0Selector.GetSelectedId()));
-    badAttack1 = attack1Selector.IsItemDisabled(attack1Selector.GetItemIndex(attack1Selector.GetSelectedId()));
-    badAttack2 = attack2Selector.IsItemDisabled(attack2Selector.GetItemIndex(attack2Selector.GetSelectedId()));
-    badAttack3 = attack3Selector.IsItemDisabled(attack3Selector.GetItemIndex(attack3Selector.GetSelectedId()));
+    badAttack0 = (attack0Prev == -1);
+    badAttack1 = (attack1Prev == -1);
+    badAttack2 = (attack2Prev == -1);
+    badAttack3 = (attack3Prev == -1);
 
     goButton.Disabled = badBeast || badModifier || badAttack0 || badAttack1 || badAttack2 || badAttack3 ? true : false;
   }
@@ -250,13 +204,11 @@ public class TeamSelect : CanvasLayer
     modifierSelector = GetNode<OptionButton>("Modifier");
     
     /* You can't make arrays of structs in c# */
-    attack0Selector = GetNode<OptionButton>("Attack0");
-    attack1Selector = GetNode<OptionButton>("Attack1");
-    attack2Selector = GetNode<OptionButton>("Attack2");
-    attack3Selector = GetNode<OptionButton>("Attack3");
+    AttacksList = GetNode<VBoxContainer>("Attacks/List");
+    Attack = GD.Load<PackedScene>("res://Menus/AttackNode.tscn");
     
     player = GetNode<Sprite>("Beast Preview");
-    player.Position = new Vector2(500, 300);
+    player.Position = new Vector2(200, 300);
     player.Scale = new Vector2(6, 6);
 
     // beastSelector.connect("ItemSelected", this, "OnBeastSelected");
@@ -299,80 +251,56 @@ public class TeamSelect : CanvasLayer
     se.Play();
   }
   
-  private void _on_Attack0_item_selected(int index)
+  // handles attack selection
+  public bool _on_Attack_selected(int index)
   {
-    areSelectionsValid();
-
-    if (attack0Prev != -1) {
-      attack0Selector.SetItemDisabled(attack0Prev, false);
-      attack1Selector.SetItemDisabled(attack0Prev, false);
-      attack2Selector.SetItemDisabled(attack0Prev, false);
-      attack3Selector.SetItemDisabled(attack0Prev, false);
-    }
-    attack1Selector.SetItemDisabled(index, true);
-    attack2Selector.SetItemDisabled(index, true);
-    attack3Selector.SetItemDisabled(index, true);
-    attack0Prev = index;
-
-    se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
-    se.Play();
-  }
-  
-  private void _on_Attack1_item_selected(int index)
-  {
-    areSelectionsValid();
-
-    if (attack1Prev != -1) {
-      attack0Selector.SetItemDisabled(attack1Prev, false);
-      attack1Selector.SetItemDisabled(attack1Prev, false);
-      attack2Selector.SetItemDisabled(attack1Prev, false);
-      attack3Selector.SetItemDisabled(attack1Prev, false);
-    }
-    attack0Selector.SetItemDisabled(index, true);
-    attack2Selector.SetItemDisabled(index, true);
-    attack3Selector.SetItemDisabled(index, true);
-    attack1Prev = index;
-
-    se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
-    se.Play();
-  }
-  
-  private void _on_Attack2_item_selected(int index)
-  {
-    areSelectionsValid();
-
-    if (attack2Prev != -1) {
-      attack0Selector.SetItemDisabled(attack2Prev, false);
-      attack1Selector.SetItemDisabled(attack2Prev, false);
-      attack2Selector.SetItemDisabled(attack2Prev, false);
-      attack3Selector.SetItemDisabled(attack2Prev, false);
-    }
-    attack0Selector.SetItemDisabled(index, true);
-    attack1Selector.SetItemDisabled(index, true);
-    attack3Selector.SetItemDisabled(index, true);
-    attack2Prev = index;
+    int i,roomi = -1;
+    bool rest = true;
+    bool hasroom = false;
+    bool alreadyselected = false;
+    int alreadyselectedi = -1;
+    int[] nums = new int[4];
     
-    se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
-    se.Play();
-  }
-  
-  private void _on_Attack3_item_selected(int index)
-  {
-    areSelectionsValid();
-
-    if (attack3Prev != -1) {
-      attack0Selector.SetItemDisabled(attack3Prev, false);
-      attack1Selector.SetItemDisabled(attack3Prev, false);
-      attack2Selector.SetItemDisabled(attack3Prev, false);
-      attack3Selector.SetItemDisabled(attack3Prev, false);
+    nums[0] = attack0Prev;
+    nums[1] = attack1Prev;
+    nums[2] = attack2Prev;
+    nums[3] = attack3Prev;
+    
+    for(i = 0; i < 4; i++){
+      if(nums[i] == -1) hasroom = true;
+      if(nums[i] == index){
+        alreadyselected = true;
+        alreadyselectedi = i;
+      }
     }
-    attack0Selector.SetItemDisabled(index, true);
-    attack1Selector.SetItemDisabled(index, true);
-    attack2Selector.SetItemDisabled(index, true);
-    attack3Prev = index;
-
+    
+    if(alreadyselected){
+      nums[alreadyselectedi] = -1;
+      rest = false;
+      hasroom = true;
+    }
+    
+    if(rest && hasroom){
+        for(i = 0; i < 4; i++){
+          if(nums[i] == -1){
+            roomi = i;
+            break;
+          }  
+        }
+        
+        nums[roomi] = index;
+    }else if(!hasroom){
+      return false;
+    }
+    
+    attack0Prev = nums[0];
+    attack1Prev = nums[1];
+    attack2Prev = nums[2];
+    attack3Prev = nums[3];
     se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
     se.Play();
+    areSelectionsValid();
+    return true;
   }
   
   private void _on_Back_pressed()
@@ -388,10 +316,10 @@ public class TeamSelect : CanvasLayer
   {    
     g.playerBeastIndex = beastSelector.GetSelectedId();
     g.playerModifierIndex = modifierSelector.GetSelectedId();
-    g.playerAttackIndices[0] = attack0Selector.GetSelectedId();
-    g.playerAttackIndices[1] = attack1Selector.GetSelectedId();
-    g.playerAttackIndices[2] = attack2Selector.GetSelectedId();
-    g.playerAttackIndices[3] = attack3Selector.GetSelectedId();
+    g.playerAttackIndices[0] = attack0Prev;
+    g.playerAttackIndices[1] = attack1Prev;
+    g.playerAttackIndices[2] = attack2Prev;
+    g.playerAttackIndices[3] = attack3Prev;
     
     /* Play sound effect */
     se = g.GetNode<AudioStreamPlayer>("SoundEffects");
@@ -401,5 +329,3 @@ public class TeamSelect : CanvasLayer
     GetTree().ChangeScene("res://Bracket/Bracket.tscn");
   }
 }
-
-

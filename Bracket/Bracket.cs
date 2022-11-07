@@ -7,11 +7,13 @@ public class Bracket: Node2D
 {
   Globals g;
   int size = 0;
+  Sprite user, other;
 
   //Will be used for .json file
   private static Dictionary _beastsOps = null;
   private static Dictionary _opponentsOps = null;
-  
+  private static Dictionary _attackOptions = null;
+
   private AudioStreamPlayer music, musicP, se;
 
   private Dictionary opponentsOps 
@@ -39,6 +41,39 @@ public class Bracket: Node2D
       return _beastsOps;
     }
   }
+
+    private Dictionary attackOptions {
+    get {
+      if (_attackOptions == null) {
+        var file = new File();
+        file.Open("res://Data/Attacks.json", File.ModeFlags.Read);
+        var text = file.GetAsText();
+        _attackOptions = JSON.Parse(text).Result as Dictionary;
+      }
+      return _attackOptions;
+    }
+  }
+  
+  private void get_curr_beast(Dictionary beasts)
+  {
+    GD.Print(g.currBeast);
+    select_beast("Other", g.currBeast, true);
+    
+   }
+  public void DrawCircleArc(Vector2 center, float radius, float angleFrom, float angleTo, Color color)
+{
+    int nbPoints = 32;
+    var pointsArc = new Vector2[nbPoints];
+
+    for (int i = 0; i < nbPoints; ++i)
+    {
+        float anglePoint = Mathf.Deg2Rad(angleFrom + i * (angleTo - angleFrom) / nbPoints - 90f);
+        pointsArc[i] = center + new Vector2(Mathf.Cos(anglePoint), Mathf.Sin(anglePoint)) * radius;
+    }
+
+    for (int i = 0; i < nbPoints - 1; ++i)
+        DrawLine(pointsArc[i], pointsArc[i + 1], color);
+}
 
   //At the end of the game, this will be reset to default values.
   private void reset_all() 
@@ -87,11 +122,32 @@ public class Bracket: Node2D
   //This function uses a random number generator to select a beast for the opponents
   private void get_random_beast(Dictionary opponents, int opp) 
   {
+    Godot.Collections.Array attacks;
+    Dictionary beast;
     Random rnd = new Random();
     int num = rnd.Next();
     opponents = opponentsOps[(num % 5).ToString()] as Dictionary;
+    beast = beastsOps[(num % 5).ToString()] as Dictionary;
+    attacks = (Godot.Collections.Array)beast["attacks"];
     g.oppName[opp] = (String) opponents["name"];
     g.oppBeast[opp] = Int32.Parse((String) opponents["beast"]);
+    num = rnd.Next() % 3;
+    g.oppMods[opp] = num;
+    
+    for (int i = 0; i < 4; i++) {
+      num = rnd.Next();
+      num %= 6;
+      g.oppAttacks[opp,i] = (int)(float)attacks[num];
+      for (int j = 0; j < i; j++) {
+        if (g.oppAttacks[opp, i] == g.oppAttacks[opp, j]) {
+          i--;
+          break;
+        }
+      }
+    }
+
+
+    GD.Print((String) beast["name"] + ": " + g.oppAttacks[opp,0] + " " + g.oppAttacks[opp, 1] + " " + g.oppAttacks[opp, 2] + " " + g.oppAttacks[opp, 3]);
   }
 
   //This is what the user is greeted with when first entering the bracket
@@ -108,9 +164,11 @@ public class Bracket: Node2D
   {
     if (g.level == 0) beasts = beastsOps[(g.playerBeastIndex).ToString()] as Dictionary;
     select_beast("Sprite", g.playerBeastIndex, true);
+    select_beast("Player", g.playerBeastIndex, true);
     GetNode<Label>("Sprite/Name").Text = g.name;
     GetNode<Label>("Sprite/Name").Show();
     GetNode<Sprite>("Sprite").Position = new Vector2(90 + 100*g.level, 55+50*g.level);
+    
   }
 
   //This gets the opponents that were randomly generated and initializes their names and beasts
@@ -133,6 +191,8 @@ public class Bracket: Node2D
     GetNode<Sprite>("Sprite2").Show();
     GetNode<Sprite>("Sprite3").Show();
     GetNode<Sprite>("Sprite4").Show();
+    GetNode<Sprite>("Player").Show();
+    GetNode<Sprite>("Other").Show();
 
     if (size == 4) {
       GetNode<Sprite>("Sprite5").Show();
@@ -145,6 +205,8 @@ public class Bracket: Node2D
   //This function hides all the sprites
   private void hide_sprites() 
   {
+    GetNode<Sprite>("Player").Hide();
+    GetNode<Sprite>("Other").Hide();
     GetNode<Sprite>("Sprite2").Hide();
     GetNode<Sprite>("Sprite3").Hide();
     GetNode<Sprite>("Sprite4").Hide();
@@ -159,13 +221,23 @@ public class Bracket: Node2D
   {
         if (g.level == 1) {
       GetNode<Sprite>("Sprite3").Show();
+      select_beast("Other", 2, false);
       if (g.bracketSize == 1) {
         GetNode<Sprite>("Sprite5").Show();
+        select_beast("Other", 4, false);
         GetNode<Sprite>("Sprite7").Show();
-      }
+        select_beast("Other", 6, false);
+      } else {
+        select_beast("Other", 1, false);
+       }
     }
+    
+      if (g.level >= 1) {
+    GetNode<Sprite>("Player").Show();
+    GetNode<Sprite>("Other").Show();
+   }
   }
-  
+
     private void StartMusic(){
     se = g.GetNode<AudioStreamPlayer>("SoundEffects");
     music = g.GetNode<AudioStreamPlayer>("Music");
@@ -181,6 +253,8 @@ public class Bracket: Node2D
   //This is the function that gets called first
   public override void _Ready() 
   {
+
+    GetNode<TextureRect>("Background").Texture = ResourceLoader.Load("res://Assets/tournament.png") as Texture;
     //I hide all sprites to begin with
     hide_sprites();
     
@@ -225,8 +299,12 @@ public class Bracket: Node2D
     }
     //then initialize them
     initialize_opponents(g);
+    if (g.level == 0) g.currBeast = g.oppBeast[0];
+    get_curr_beast(beasts);
     
     show_on_bracket();
+    
+
     
     StartMusic();
   }
@@ -242,10 +320,25 @@ public class Bracket: Node2D
     var points2 = new Vector2[100];
     var points4 = new Vector2[2];
     var points3 = new Vector2[100];
-    var color = new Color(0, 3, 1);
+    var color = new Color(1, 1, 1, 1 );
     int i, levels;
     levels = size;
+    var left = new Vector2(500, 500);
+    var right = new Vector2(875, 500);
+    var center = new Vector2(650, 450);
+    var col = new Color(1, 1, 1, 1 );
+    
+  GetNode<TextureRect>("TextureRect").RectPosition = center;
+  GetNode<TextureRect>("TextureRect").Texture = ResourceLoader.Load("res://Assets/Logo.png") as Texture;
 
+
+  DrawCircleArc(left, 80, 0, 380, col);
+  DrawCircleArc(right, 80, 0, 380, col);
+  GetNode<Sprite>("Player").Position = left;
+  GetNode<Sprite>("Other").Position = right;
+  
+  
+  
     /*Level 1*/
     for (i = 0; i < levels; i++) {
       points[i*6]     = new Vector2(100 , 100 + i * 100);
@@ -304,7 +397,6 @@ public class Bracket: Node2D
     DrawMultiline(points3, color, (float) 15.0, false );
     DrawMultiline(points4, color, (float) 15.0, false );
   }
-
 
 
   //This is called when the player won the last fight

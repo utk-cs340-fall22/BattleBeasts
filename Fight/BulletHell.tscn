@@ -1,5 +1,6 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
+[ext_resource path="res://Fight/HealthInterface.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Fight/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Fight/BulletHell.cs" type="Script" id=3]
 
@@ -18,3 +19,5 @@ scale = Vector2( 2, 2 )
 curve = SubResource( 1 )
 
 [node name="SpawnLocation" type="PathFollow2D" parent="BulletSpawn"]
+
+[node name="HealthInterface" parent="." instance=ExtResource( 1 )]
