@@ -245,9 +245,17 @@ public class Bracket: Node2D
     music.Stop();
     musicP.Stop();
     
-    music.Stream = ResourceLoader.Load("res://Assets/Music/BracketTheme.mp3") as AudioStream;
-    music.Play();
+    if (g.fightOutcome == 0)
+      return;
+    else if(g.level - 1 == 2 && g.bracketSize == 1)
+      music.Stream = ResourceLoader.Load("res://Assets/Music/VictoryTheme.mp3") as AudioStream;
+    else if (g.level - 1 == 1 && g.bracketSize == 0)
+      music.Stream = ResourceLoader.Load("res://Assets/Music/VictoryTheme.mp3") as AudioStream;
+    else
+      music.Stream = ResourceLoader.Load("res://Assets/Music/BracketTheme.mp3") as AudioStream;
+   
 
+    music.Play();
   }
 
   //This is the function that gets called first
