@@ -1,0 +1,255 @@
+
+Bracket.cs
+
+
+Bullet.cs
+
+8bd271b3 (Colin Canonaco      2022-11-07 21:30:57 -0500 36)         GetParent().Call("_ChangePlayerHealth",-5);
+
+BulletHell.cs
+
+8bd271b3 (Colin Canonaco      2022-11-07 21:30:57 -0500  23)         GameTime = 10;
+
+Fight.cs
+
+8bd271b3 (Colin Canonaco 2022-11-07 21:30:57 -0500  13)   public PackedScene BulletHellMinigame;
+8bd271b3 (Colin Canonaco 2022-11-07 21:30:57 -0500  14)   [Export]
+8150f352 (Colin Canonaco 2022-11-01 12:48:06 -0400  19)   int isPlayerTurn, aiAttackChoice;
+8150f352 (Colin Canonaco 2022-11-01 12:48:06 -0400  20)   int queuedAttack; // index of submitted attack in attack dictionary of attacking fighter | -1 for no queued attack | integer in [0, 3] for player | integer in [10, 13] for opponent
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400  71)     Dictionary[] attacks = new Dictionary[4];
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400  72)     int i;
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400  85)     for (i = 0; i < g.playerAttackIndices.Length; i++) attacks[i] = attackOptions[g.playerAttackIndices[i].ToString()] as Dictionary;
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400  90)     player.Init("player", beast, modifier, attacks);
+b968abaa (Colin Canonaco 2022-11-07 18:47:24 -0500 108)     for (i = 0; i < g.oppAttacks.GetLength(1); i++) attacks[i] = attackOptions[g.oppAttacks[g.currBeast, i].ToString()] as Dictionary;
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400 113)     opponent.Init("opponent", beast, modifier, attacks);
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400 128)     StartMusic();
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400 174)     int damage;
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400 175) 
+b968abaa (Colin Canonaco 2022-11-07 18:47:24 -0500 181)       damage = opponent.GetAttackStrength(queuedAttack - 10) - player.GetArmor();
+b968abaa (Colin Canonaco 2022-11-07 18:47:24 -0500 182)       minigameResult = 70; // nerf the opponent while the game isn't balanced at all so you can actually win
+b968abaa (Colin Canonaco 2022-11-07 18:47:24 -0500 183)       if (damage < 1) damage = 1; // lowest damage dealt per strike is 1
+b968abaa (Colin Canonaco 2022-11-07 18:47:24 -0500 184)       player.ReduceHealth(damage * opponent.GetAttackCount(queuedAttack - 10) * minigameResult / 100);
+b968abaa (Colin Canonaco 2022-11-07 18:47:24 -0500 185)       GD.Print("opponent attack ", queuedAttack - 10, " dealt ", damage * opponent.GetAttackCount(queuedAttack - 10) * minigameResult / 100, " damage.");
+b968abaa (Colin Canonaco 2022-11-07 18:47:24 -0500 192)       damage = player.GetAttackStrength(queuedAttack) - opponent.GetArmor();
+b968abaa (Colin Canonaco 2022-11-07 18:47:24 -0500 193)       if (damage < 1) damage = 1;
+b968abaa (Colin Canonaco 2022-11-07 18:47:24 -0500 194)       if (minigameResult >= 90) minigameResult = 120;
+b968abaa (Colin Canonaco 2022-11-07 18:47:24 -0500 195)       opponent.ReduceHealth(damage * player.GetAttackCount(queuedAttack) * minigameResult / 100);
+b968abaa (Colin Canonaco 2022-11-07 18:47:24 -0500 196)       GD.Print("player attack ", queuedAttack, " dealt ", damage * player.GetAttackCount(queuedAttack) * minigameResult / 100, " damage.");
+8150f352 (Colin Canonaco 2022-11-01 12:48:06 -0400 234)     pHealthBar.AdjustHealth((player.GetHealth() * 100) / player.GetMaxHealth()); // adjusts the player's HP bar
+8150f352 (Colin Canonaco 2022-11-01 12:48:06 -0400 236)     oHealthBar.AdjustHealth((opponent.GetHealth() * 100) / opponent.GetMaxHealth()); // adjusts the opponent's HP bar
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400 245)     PerformQueuedAttack();
+8bd271b3 (Colin Canonaco 2022-11-07 21:30:57 -0500 275)     AddChild(BulletHellMinigame.Instance());
+8bd271b3 (Colin Canonaco 2022-11-07 21:30:57 -0500 282)     AddChild(BulletHellMinigame.Instance());
+
+Fighter.cs
+
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400   2) using Godot.Collections;
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400   7)   public Sprite texture;
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400   9) 
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400  10)   string beastName; // beast name
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400  12)   int health; // current health
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400  13)   int armor; // beast armor
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400  14)   string type; // beast type
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400  15) 
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400  16)   string modifierName; // modifier name
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400  17)   int healthModifier, armorModifier;
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400  18) 
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400  20)   Dictionary[] attacksDict = new Dictionary[4];
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400  28)   public void Init(string controller, Dictionary beastDict, Dictionary modifierDict, Dictionary[] attacksDict) {
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400  31)     // Load initialization data
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400  33)     beastName = (string)beastDict["name"];
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400  34)     modifierName = (string)modifierDict["name"];
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400  35)     healthModifier = Convert.ToInt32(modifierDict["health_modifier"]);
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400  36)     armorModifier = Convert.ToInt32(modifierDict["armor_modifier"]);
+8150f352 (Colin Canonaco 2022-11-01 12:48:06 -0400  37)     maxHealth = Convert.ToInt32(beastDict["health"]) + healthModifier;
+8150f352 (Colin Canonaco 2022-11-01 12:48:06 -0400  38)     health = maxHealth;
+8150f352 (Colin Canonaco 2022-11-01 12:48:06 -0400  39)     armor = Convert.ToInt32(beastDict["armor"]) + armorModifier;
+8150f352 (Colin Canonaco 2022-11-01 12:48:06 -0400  40)     type = (string)beastDict["type"];
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400  41)     this.attacksDict = attacksDict;
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400  45)     GD.Print("maxHealth: ", maxHealth, " | armor: ", armor, " | type: ", type);
+8150f352 (Colin Canonaco 2022-11-01 12:48:06 -0400  46)     GD.Print("modifierName: ", modifierName, " | healthModifier: ", healthModifier, " | armorModifier: ", armorModifier);
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400  47)     
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400  48)     for (i = 0; i < attacksDict.Length; i++) GD.Print("attack", i, ": ", attacksDict[i]["name"]);
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400  57)     return Convert.ToInt32(attacksDict[attackID]["strike_damage"]);
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400  58)   }
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400  59) 
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400  60)   /*
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400  61)   Return how many strikes an attack performs
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400  62)   attackID: ID of the attack
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400  63)   return: Strike count of attack
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400  64)   */
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400  65)   public int GetAttackCount(int attackID) {
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400  66)     return Convert.ToInt32(attacksDict[attackID]["strike_count"]);
+8150f352 (Colin Canonaco 2022-11-01 12:48:06 -0400  77)   /*
+8150f352 (Colin Canonaco 2022-11-01 12:48:06 -0400  78)   Return this fighter's maximum health value
+8150f352 (Colin Canonaco 2022-11-01 12:48:06 -0400  79)   Return: Fighter's maximum health value
+8150f352 (Colin Canonaco 2022-11-01 12:48:06 -0400  80)   */
+8150f352 (Colin Canonaco 2022-11-01 12:48:06 -0400  81)   public int GetMaxHealth() {
+8150f352 (Colin Canonaco 2022-11-01 12:48:06 -0400  82)     return maxHealth;
+8150f352 (Colin Canonaco 2022-11-01 12:48:06 -0400  83)   }
+8150f352 (Colin Canonaco 2022-11-01 12:48:06 -0400  84) 
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400  85)   /*
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400  86)   Return this fighter's armor value
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400  87)   Return: Fighter's armor value
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400  88)   */
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400  89)   public int GetArmor() {
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400  90)     return armor;
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400  91)   }
+5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400  92) 
+
+HealthInterface.cs
+
+
+Player.cs
+
+
+PowerSliderMiniGame.cs
+
+
+QuickTimeKeyboard.cs
+
+
+Globals.cs
+
+
+AttackNode.cs
+
+
+Credits.cs
+
+
+MainMenu.cs
+
+
+OptionsMenu2.cs
+
+
+PauseMenu2.cs
+
+
+TeamSelect.cs
+
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400   4) using System.Collections.Generic;
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400   5) using System.Linq;
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400  17)   private BaseButton goButton;
+5b21ce08 (Colin Canonaco      2022-10-31 20:53:25 -0400  18)   private Sprite player;
+5b21ce08 (Colin Canonaco      2022-10-31 20:53:25 -0400  28)   int attack0Prev, attack1Prev, attack2Prev, attack3Prev;
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400  67)   private int IsInArray(int[] array, int num) {
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400  68)     foreach (int i in array) if (i == num) return 1;
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400  69)     return 0;
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400  70)   }
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400  71) 
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400  72)   private void MakeBeastSelection() {
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400  74)     Dictionary beast;
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400  76)     beastSelector.AddItem("Beast", 1000);
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400  77)     beastSelector.AddSeparator();
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400  81)     }
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400  82)     beastSelector.Select(beastSelector.GetItemIndex(1000));
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400  83)     beastSelector.SetItemDisabled(beastSelector.GetItemIndex(1000), true);
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400  84) 
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400  85)     // set up default selector values for modifier and attacks then disable them
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400  86)     modifierSelector.Clear();
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400  87)     modifierSelector.AddItem("Modifier", 1000);
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400  88)     modifierSelector.Select(modifierSelector.GetItemIndex(1000));
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400  89)     modifierSelector.Disabled = true;
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400  92)   private void MakeModifierSelection() {
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400  93)     int i, selectedBeastIndex;
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400  94)     int[] modifiersAllowed;
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400  95)     Godot.Collections.Array beastGArray;
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400  96)     Dictionary beast, modifier;
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400  97) 
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400  98)     // set up default selector values for attacks then disable
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400 103)     
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400 104)     // enable modifier selector, disable attack selectors, set up up modifier selector, get selected beast index
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400 105)     modifierSelector.Clear();
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400 106)     modifierSelector.Disabled = false;
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400 107)     modifierSelector.AddItem("Modifier", 1000);
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400 108)     modifierSelector.AddSeparator();
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400 109)     selectedBeastIndex = beastSelector.GetItemIndex(beastSelector.GetSelectedId());
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400 110)     
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400 111)     // find allowed options
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400 112)     beast = beastOptions[beastSelector.GetSelectedId().ToString()] as Dictionary;
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400 113)     beastGArray = (Godot.Collections.Array)beast["modifiers"];
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400 114)     modifiersAllowed = new int[beastGArray.Count];
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400 115)     for (i = 0; i < modifiersAllowed.Length; i++) modifiersAllowed[i] = (int)(float)beastGArray[i];
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400 116)     
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400 117)     // add options
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400 118)     foreach (int item in modifiersAllowed) {
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400 119)       modifier = modifierOptions[item.ToString()] as Dictionary;
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400 120)       modifierSelector.AddItem((String) modifier["name"], item);
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400 121)     }
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400 122)     modifierSelector.Select(modifierSelector.GetItemIndex(1000));
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400 123)     modifierSelector.SetItemDisabled(modifierSelector.GetItemIndex(1000), true);
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400 126)   private void MakeAttackSelection() {
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400 127)     int i, j;
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400 128)     int[] attacksAllowed, used;
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400 129)     Godot.Collections.Array beastGArray, modifierGArray;
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400 130)     Dictionary beast, modifier, attack;
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400 131)     
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400 137)     
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400 138)     // find allowed options
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400 139)     beast = beastOptions[beastSelector.GetSelectedId().ToString()] as Dictionary;
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400 140)     modifier = modifierOptions[modifierSelector.GetSelectedId().ToString()] as Dictionary;
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400 141)     beastGArray = (Godot.Collections.Array)beast["attacks"];
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400 142)     modifierGArray = (Godot.Collections.Array)modifier["attacks"];
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400 143)     attacksAllowed = new int[beastGArray.Count + modifierGArray.Count];
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400 144)     for (i = 0; i < attacksAllowed.Length; i++) attacksAllowed[i] = -1;
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400 145)     for (i = 0; i < beastGArray.Count; i++) attacksAllowed[i] = (int)(float)beastGArray[i];
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400 146)     for (j = 0; j < modifierGArray.Count; j++) if (IsInArray(attacksAllowed, (int)(float)modifierGArray[j]) == 0) attacksAllowed[i + j] = (int)(float)modifierGArray[j];
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400 147) 
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400 148)     // add options
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400 149)     used = new int[attacksAllowed.Length];
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400 150)     for (i = 0; i < used.Length; i++) used[i] = -1;
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400 151)     for (i = 0; i < attacksAllowed.Length; i++) {
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400 152)       if (IsInArray(used, i) == 0 && i != -1) {   
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400 153)         used[i] = attacksAllowed[i];
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400 154)         attack = attackOptions[attacksAllowed[i].ToString()] as Dictionary;
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400 164)       }
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400 165)     }
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400 166)   }
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400 167) 
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400 168)   // enables the Go button when all selections are valid
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400 169)   private void areSelectionsValid() {
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400 170)     bool badBeast, badModifier, badAttack0, badAttack1, badAttack2, badAttack3;
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400 172)     badBeast = beastSelector.IsItemDisabled(beastSelector.GetItemIndex(beastSelector.GetSelectedId()));
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400 173)     badModifier = modifierSelector.IsItemDisabled(modifierSelector.GetItemIndex(modifierSelector.GetSelectedId()));
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400 178) 
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400 179)     goButton.Disabled = badBeast || badModifier || badAttack0 || badAttack1 || badAttack2 || badAttack3 ? true : false;
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400 181)   
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400 182)   private void InitMenus()
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400 183)   {
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400 184)     attack0Prev = -1;
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400 185)     attack1Prev = -1;
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400 186)     attack2Prev = -1;
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400 187)     attack3Prev = -1;
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400 188) 
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400 189)     // Create selection options
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400 190)     MakeBeastSelection();
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400 198)     goButton = GetNode<BaseButton>("Go");
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400 199)     goButton.Disabled = true;
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400 200)     
+5b21ce08 (Colin Canonaco      2022-10-31 20:53:25 -0400 210)     player = GetNode<Sprite>("Beast Preview");
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400 225)   /* Signals */
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400 231)     MakeModifierSelection();
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400 232)     areSelectionsValid();
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400 233)     
+5b21ce08 (Colin Canonaco      2022-10-31 20:53:25 -0400 237)     player.Texture = tex;
+7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400 247)     MakeAttackSelection();
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400 248)     areSelectionsValid();
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400 249) 
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400 263)     
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400 268)     
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400 275)     }
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400 276)     
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400 288)           }  
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400 294)     }
+2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400 295)     
+
+TitleMenu.cs
+
+
+Enter_Name.cs
+
+
+username.cs
+
