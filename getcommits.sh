@@ -8,7 +8,7 @@ for i in *; do
             if [[ $dir2 == *.cs ]]; then
 	      if [ $# == 2 ]; then  
 		echo "git blame -w $i/$dir2 | grep -e $1 -e $2 >> ../commits.txt"
-                if git blame --since=2.weeks -w "$dir2" | grep -q $1; then
+                if git blame --since=2.weeks -w "$dir2" | grep -q -e $1 -e $2; then
                   echo -e "\n$dir2\n" >> ../commits.txt
                 fi
 		git blame --since=2.weeks -w "$dir2" | grep -e $1 -e $2 >> ../commits.txt	
@@ -26,7 +26,7 @@ for i in *; do
     if [[ $i == *.cs ]]; then
       if [ $# == 2 ]; then
         echo "git blame -w $i | grep -e $1 -e $2 >> commits.txt"
-        if git blame --since=2.weeks -w $i | grep -q $1; then
+        if git blame --since=2.weeks -w $i | grep -q -e $1 -e $2; then
           echo -e "\n$i\n" >> commits.txt
         fi
 	git blame --since=2.weeks -w $i | grep -e $1 -e $2 >> commits.txt
