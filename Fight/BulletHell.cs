@@ -20,7 +20,7 @@ public class BulletHell : Node2D
         // defaults
         PlayerHealth = 100;
         StartTime = 1;
-        GameTime = 30;
+        GameTime = 10;
         delay = (float) .2;
         rng.Randomize();
         

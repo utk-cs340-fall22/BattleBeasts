@@ -10,6 +10,8 @@ public class Fight : Node
   [Export]
   public PackedScene PowerSliderMinigame;
   [Export]
+  public PackedScene BulletHellMinigame;
+  [Export]
   public PackedScene HPinterface;
 
 #pragma warning restore 649
@@ -270,13 +272,13 @@ public class Fight : Node
     if (CheckAttackSignalPermission() == 1) return;
     queuedAttack = 2;
     minigameResult = -1;
-    AddChild(PowerSliderMinigame.Instance());
+    AddChild(BulletHellMinigame.Instance());
   }
 
   private void _on_B3_pressed() {
     if (CheckAttackSignalPermission() == 1) return;
     queuedAttack = 3;
     minigameResult = -1;
-    AddChild(PowerSliderMinigame.Instance());
+    AddChild(BulletHellMinigame.Instance());
   }
 }
