@@ -1,0 +1,166 @@
+-e 
+Bracket.cs
+
+ea9fbb7a (Jake Looney 2022-11-04 18:26:06 -0400  17)   private AudioStreamPlayer music, musicP, se;
+ea9fbb7a (Jake Looney 2022-11-04 18:26:06 -0400  18) 
+ea9fbb7a (Jake Looney 2022-11-04 18:26:06 -0400 240)     private void StartMusic(){
+ea9fbb7a (Jake Looney 2022-11-04 18:26:06 -0400 241)     se = g.GetNode<AudioStreamPlayer>("SoundEffects");
+ea9fbb7a (Jake Looney 2022-11-04 18:26:06 -0400 242)     music = g.GetNode<AudioStreamPlayer>("Music");
+ea9fbb7a (Jake Looney 2022-11-04 18:26:06 -0400 243)     musicP = g.GetNode<AudioStreamPlayer>("MusicPlayer");
+ea9fbb7a (Jake Looney 2022-11-04 18:26:06 -0400 244)     music.Stop();
+ea9fbb7a (Jake Looney 2022-11-04 18:26:06 -0400 245)     musicP.Stop();
+ea9fbb7a (Jake Looney 2022-11-04 18:26:06 -0400 246)     
+869f2312 (Jake Looney 2022-11-07 18:58:07 -0500 247)     if (g.fightOutcome == 0)
+869f2312 (Jake Looney 2022-11-07 18:58:07 -0500 248)       return;
+869f2312 (Jake Looney 2022-11-07 18:58:07 -0500 249)     else if(g.level - 1 == 2 && g.bracketSize == 1)
+869f2312 (Jake Looney 2022-11-07 18:58:07 -0500 250)       music.Stream = ResourceLoader.Load("res://Assets/Music/VictoryTheme.mp3") as AudioStream;
+869f2312 (Jake Looney 2022-11-07 18:58:07 -0500 251)     else if (g.level - 1 == 1 && g.bracketSize == 0)
+869f2312 (Jake Looney 2022-11-07 18:58:07 -0500 252)       music.Stream = ResourceLoader.Load("res://Assets/Music/VictoryTheme.mp3") as AudioStream;
+869f2312 (Jake Looney 2022-11-07 18:58:07 -0500 253)     else
+ea9fbb7a (Jake Looney 2022-11-04 18:26:06 -0400 254)       music.Stream = ResourceLoader.Load("res://Assets/Music/BracketTheme.mp3") as AudioStream;
+ea9fbb7a (Jake Looney 2022-11-04 18:26:06 -0400 255)    
+869f2312 (Jake Looney 2022-11-07 18:58:07 -0500 256) 
+869f2312 (Jake Looney 2022-11-07 18:58:07 -0500 257)     music.Play();
+ea9fbb7a (Jake Looney 2022-11-04 18:26:06 -0400 258)   }
+ea9fbb7a (Jake Looney 2022-11-04 18:26:06 -0400 259) 
+ea9fbb7a (Jake Looney 2022-11-04 18:26:06 -0400 316)     StartMusic();
+-e 
+Bullet.cs
+
+-e 
+BulletHell.cs
+
+-e 
+Fight.cs
+
+d1aa726b (Jake Looney    2022-11-07 13:33:31 -0500 203)     Dictionary beast;
+d1aa726b (Jake Looney    2022-11-07 13:33:31 -0500 204)     
+d1aa726b (Jake Looney    2022-11-07 13:33:31 -0500 208)     music.Stop(); musicP.Stop();
+d1aa726b (Jake Looney    2022-11-07 13:33:31 -0500 210)     music.Stream = ResourceLoader.Load("res://Assets/Music/BattleThemeBase.mp3") as AudioStream;
+d1aa726b (Jake Looney    2022-11-07 13:33:31 -0500 211)     beast = beastOptions[g.playerBeastIndex.ToString()] as Dictionary;
+d1aa726b (Jake Looney    2022-11-07 13:33:31 -0500 212)     musicP.Stream = ResourceLoader.Load((String)beast["music"]) as AudioStream;
+-e 
+Fighter.cs
+
+-e 
+HealthInterface.cs
+
+-e 
+Player.cs
+
+-e 
+PowerSliderMiniGame.cs
+
+-e 
+QuickTimeKeyboard.cs
+
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500  1) using Godot;
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500  2) using System;
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500  3) 
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500  4) public class QuickTimeKeyboard : Control
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500  5) {
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500  6)     // Declare member variables here. Examples:
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500  7)     // private int a = 2;
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500  8)     // private string b = "text";
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500  9)     
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 10)     private Label press, letter;
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 11)     private Node fight;
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 12)     private int tick, ltr, wait, score;
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 13)     private int ret;
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 14)     private string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 15)     private Random rnd;
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 16)     
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 17)     
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 18)     // Called when the node enters the scene tree for the first time.
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 19)     public override void _Ready()
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 20)     {
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 21)         tick = 0;
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 22)         press = GetNode<Label>("Container/Press");
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 23)         letter = GetNode<Label>("Container/Letter");
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 24)         fight = GetNode<Node>("/root/Main");
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 25)         
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 26)         rnd = new Random();
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 27)         wait = rnd.Next(65,120);
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 28)         ltr = rnd.Next(0,25);
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 29)         GD.Print("Wait: " + wait.ToString() + " Letter: " + alphabet[ltr].ToString() );
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 30)     }
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 31) 
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 32)     // Called every frame. 'delta' is the elapsed time since the previous frame.
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 33)     public override void _Process(float delta)
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 34)     {
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 35)       tick += 1;
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 36)       
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 37)       if(tick == wait){
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 38)           press.SetText("Press:");
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 39)           letter.SetText(alphabet[ltr].ToString());
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 40)       }
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 41)     }
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 42)     
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 43)      public override void _Input(InputEvent input){
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 44)      
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 45)       if (input is InputEventKey keyEvent && keyEvent.Pressed)
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 46)       {
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 47)         if(OS.GetScancodeString(keyEvent.Scancode) == alphabet[ltr].ToString()){
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 48)           ret = 115 - (tick - wait);
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 49)           if(ret < 0) ret = 0;
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 50)           GD.Print(ret);  
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 51)           fight.Call("MinigameReturn", ret);
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 52)           QueueFree();
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 53)         }
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 54)         
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 55)       }
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 56)       
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 57)      }
+2550a7c3 (Jake Looney 2022-11-06 22:27:22 -0500 58) }
+-e 
+Globals.cs
+
+-e 
+AttackNode.cs
+
+-e 
+Credits.cs
+
+ea9fbb7a (Jake Looney 2022-11-04 18:26:06 -0400 57)     se.Stream = ResourceLoader.Load("res://Assets/Music/BackSound.tres") as AudioStream;
+-e 
+MainMenu.cs
+
+-e 
+OptionsMenu2.cs
+
+35799690 (Jake Looney         2022-11-07 18:42:16 -0500  6)     int bus_index_Music, bus_index_SE;
+35799690 (Jake Looney         2022-11-07 18:42:16 -0500  7)     float val_Music, val_SE;
+35799690 (Jake Looney         2022-11-07 18:42:16 -0500 11)     private HSlider volM, volS;
+35799690 (Jake Looney         2022-11-07 18:42:16 -0500 22)         volM = GetNode<HSlider>("CenterContainer/VBoxContainer/VolumeSliderMusic");
+35799690 (Jake Looney         2022-11-07 18:42:16 -0500 23)         volS = GetNode<HSlider>("CenterContainer/VBoxContainer/VolumeSliderSE");
+35799690 (Jake Looney         2022-11-07 18:42:16 -0500 32)         bus_index_Music = AudioServer.GetBusIndex("Music");
+35799690 (Jake Looney         2022-11-07 18:42:16 -0500 33)         bus_index_SE = AudioServer.GetBusIndex("SoundEffects");
+35799690 (Jake Looney         2022-11-07 18:42:16 -0500 34)         val_Music = GD.Db2Linear(AudioServer.GetBusVolumeDb(bus_index_Music));
+35799690 (Jake Looney         2022-11-07 18:42:16 -0500 35)         val_SE = GD.Db2Linear(AudioServer.GetBusVolumeDb(bus_index_SE));
+35799690 (Jake Looney         2022-11-07 18:42:16 -0500 36)         volM.Value = val_Music*100;
+35799690 (Jake Looney         2022-11-07 18:42:16 -0500 37)         volS.Value = val_SE*100;
+ea9fbb7a (Jake Looney         2022-11-04 18:26:06 -0400 56)         se.Stream = ResourceLoader.Load("res://Assets/Music/BackSound.tres") as AudioStream;
+35799690 (Jake Looney         2022-11-07 18:42:16 -0500 66)     private void _on_VolumeSliderMusic_value_changed(float value)
+35799690 (Jake Looney         2022-11-07 18:42:16 -0500 68)         val_Music = value / 100;
+35799690 (Jake Looney         2022-11-07 18:42:16 -0500 69)         AudioServer.SetBusVolumeDb(bus_index_Music,GD.Linear2Db(val_Music));
+35799690 (Jake Looney         2022-11-07 18:42:16 -0500 72)     private void _on_VolumeSliderSE_value_changed(float value)
+35799690 (Jake Looney         2022-11-07 18:42:16 -0500 73)     {
+35799690 (Jake Looney         2022-11-07 18:42:16 -0500 74)         val_SE = value / 100;
+35799690 (Jake Looney         2022-11-07 18:42:16 -0500 75)         AudioServer.SetBusVolumeDb(bus_index_SE,GD.Linear2Db(val_SE));
+35799690 (Jake Looney         2022-11-07 18:42:16 -0500 76)     }
+-e 
+PauseMenu2.cs
+
+-e 
+TeamSelect.cs
+
+ea9fbb7a (Jake Looney         2022-11-04 18:26:06 -0400 309)     se.Stream = ResourceLoader.Load("res://Assets/Music/BackSound.tres") as AudioStream;
+-e 
+TitleMenu.cs
+
+-e 
+Enter_Name.cs
+
+-e 
+username.cs
+
