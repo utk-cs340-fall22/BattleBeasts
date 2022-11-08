@@ -1,0 +1,34 @@
+-e 
+Fight.cs
+
+6bac0f98 (stephhill77         2022-11-07 13:40:01 -0500  68)   /* Called when the node enters the scene tree for the first time. */
+6bac0f98 (stephhill77         2022-11-07 13:40:01 -0500  92)     /* Initialize player health bar to bottom right*/
+c46a8955 (stephhill77         2022-11-07 15:31:41 -0500  97)     /* Initialize player attack options bottom right */
+c46a8955 (stephhill77         2022-11-07 15:31:41 -0500  98)     GetNode<Button>("Action Console/VBoxContainer/Top Row/B0").Text = (String)attacks[0]["name"];
+c46a8955 (stephhill77         2022-11-07 15:31:41 -0500  99)     GetNode<Button>("Action Console/VBoxContainer/Top Row/B1").Text = (String)attacks[1]["name"];
+c46a8955 (stephhill77         2022-11-07 15:31:41 -0500 100)     GetNode<Button>("Action Console/VBoxContainer/Bottom Row/B2").Text = (String)attacks[2]["name"];
+c46a8955 (stephhill77         2022-11-07 15:31:41 -0500 101)     GetNode<Button>("Action Console/VBoxContainer/Bottom Row/B3").Text = (String)attacks[3]["name"];
+f039f0c6 (stephhill77         2022-11-05 13:01:20 -0400 102) 
+6bac0f98 (stephhill77         2022-11-07 13:40:01 -0500 106)     beast = beastOptions[g.currBeast.ToString()] as Dictionary;
+6bac0f98 (stephhill77         2022-11-07 13:40:01 -0500 107)     modifier = modifierOptions[g.oppMods[g.currBeast].ToString()] as Dictionary;
+6bac0f98 (stephhill77         2022-11-07 13:40:01 -0500 115)     /* Initialize opponent health bar to top left*/
+6bac0f98 (stephhill77         2022-11-07 13:40:01 -0500 118)     oHealthBar.CreateLabel(g.oppName[g.currBeast], (String)modifier["name"]); 
+6bac0f98 (stephhill77         2022-11-07 13:40:01 -0500 121)     
+6bac0f98 (stephhill77         2022-11-07 13:40:01 -0500 131)   /* AI chooses and performs an attack */
+f039f0c6 (stephhill77         2022-11-05 13:01:20 -0400 235)     pHealthBar.UpdateHealthFrac(player.GetMaxHealth(), player.GetHealth()); // adjusts players's HP fraction
+f039f0c6 (stephhill77         2022-11-05 13:01:20 -0400 237)     oHealthBar.UpdateHealthFrac(opponent.GetMaxHealth(), opponent.GetHealth()); // adjusts opponent's HP fraction
+-e 
+HealthInterface.cs
+
+6bac0f98 (stephhill77    2022-11-07 13:40:01 -0500  6)     /* Controls the health bar's progress */
+6bac0f98 (stephhill77    2022-11-07 13:40:01 -0500 12)     /* Controls the fraction the appears in the health bar*/
+f039f0c6 (stephhill77    2022-11-05 13:01:20 -0400 13)     public void UpdateHealthFrac(int maxHealth, int currHealth)
+f039f0c6 (stephhill77    2022-11-05 13:01:20 -0400 14)     {
+f039f0c6 (stephhill77    2022-11-05 13:01:20 -0400 15)         GetNode<Label>("HealthFrac").Text = currHealth + " / " + maxHealth;
+f039f0c6 (stephhill77    2022-11-05 13:01:20 -0400 16)     }
+6bac0f98 (stephhill77    2022-11-07 13:40:01 -0500 18)     /* Creates the label for player/opponent name and modifier */
+6bac0f98 (stephhill77    2022-11-07 13:40:01 -0500 19)     public void CreateLabel(string name, string modifier)
+6bac0f98 (stephhill77    2022-11-07 13:40:01 -0500 20)     {
+6bac0f98 (stephhill77    2022-11-07 13:40:01 -0500 21)         GetNode<Label>("UserMods").Text = name + " / " + modifier;
+6bac0f98 (stephhill77    2022-11-07 13:40:01 -0500 24)     
+6bac0f98 (stephhill77    2022-11-07 13:40:01 -0500 25)     
