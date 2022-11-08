@@ -1,16 +1,12 @@
-
-Bracket.cs
-
-
-Bullet.cs
+Fight/Bullet.cs
 
 8bd271b3 (Colin Canonaco      2022-11-07 21:30:57 -0500 36)         GetParent().Call("_ChangePlayerHealth",-5);
 
-BulletHell.cs
+Fight/BulletHell.cs
 
 8bd271b3 (Colin Canonaco      2022-11-07 21:30:57 -0500  23)         GameTime = 10;
 
-Fight.cs
+Fight/Fight.cs
 
 8bd271b3 (Colin Canonaco 2022-11-07 21:30:57 -0500  13)   public PackedScene BulletHellMinigame;
 8bd271b3 (Colin Canonaco 2022-11-07 21:30:57 -0500  14)   [Export]
@@ -41,7 +37,7 @@ b968abaa (Colin Canonaco 2022-11-07 18:47:24 -0500 196)       GD.Print("player a
 8bd271b3 (Colin Canonaco 2022-11-07 21:30:57 -0500 275)     AddChild(BulletHellMinigame.Instance());
 8bd271b3 (Colin Canonaco 2022-11-07 21:30:57 -0500 282)     AddChild(BulletHellMinigame.Instance());
 
-Fighter.cs
+Fight/Fighter.cs
 
 5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400   2) using Godot.Collections;
 5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400   7)   public Sprite texture;
@@ -97,37 +93,8 @@ Fighter.cs
 5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400  91)   }
 5b21ce08 (Colin Canonaco 2022-10-31 20:53:25 -0400  92) 
 
-HealthInterface.cs
 
-
-Player.cs
-
-
-PowerSliderMiniGame.cs
-
-
-QuickTimeKeyboard.cs
-
-
-Globals.cs
-
-
-AttackNode.cs
-
-
-Credits.cs
-
-
-MainMenu.cs
-
-
-OptionsMenu2.cs
-
-
-PauseMenu2.cs
-
-
-TeamSelect.cs
+Menus/TeamSelect.cs
 
 7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400   4) using System.Collections.Generic;
 7a10e250 (Colin Canonaco      2022-11-03 17:26:17 -0400   5) using System.Linq;
@@ -244,12 +211,3 @@ TeamSelect.cs
 2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400 288)           }  
 2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400 294)     }
 2da073ba (Colin Canonaco      2022-10-27 21:35:47 -0400 295)     
-
-TitleMenu.cs
-
-
-Enter_Name.cs
-
-
-username.cs
-
