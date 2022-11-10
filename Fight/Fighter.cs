@@ -16,7 +16,6 @@ public class Fighter : Sprite
   string modifierName; // modifier name
   int healthModifier, armorModifier;
 
-  int[] attackStats = new int[4]; // attack damage for the 4 different attacks
   Dictionary[] attacksDict = new Dictionary[4];
 
   /*
@@ -44,7 +43,6 @@ public class Fighter : Sprite
     GD.Print("controller: ", controller);
     GD.Print("maxHealth: ", maxHealth, " | armor: ", armor, " | type: ", type);
     GD.Print("modifierName: ", modifierName, " | healthModifier: ", healthModifier, " | armorModifier: ", armorModifier);
-    
     for (i = 0; i < attacksDict.Length; i++) GD.Print("attack", i, ": ", attacksDict[i]["name"]);
   }
 
@@ -88,6 +86,15 @@ public class Fighter : Sprite
   */
   public int GetArmor() {
     return armor;
+  }
+
+  /*
+  Return minigame of attack with given ID
+  attackID: ID of the attack
+  return: Minigame index of attack
+  */
+  public int GetAttackMinigame(int attackID) {
+    return Convert.ToInt32(attacksDict[attackID]["minigame"]);
   }
 
   /*
