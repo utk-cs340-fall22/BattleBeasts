@@ -101,6 +101,12 @@ public class TeamSelect : CanvasLayer
     attack2Prev = -1;
     attack3Prev = -1;
     
+    // remove old attacks
+    foreach (Control n in AttacksList.GetChildren()){
+      AttacksList.RemoveChild(n);
+      n.QueueFree();  
+    }
+    
     // enable modifier selector, disable attack selectors, set up up modifier selector, get selected beast index
     modifierSelector.Clear();
     modifierSelector.Disabled = false;
