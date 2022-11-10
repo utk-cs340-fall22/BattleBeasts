@@ -2,181 +2,181 @@
   "0": {
     "name": "Flame Punch",
     "type": "Fire",
-    "strike_damage": 10,
+    "strike_damage": 22,
     "strike_count": 1
   },
   "1": {
     "name": "Magma Ball",
     "type": "Fire",
-    "strike_damage": 7,
+    "strike_damage": 12,
     "strike_count": 2
   },
   "2": {
     "name": "Heat Wave",
     "type": "Fire",
-    "strike_damage": 10,
-    "strike_count": 1
+    "strike_damage": 5,
+    "strike_count": 5
   },
   "3": {
     "name": "Fire Charge",
     "type": "Fire",
-    "strike_damage": 10,
-    "strike_count": 1
+    "strike_damage": 8,
+    "strike_count": 3
   },
   "4": {
     "name": "Inferno Shot",
     "type": "Fire",
-    "strike_damage": 10,
-    "strike_count": 1
+    "strike_damage": 7,
+    "strike_count": 4
   },
   "5": {
     "name": "Ember burst",
     "type": "Fire",
-    "strike_damage": 3,
-    "strike_count": 5
+    "strike_damage": 5,
+    "strike_count": 6
   },
   "6": {
     "name": "Thunder Whip",
     "type": "Electric",
-    "strike_damage": 2,
-    "strike_count": 5
+    "strike_damage": 13,
+    "strike_count": 2
   },
   "7": {
     "name": "Electric Pulse",
     "type": "Electric",
-    "strike_damage": 6,
-    "strike_count": 2
+    "strike_damage": 5,
+    "strike_count": 6
   },
   "8": {
     "name": "Amp Strike",
     "type": "Electric",
-    "strike_damage": 10,
-    "strike_count": 1
+    "strike_damage": 14,
+    "strike_count": 2
   },
   "9": {
     "name": "Volt Shot",
     "type": "Electric",
-    "strike_damage": 7,
-    "strike_count": 2
+    "strike_damage": 4,
+    "strike_count": 8
   },
   "10": {
     "name": "Charged Bind",
     "type": "Electric",
-    "strike_damage": 10,
-    "strike_count": 1
+    "strike_damage": 8,
+    "strike_count": 3
   },
   "11": {
     "name": "Lighting Bolt",
     "type": "Electric",
-    "strike_damage": 10,
+    "strike_damage": 25,
     "strike_count": 1
   },
   "12": {
     "name": "Poison Puff",
     "type": "Poison",
-    "strike_damage": 4,
-    "strike_count": 2
+    "strike_damage": 6,
+    "strike_count": 4
   },
   "13": {
     "name": "Toxic Gas",
     "type": "Poison",
-    "strike_damage": 10,
-    "strike_count": 1
+    "strike_damage": 4,
+    "strike_count": 5
   },
   "14": {
     "name": "Venobite",
     "type": "Poison",
-    "strike_damage": 10,
-    "strike_count": 1
+    "strike_damage": 13,
+    "strike_count": 2
   },
   "15": {
     "name": "Barbed Coil",
     "type": "Poison",
-    "strike_damage": 2,
-    "strike_count": 5
+    "strike_damage": 8,
+    "strike_count": 3
   },
   "16": {
     "name": "Berry Burst",
     "type": "Poison",
-    "strike_damage": 6,
-    "strike_count": 2
+    "strike_damage": 4,
+    "strike_count": 6
   },
   "17": {
     "name": "Acid Spray",
     "type": "Poison",
-    "strike_damage": 6,
-    "strike_count": 2
+    "strike_damage": 3,
+    "strike_count": 10
   },
   "18": {
     "name": "Snowball",
     "type": "Ice",
-    "strike_damage": 10,
+    "strike_damage": 24,
     "strike_count": 1
   },
   "19": {
     "name": "Frost Tackle",
     "type": "Ice",
-    "strike_damage": 10,
-    "strike_count": 1
+    "strike_damage": 13,
+    "strike_count": 2
   },
   "20": {
     "name": "Ice Strike",
     "type": "Ice",
-    "strike_damage": 6,
-    "strike_count": 2
+    "strike_damage": 8,
+    "strike_count": 3
   },
   "21": {
     "name": "Freeze Wave",
     "type": "Ice",
-    "strike_damage": 10,
-    "strike_count": 1
+    "strike_damage": 5,
+    "strike_count": 5
   },
   "22": {
     "name": "Hail Storm",
     "type": "Ice",
-    "strike_damage": 3,
-    "strike_count": 5
+    "strike_damage": 4,
+    "strike_count": 7
   },
   "23": {
     "name": "Glacial Hammer",
     "type": "Ice",
-    "strike_damage": 10,
-    "strike_count": 1
+    "strike_damage": 14,
+    "strike_count": 2
   },
   "24": {
     "name": "Soul Gaze",
     "type": "Dark Magic",
-    "strike_damage": 10,
-    "strike_count": 1
+    "strike_damage": 13,
+    "strike_count": 2
   },
   "25": {
     "name": "Life Drain",
     "type": "Dark Magic",
-    "strike_damage": 10,
-    "strike_count": 1
+    "strike_damage": 6,
+    "strike_count": 4
   },
   "26": {
     "name": "Ancient Power",
     "type": "Dark Magic",
-    "strike_damage": 12,
-    "strike_count": 1
+    "strike_damage": 4,
+    "strike_count": 9
   },
   "27": {
     "name": "Ritual Dance",
     "type": "Dark Magic",
-    "strike_damage": 4,
-    "strike_count": 5
+    "strike_damage": 8,
+    "strike_count": 3
   },
   "28": {
     "name": "Infernal Kick",
     "type": "Dark Magic",
-    "strike_damage": 12,
+    "strike_damage": 24,
     "strike_count": 1
   },
   "29": {
     "name": "Leeching Swipes",
     "type": "Dark Magic",
-    "strike_damage": 7,
-    "strike_count": 2
+    "strike_damage": 4,
+    "strike_count": 6
   }
 }
