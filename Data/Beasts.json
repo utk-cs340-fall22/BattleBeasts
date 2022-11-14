@@ -2,7 +2,7 @@
   "0": {
     "name": "Auril",
     "texture": "res://Assets/Character Sprites/Auril-1.png",
-    "health": 110,
+    "health": 200,
     "armor": 2,
     "type": "Ice",
     "modifiers": [0, 1, 2],
@@ -12,7 +12,7 @@
   "1": {
     "name": "Solanac",
     "texture": "res://Assets/Character Sprites/Solanac-1.png",
-    "health": 90,
+    "health": 190,
     "armor": 0,
     "type": "Poison",
     "modifiers": [0, 1, 2],
@@ -22,7 +22,7 @@
   "2": {
     "name": "Alzrius",
     "texture": "res://Assets/Character Sprites/Alzrius-1.png",
-    "health": 130,
+    "health": 230,
     "armor": 1,
     "type": "Fire",
     "modifiers": [0, 1, 2],
@@ -32,8 +32,8 @@
   "3": {
     "name": "Glabbagool",
     "texture": "res://Assets/Character Sprites/Glabbagool.png",
-    "health": 100,
-    "armor": 3,
+    "health": 170,
+    "armor": 2,
     "type": "Electric",
     "modifiers": [0, 1, 2],
     "attacks": [6, 7, 8, 9, 10, 11],
@@ -42,8 +42,8 @@
   "4": {
     "name": "Bunpir",
     "texture": "res://Assets/Character Sprites/Bunpir.png",
-    "health": 120,
-    "armor": 5,
+    "health": 210,
+    "armor": 1,
     "type": "Dark Magic",
     "modifiers": [0, 1, 2],
     "attacks": [24, 25, 26, 27, 28, 29],

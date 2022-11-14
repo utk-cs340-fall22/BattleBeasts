@@ -56,7 +56,6 @@ public class Bracket: Node2D
   
   private void get_curr_beast(Dictionary beasts)
   {
-    GD.Print(g.currBeast);
     select_beast("Other", g.currBeast, true);
     
    }

@@ -12,13 +12,16 @@ public class Fight : Node
   [Export]
   public PackedScene BulletHellMinigame;
   [Export]
+  public PackedScene QuickTimeMinigame;
+  [Export]
   public PackedScene HPinterface;
 
 #pragma warning restore 649
   Globals g;
   int isPlayerTurn, aiAttackChoice;
   int queuedAttack; // index of submitted attack in attack dictionary of attacking fighter | -1 for no queued attack | integer in [0, 3] for player | integer in [10, 13] for opponent
-  int minigameResult; // -1: minigame active | [0, 100]: result of previous minigame, no minigame active
+  int queuedMinigame; // index of minigame queued in switch statement in CallMinigame() | -1 for no queued minigame | integer >= 0 for minigame index
+  int minigameResult; // -2: no minigame running, result used, minigame may be instantiated | -1: minigame active | [0, 100]: result of previous minigame, no minigame active, result not used
   Fighter player, opponent;
   Texture playerTexture, opponentTexture;
   HealthInterface pHealthBar, oHealthBar;
@@ -67,62 +70,59 @@ public class Fight : Node
   
   /* Called when the node enters the scene tree for the first time. */
   public override void _Ready() {
-    Dictionary beast, modifier;
-    Dictionary[] attacks = new Dictionary[4];
+    Dictionary playerBeastD, playerModiferD, opponentBeastD, opponentModiferD;
+    Dictionary[] playerAttacksD = new Dictionary[4];
+    Dictionary[] opponentAttacksD = new Dictionary[4];
     int i;
     
     g = (Globals)GetNode("/root/Gm");
     isPlayerTurn = 1;
-    minigameResult = 0;
+    minigameResult = -2;
     queuedAttack = -1;
     GD.Randomize();
 
     /* Initialize player character */
     player = (Fighter)Fighter.Instance();
     AddChild(player);
-    beast = beastOptions[g.playerBeastIndex.ToString()] as Dictionary;
-    modifier = modifierOptions[g.playerModifierIndex.ToString()] as Dictionary;
-    for (i = 0; i < g.playerAttackIndices.Length; i++) attacks[i] = attackOptions[g.playerAttackIndices[i].ToString()] as Dictionary;
-    playerTexture = ResourceLoader.Load((String)beast["texture"]) as Texture;
+    playerBeastD = beastOptions[g.playerBeastIndex.ToString()] as Dictionary;
+    playerModiferD = modifierOptions[g.playerModifierIndex.ToString()] as Dictionary;
+    for (i = 0; i < g.playerAttackIndices.Length; i++) playerAttacksD[i] = attackOptions[g.playerAttackIndices[i].ToString()] as Dictionary;
+    playerTexture = ResourceLoader.Load((String)playerBeastD["texture"]) as Texture;
     player.GetNode<Sprite>("Texture").Texture = playerTexture;
     player.Position = new Vector2(190, 280);
     player.Scale = new Vector2(6, 6);
-    player.Init("player", beast, modifier, attacks);
+    player.Init("player", playerBeastD, playerModiferD, playerAttacksD);
 
     /* Initialize player health bar to bottom right*/
     pHealthBar = (HealthInterface)HPinterface.Instance();
     AddChild(pHealthBar);
-    pHealthBar.CreateLabel(g.name, (String)modifier["name"]);
+    pHealthBar.CreateLabel(g.name, (String)playerModiferD["name"]);
 
     /* Initialize player attack options bottom right */
-    GetNode<Button>("Action Console/VBoxContainer/Top Row/B0").Text = (String)attacks[0]["name"];
-    GetNode<Button>("Action Console/VBoxContainer/Top Row/B1").Text = (String)attacks[1]["name"];
-    GetNode<Button>("Action Console/VBoxContainer/Bottom Row/B2").Text = (String)attacks[2]["name"];
-    GetNode<Button>("Action Console/VBoxContainer/Bottom Row/B3").Text = (String)attacks[3]["name"];
+    GetNode<Button>("Action Console/VBoxContainer/Top Row/B0").Text = (String)playerAttacksD[0]["name"];
+    GetNode<Button>("Action Console/VBoxContainer/Top Row/B1").Text = (String)playerAttacksD[1]["name"];
+    GetNode<Button>("Action Console/VBoxContainer/Bottom Row/B2").Text = (String)playerAttacksD[2]["name"];
+    GetNode<Button>("Action Console/VBoxContainer/Bottom Row/B3").Text = (String)playerAttacksD[3]["name"];
 
     /* Initialize opponent character */
     opponent = (Fighter)Fighter.Instance();
     AddChild(opponent);
-    beast = beastOptions[g.currBeast.ToString()] as Dictionary;
-    modifier = modifierOptions[g.oppMods[g.currBeast].ToString()] as Dictionary;
-    for (i = 0; i < g.oppAttacks.GetLength(1); i++) attacks[i] = attackOptions[g.oppAttacks[g.currBeast, i].ToString()] as Dictionary;
-    opponentTexture = ResourceLoader.Load((String) beast["texture"]) as Texture;
+    opponentBeastD = beastOptions[g.currBeast.ToString()] as Dictionary;
+    opponentModiferD = modifierOptions[g.oppMods[g.currBeast].ToString()] as Dictionary;
+    for (i = 0; i < g.oppAttacks.GetLength(1); i++) opponentAttacksD[i] = attackOptions[g.oppAttacks[g.currBeast, i].ToString()] as Dictionary;
+    opponentTexture = ResourceLoader.Load((String) opponentBeastD["texture"]) as Texture;
     opponent.GetNode<Sprite>("Texture").Texture = opponentTexture;
     opponent.Position = new Vector2(850, 170);
     opponent.Scale = new Vector2(6, 6);
-    opponent.Init("opponent", beast, modifier, attacks);
+    opponent.Init("opponent", opponentBeastD, opponentModiferD, opponentAttacksD);
 
     /* Initialize opponent health bar to top left*/
     oHealthBar = (HealthInterface)HPinterface.Instance();
     AddChild(oHealthBar);
-    oHealthBar.CreateLabel(g.oppName[g.currBeast], (String)modifier["name"]); 
+    oHealthBar.CreateLabel(g.oppName[g.currBeast], (String)opponentModiferD["name"]); 
     Vector2 oHpBar = new Vector2(-600, -500);
     oHealthBar.SetPosition(oHpBar, false);
-    
-
-    // debug
-    GD.Print("opponent health: ", opponent.GetHealth());
-    
+        
     /* Music */
 
     StartMusic();
@@ -161,9 +161,30 @@ public class Fight : Node
     return 0;
   }
 
+  public void CallMinigame() {
+    if (queuedAttack > 3 || queuedAttack < 0 || minigameResult != -2) return;
+    queuedMinigame = player.GetAttackMinigame(queuedAttack);
+    minigameResult = -1;
+    switch (queuedMinigame) {
+      case 0:
+        AddChild(PowerSliderMinigame.Instance());
+        break;
+      case 1:
+        AddChild(BulletHellMinigame.Instance());
+        break;
+      case 2:
+        AddChild(QuickTimeMinigame.Instance());
+        break;
+      default:
+        AddChild(PowerSliderMinigame.Instance());
+        break;
+    }
+  }
+  
   public void MinigameReturn(int result) {
     if (result < 0 || result > 100) {
       GD.Print("Minigames may only return integer values in [0, 100]");
+      minigameResult = 0;
       return;
     }
     minigameResult = result;
@@ -197,6 +218,9 @@ public class Fight : Node
       isPlayerTurn = 0;
       queuedAttack = -1;
     }
+
+    // ready for next minigame
+    minigameResult = -2;
   }
   
   private void StartMusic(){
@@ -230,18 +254,22 @@ public class Fight : Node
       g.fightOutcome = 1;
       GetTree().ChangeScene("res://Bracket/Bracket.tscn");
     }
+
+    /* Update health bars */
     
     pHealthBar.AdjustHealth((player.GetHealth() * 100) / player.GetMaxHealth()); // adjusts the player's HP bar
     pHealthBar.UpdateHealthFrac(player.GetMaxHealth(), player.GetHealth()); // adjusts players's HP fraction
     oHealthBar.AdjustHealth((opponent.GetHealth() * 100) / opponent.GetMaxHealth()); // adjusts the opponent's HP bar
     oHealthBar.UpdateHealthFrac(opponent.GetMaxHealth(), opponent.GetHealth()); // adjusts opponent's HP fraction
     
-    /* Everything below is skipped if a minigame is active */
+    /* Call minigame */
 
     if (minigameResult == -1) return;
+    CallMinigame();
 
     /* Perform queued attack */
 
+    if (minigameResult == -1) return;
     PerformQueuedAttack();
 
     /* AI turn */
@@ -257,28 +285,20 @@ public class Fight : Node
   private void _on_B0_pressed() {
     if (CheckAttackSignalPermission() == 1) return;
     queuedAttack = 0;
-    minigameResult = -1;
-    AddChild(PowerSliderMinigame.Instance());
   }
 
   private void _on_B1_pressed() {
     if (CheckAttackSignalPermission() == 1) return;
     queuedAttack = 1;
-    minigameResult = -1;
-    AddChild(PowerSliderMinigame.Instance()); // some logic to determine what minigame to create will be needed eventually
   }
 
   private void _on_B2_pressed() {
     if (CheckAttackSignalPermission() == 1) return;
     queuedAttack = 2;
-    minigameResult = -1;
-    AddChild(BulletHellMinigame.Instance());
   }
 
   private void _on_B3_pressed() {
     if (CheckAttackSignalPermission() == 1) return;
     queuedAttack = 3;
-    minigameResult = -1;
-    AddChild(BulletHellMinigame.Instance());
   }
 }

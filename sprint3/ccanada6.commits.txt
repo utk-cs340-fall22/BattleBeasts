@@ -1,0 +1,436 @@
+
+Bullet.cs
+
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400  1) using Godot;
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400  2) using System;
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400  3) 
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400  4) public class Bullet : Area2D
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400  5) {
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400  6)     public int speed = 400;
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400  7)     Vector2 velocity;
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  8)     float time = 0;
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  9)     public bool destroy_on_collide = false;
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400 10) 
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400 11)     // Called when the node enters the scene tree for the first time.
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400 12)     public override void _Ready()
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400 13)     {
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 14)         velocity.x = 1;
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 15)         velocity.y = 0;
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400 16)     }
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400 17)     
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400 18)     public override void _Process(float delta)
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400 19)     {
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 20)       // move bullet foward
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 21)       this.Position += velocity.Rotated(Rotation) * speed * delta;
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 22)       time += delta;
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 23)       
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 24)       // delete the bullet if its off screen
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 25)       if((this.Position.x > OS.WindowSize.x ||
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 26)          this.Position.y > OS.WindowSize.y ||
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 27)          this.Position.x < 0 ||
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 28)          this.Position.y < 0) && time > 2){
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 29)         QueueFree();
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 30)       }
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 31)     }
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 32)     
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 33)     // when the bullet hits a player subtract from health
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 34)     private void _on_Bullet_body_entered(KinematicBody2D body)
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 35)     {
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400 37)     }
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 38)     
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 39)     public void set_destroy_on_collide(bool b)
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 40)     {
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 41)       destroy_on_collide = b;  
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 42)     }
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 43)     
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 44)     public bool get_destroy_on_collide()
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 45)     {
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 46)       return destroy_on_collide;
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 47)     }
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 48)     
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 49)     private void _on_Bullet_area_entered(Area2D area)
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 50)     {
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 51)       bool t = (bool) area.Call("get_destroy_on_collide");
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 52)       if(destroy_on_collide && t) QueueFree();
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 53)     }
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400 54) }
+
+BulletHell.cs
+
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400   1) using Godot;
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400   2) using System;
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400   3) 
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400   4) public class BulletHell : Node2D
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400   5) {
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400   6)     RandomNumberGenerator rng = new RandomNumberGenerator();
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400   7)     private Random _random = new Random();
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400   8)     PathFollow2D BulletSpawnLocation;
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400   9)     public PackedScene Bullet;
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400  10)     private int PlayerHealth;
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400  11)     private float StartTime;
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400  12)     private float GameTime;
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  13)     private Control HPBar;
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400  14)     private float delay;
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  15)     private Node fight;
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400  16) 
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400  17)     // Called when the node enters the scene tree for the first time.
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400  18)     public override void _Ready()
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400  19)     {
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  20)         // defaults
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400  21)         PlayerHealth = 100;
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400  22)         StartTime = 1;
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400  24)         delay = (float) .2;
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400  25)         rng.Randomize();
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  26)         
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  27)         // grab scenes
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400  28)         BulletSpawnLocation = GetNode<PathFollow2D>("BulletSpawn/SpawnLocation");
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400  29)         Bullet = GD.Load<PackedScene>("res://Fight/Bullet.tscn");
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  30)         fight = GetNode<Node>("/root/Main");
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  31)         HPBar = GetNode<Control>("HealthInterface");
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  32)         
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  33)         // set up health bar
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  34)         HPBar.Call("AdjustHealth",100);
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  35)         HPBar.Call("UpdateHealthFrac",100,100);
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400  36)     }
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400  37)     
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400  38)     public override void _Process(float delta)
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400  39)     { 
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  40)         // creates new bullets if needed
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  41)         if(StartTime < 0 && GetChildCount() < 400){
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400  42)           if(delay > 0){
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400  43)             delay -= delta;
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400  44)           }else{
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400  45)             _MakeBullet();
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  46)             delay = (float) rng.RandfRange((float) .4,(float) .8);
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400  47)           }
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400  48)         }
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400  49)         
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400  50)         if(StartTime > 0) StartTime -= delta;
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400  51)         if(StartTime < 0) GameTime -= delta;
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400  52)         if(PlayerHealth < 0 || GameTime < 0)  _GameOver();
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400  53)     }
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400  54)     
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  55)     // returns value to fight scene and exits
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400  56)     private void _GameOver(){
+a6d254a9 (Christopher Canaday 2022-11-06 14:17:52 -0500  57)       if(PlayerHealth > 0){
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  58)         fight.Call("MinigameReturn",PlayerHealth);
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  59)       }else{
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  60)         fight.Call("MinigameReturn",0);
+a6d254a9 (Christopher Canaday 2022-11-06 14:17:52 -0500  61)       }
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400  62)       QueueFree(); 
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400  63)     }
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400  64)     
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  65)     // creates new bullets
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400  66)     private void _MakeBullet()
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400  67)     {
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400  68)       BulletSpawnLocation.Offset = _random.Next();
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  69)       Random tmp_random = new Random();
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  70)       double start = BulletSpawnLocation.Offset;
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  71)       float radius = OS.WindowSize.x;
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  72)       float theta = 0;
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  73)       double tmp = 0;
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  74)       Vector2 dt;
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400  75)       
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  76)       // randomize either wall or circle
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  77)       int todo = tmp_random.Next() % 2;
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  78)       
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  79)       // make a wall with 10 bullets
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  80)       if(todo == 0){
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  81)         for(int i = 0; i < 10; i++){
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400  82)           var BulletInstance = (Area2D) Bullet.Instance();
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400  83)           AddChild(BulletInstance);
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400  84)           BulletInstance.Position = BulletSpawnLocation.Position;
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400  85)           
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  86)           // make bullet shoot perpendicular to spawn zone
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400  87)           float direction = BulletSpawnLocation.Rotation + Mathf.Pi / 2;
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400  88)           BulletInstance.Rotation = direction;
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  89)           BulletSpawnLocation.Offset += 22;
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  90)         }
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  91)       }
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  92)       
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  93)       // creates circle
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  94)       if(todo == 1){
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  95)         // get middle of screen
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  96)         dt.x = OS.WindowSize.x / 2;
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  97)         dt.y = OS.WindowSize.y / 2;
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  98)         
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  99)         // spawn bullets in circle
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 100)         while(theta < 2 * Mathf.Pi){
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 101)           Vector2 dx;
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 102)           
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 103)           // get spawn point
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 104)           dx.x = dt.x + radius * Mathf.Cos(theta * Mathf.Pi);
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 105)           dx.y = dt.y + radius * Mathf.Sin(theta * Mathf.Pi);
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 106)           
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 107)           // spawn bullet
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 108)           var BulletInstance = (Area2D) Bullet.Instance();
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 109)           AddChild(BulletInstance);
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 110)           BulletInstance.Position = dx;
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 111)           BulletInstance.LookAt(dt);
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 112)           theta += (float) .6;
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 113)           BulletInstance.Call("set_destroy_on_collide",true);
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 114)         }
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 115)       }
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 116)     }
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 117)     
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 118)     public void _ChangePlayerHealth(int change)
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 119)     {
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 120)       PlayerHealth += change;
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 121)       HPBar.Call("UpdateHealthFrac",100,PlayerHealth);
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 122)       HPBar.Call("AdjustHealth",PlayerHealth);
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 123)       
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 124)     }
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 125)     
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 126)     private float RandRange(float min, float max)
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 127)     {
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 128)         return (float)_random.NextDouble() * (max - min) + min;
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 129)     }
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400 130) }
+
+Player.cs
+
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400  1) using Godot;
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400  2) using Godot.Collections;
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400  3) using System;
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400  4) 
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400  5) public class Player : KinematicBody2D
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400  6) {
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  7)     [Export] public int speed = 300;
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400  8)     private static Dictionary _beastOptions = null;
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400  9)     public Vector2 velocity = new Vector2();
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 10)     Texture playerTexture;
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 11)     Vector2 startpos;
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 12)     Globals g;
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 13)     
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 14)     
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 15)     private Dictionary beastOptions {
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 16)       get {
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 17)         if (_beastOptions == null) {
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 18)           var file = new File();
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 19)           file.Open("res://Data/Beasts.json", File.ModeFlags.Read);
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 20)           var text = file.GetAsText();
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 21)           _beastOptions = JSON.Parse(text).Result as Dictionary;
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 22)         }
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 23)         return _beastOptions;
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 24)       }
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 25)     }
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400 26) 
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400 27)     // Called when the node enters the scene tree for the first time.
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400 28)     public override void _Ready()
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400 29)     {
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 30)         Dictionary beast;
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 31)       
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 32)         // start the beast in middle of screen
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 33)         startpos.x = GetViewport().Size.x/2;
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 34)         startpos.y = GetViewport().Size.y/2;
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 35)         this.Position = startpos;
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 36)         
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 37)         g = (Globals)GetNode("/root/Gm");
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 38)         
+3227554f (Christopher Canaday 2022-11-05 22:02:06 -0400 39)         // import beast texture and set it
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 40)         beast = beastOptions[g.playerBeastIndex.ToString()] as Dictionary;
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 41)         playerTexture = ResourceLoader.Load((String)beast["texture"]) as Texture;
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 42)         GetNode<Sprite>("Texture").Texture = playerTexture;
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 43)     }
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 44)     
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 45)     // sets the velocity vector
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 46)     public void GetInput()
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 47)     {
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 48)       velocity = new Vector2();
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400 49) 
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 50)       if (Input.IsActionPressed("right")){
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 51)         velocity.x += 1;
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 52)       }
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 53) 
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 54)       if (Input.IsActionPressed("left")){
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 55)         velocity.x -= 1;
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 56)       }
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 57) 
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 58)       if (Input.IsActionPressed("down")){
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 59)         velocity.y += 1;
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 60)       }
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 61) 
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 62)       if (Input.IsActionPressed("up")){
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 63)         velocity.y -= 1;
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 64)       }
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 65)       velocity = velocity.Normalized() * speed;
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400 66)     }
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400 67)     
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 68)     // Moves the character based off character input
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 69)     public override void _PhysicsProcess(float delta)
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400 70)     {
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 71)       GetInput();
+148d844f (Christopher Canaday 2022-11-04 20:05:07 -0400 72)       velocity = MoveAndSlide(velocity);
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400 73)     }
+7165b3d4 (Christopher Canaday 2022-11-01 22:02:00 -0400 74) }
+
+AttackNode.cs
+
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500  1) using Godot;
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500  2) using System;
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500  3) 
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500  4) public class AttackNode : Control
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500  5) {
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500  6)   
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500  7)     private Label AttackName, AttackDmg, AttackNum;
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500  8)     private CanvasLayer TeamSelect;
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500  9)     private Panel Cover;
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 10)     private Sprite DmgType;
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 11)     public bool selected = false;
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 12)     private int index;
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 13)       
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 14)     // Called when the node enters the scene tree for the first time.
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 15)     public override void _Ready()
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 16)     {
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 17)         AttackName = GetNode<Label>("AttackName");
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 18)         AttackDmg = GetNode<Label>("AttackDmg");
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 19)         AttackNum = GetNode<Label>("AttackNum");
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 20)         DmgType = GetNode<Sprite>("DmgType");
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 21)         TeamSelect = GetNode<CanvasLayer>("../../..");
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 22)         Cover = GetNode<Panel>("Panel2");
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 23)         Cover.Hide();
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 24)     }
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 25)     
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 26)     public void setup_AttackNode(string name, int dmg, int num, string type, int ind, CanvasLayer parent)
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 27)     {
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 28)       AttackName = GetNode<Label>("AttackName");
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 29)       AttackDmg = GetNode<Label>("AttackDmg");
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 30)       AttackNum = GetNode<Label>("AttackNum");
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 31)       DmgType = GetNode<Sprite>("DmgType");
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 32)       TeamSelect = parent;
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 33)       Cover = GetNode<Panel>("Panel2");
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 34)       Cover.Hide();
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 35)       String d = dmg.ToString();
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 36)       String n = num.ToString();
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 37)       AttackName.Text = name;
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 38)       AttackDmg.Text = "ATK "+ d;
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 39)       AttackNum.Text = "HPA " + n;
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 40)       index = ind;
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 41)       
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 42)       if(type == "Fire"){
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 43)         DmgType.Texture = ResourceLoader.Load("res://Assets/Attack Type Sprites/fire-icon.png") as Texture;  
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 44)       }else if(type == "Electric"){
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 45)         DmgType.Texture = ResourceLoader.Load("res://Assets/Attack Type Sprites/electric-icon.png") as Texture; 
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 46)       }else if(type == "Poison"){
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 47)         DmgType.Texture = ResourceLoader.Load("res://Assets/Attack Type Sprites/poison-icon.png") as Texture; 
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 48)       }else if(type == "Ice"){
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 49)         DmgType.Texture = ResourceLoader.Load("res://Assets/Attack Type Sprites/ice-icon.png") as Texture; 
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 50)       }else if(type == "Dark Magic"){
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 51)         DmgType.Texture = ResourceLoader.Load("res://Assets/Attack Type Sprites/darkmagic-icon.png") as Texture; 
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 52)       }
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 53)     }
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 54)     
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 55)     private void _on_TextureButton_pressed()
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 56)     {
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 57)         bool val;
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 58)         
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 59)         val = (bool) TeamSelect.Call("_on_Attack_selected",index);
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 60)         
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 61)         if(selected && val){
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 62)           Cover.Hide();
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 63)           selected = false; 
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 64)         }else if(val){
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 65)           Cover.Show();
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 66)           selected = true;
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 67)         }
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 68)     }
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 69)     
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 70) }
+
+MainMenu.cs
+
+400003d3 (Christopher Canaday 2022-11-01 19:11:44 -0400 29)     Options.Call("_Load_Options_Menu",false);
+
+OptionsMenu2.cs
+
+400003d3 (Christopher Canaday 2022-11-01 19:11:44 -0400  8)     bool parent;
+f2ce5a9e (Christopher Canaday 2022-10-31 18:30:49 -0400 12)     private Control Pause;
+400003d3 (Christopher Canaday 2022-11-01 19:11:44 -0400 18)         parent = false;
+400003d3 (Christopher Canaday 2022-11-01 19:11:44 -0400 48)     public void _Load_Options_Menu(bool main)
+400003d3 (Christopher Canaday 2022-11-01 19:11:44 -0400 50)         parent = main;
+400003d3 (Christopher Canaday 2022-11-01 19:11:44 -0400 58)         if(parent){
+f2ce5a9e (Christopher Canaday 2022-10-31 18:30:49 -0400 59)           Pause = GetNode<Control>("..");
+f2ce5a9e (Christopher Canaday 2022-10-31 18:30:49 -0400 60)           Pause.Call("_set_options_open",false);
+400003d3 (Christopher Canaday 2022-11-01 19:11:44 -0400 61)         }
+
+PauseMenu2.cs
+
+f2ce5a9e (Christopher Canaday 2022-10-31 18:30:49 -0400  6)     bool is_paused, options_open;
+f2ce5a9e (Christopher Canaday 2022-10-31 18:30:49 -0400 13)         options_open = false;
+f2ce5a9e (Christopher Canaday 2022-10-31 18:30:49 -0400 40)         options_open = true;
+400003d3 (Christopher Canaday 2022-11-01 19:11:44 -0400 41)         Options.Call("_Load_Options_Menu",true);
+f2ce5a9e (Christopher Canaday 2022-10-31 18:30:49 -0400 44)     public void _set_options_open(bool i){
+f2ce5a9e (Christopher Canaday 2022-10-31 18:30:49 -0400 45)         options_open = i;
+f2ce5a9e (Christopher Canaday 2022-10-31 18:30:49 -0400 46)     }
+f2ce5a9e (Christopher Canaday 2022-10-31 18:30:49 -0400 47) 
+400003d3 (Christopher Canaday 2022-11-01 19:11:44 -0400 53)     // on escape key pressed we pull up the pause menu
+f2ce5a9e (Christopher Canaday 2022-10-31 18:30:49 -0400 56)         if (inputEvent.IsActionPressed("pause") && options_open == false)
+
+TeamSelect.cs
+
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500  15)   private VBoxContainer AttacksList;
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500  16)   public PackedScene Attack;
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500  99)     attack0Prev = -1;
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 100)     attack1Prev = -1;
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 101)     attack2Prev = -1;
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 102)     attack3Prev = -1;
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 132)     // remove old moves
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 133)     foreach (Control n in AttacksList.GetChildren()){
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 134)       AttacksList.RemoveChild(n);
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 135)       n.QueueFree();  
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 136)     }
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 155)         
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 156)         var AttackInstance = (Control) Attack.Instance();
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 157)         GD.Print(attack["name"]);
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 158)         GD.Print(Convert.ToInt32(attack["strike_damage"]));
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 159)         GD.Print(Convert.ToInt32(attack["strike_count"]));
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 160)         GD.Print(attack["type"]);
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 161)         GD.Print("Attacks allowed "+ attacksAllowed[i]);
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 162)         AttackInstance.Call("setup_AttackNode",(String) attack["name"],Convert.ToInt32(attack["strike_damage"]),Convert.ToInt32(attack["strike_count"]),(String) attack["type"],attacksAllowed[i],this);
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 163)         AttacksList.AddChild(AttackInstance);
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 174)     badAttack0 = (attack0Prev == -1);
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 175)     badAttack1 = (attack1Prev == -1);
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 176)     badAttack2 = (attack2Prev == -1);
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 177)     badAttack3 = (attack3Prev == -1);
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 207)     AttacksList = GetNode<VBoxContainer>("Attacks/List");
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 208)     Attack = GD.Load<PackedScene>("res://Menus/AttackNode.tscn");
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 211)     player.Position = new Vector2(200, 300);
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 254)   // handles attack selection
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 255)   public bool _on_Attack_selected(int index)
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 257)     int i,roomi = -1;
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 258)     bool rest = true;
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 259)     bool hasroom = false;
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 260)     bool alreadyselected = false;
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 261)     int alreadyselectedi = -1;
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 262)     int[] nums = new int[4];
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 264)     nums[0] = attack0Prev;
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 265)     nums[1] = attack1Prev;
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 266)     nums[2] = attack2Prev;
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 267)     nums[3] = attack3Prev;
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 269)     for(i = 0; i < 4; i++){
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 270)       if(nums[i] == -1) hasroom = true;
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 271)       if(nums[i] == index){
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 272)         alreadyselected = true;
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 273)         alreadyselectedi = i;
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 277)     if(alreadyselected){
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 278)       nums[alreadyselectedi] = -1;
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 279)       rest = false;
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 280)       hasroom = true;
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 283)     if(rest && hasroom){
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 284)         for(i = 0; i < 4; i++){
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 285)           if(nums[i] == -1){
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 286)             roomi = i;
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 287)             break;
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 291)         nums[roomi] = index;
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 292)     }else if(!hasroom){
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 293)       return false;
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 296)     attack0Prev = nums[0];
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 297)     attack1Prev = nums[1];
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 298)     attack2Prev = nums[2];
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 299)     attack3Prev = nums[3];
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 302)     areSelectionsValid();
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 303)     return true;
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 319)     g.playerAttackIndices[0] = attack0Prev;
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 320)     g.playerAttackIndices[1] = attack1Prev;
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 321)     g.playerAttackIndices[2] = attack2Prev;
+cbbf7811 (Christopher Canaday 2022-11-06 17:55:38 -0500 322)     g.playerAttackIndices[3] = attack3Prev;

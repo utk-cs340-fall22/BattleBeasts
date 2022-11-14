@@ -1,20 +1,20 @@
 {
   "0": {
     "name": "Sturdy",
-    "health_modifier": 20,
+    "health_modifier": 30,
     "armor_modifier": 1,
     "attacks": []
   },
   "1": {
     "name": "Intelligent",
-    "health_modifier": -10,
+    "health_modifier": -30,
     "armor_modifier": 2,
     "attacks": []
   },
   "2": {
     "name": "Massive",
-    "health_modifier": 30,
-    "armor_modifier": -1,
+    "health_modifier": 50,
+    "armor_modifier": 0,
     "attacks": []
   }
 }
