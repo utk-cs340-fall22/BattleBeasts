@@ -33,6 +33,7 @@ public class Fight : Node
   private bool playerAnim, opponentAnim;
   private int animTickP, animTickO;
   private Vector2 right, left;
+  private Control Attack0, Attack1, Attack2, Attack3;
   
   /* Make JSON files accessible */
   
@@ -105,10 +106,20 @@ public class Fight : Node
     pHealthBar.SetPosition(playerHealthBarPosition, false);
 
     /* Initialize player attack options bottom right */
-    GetNode<Button>("Action Console/VBoxContainer/Top Row/B0").Text = (String)playerAttacksD[0]["name"];
+    Attack0 = GetNode<Control>("Action Console/VBoxContainer/Top Row/Attack0");
+    Attack1 = GetNode<Control>("Action Console/VBoxContainer/Top Row/Attack1");
+    Attack2 = GetNode<Control>("Action Console/VBoxContainer/Bottom Row/Attack2");
+    Attack3 = GetNode<Control>("Action Console/VBoxContainer/Bottom Row/Attack3");
+    
+    Attack0.Call("setup_AttackNode",(String) playerAttacksD[0]["name"], Convert.ToInt32(playerAttacksD[0]["strike_damage"]), Convert.ToInt32(playerAttacksD[0]["strike_count"]),(String) playerAttacksD[0]["type"], 0, this);
+    Attack1.Call("setup_AttackNode",(String) playerAttacksD[1]["name"], Convert.ToInt32(playerAttacksD[1]["strike_damage"]), Convert.ToInt32(playerAttacksD[1]["strike_count"]),(String) playerAttacksD[1]["type"], 1, this);
+    Attack2.Call("setup_AttackNode",(String) playerAttacksD[2]["name"], Convert.ToInt32(playerAttacksD[2]["strike_damage"]), Convert.ToInt32(playerAttacksD[2]["strike_count"]),(String) playerAttacksD[2]["type"], 2, this);
+    Attack3.Call("setup_AttackNode",(String) playerAttacksD[3]["name"], Convert.ToInt32(playerAttacksD[3]["strike_damage"]), Convert.ToInt32(playerAttacksD[3]["strike_count"]),(String) playerAttacksD[3]["type"], 3, this);
+    /*GetNode<Button>("Action Console/VBoxContainer/Top Row/B0").Text = (String)playerAttacksD[0]["name"];
     GetNode<Button>("Action Console/VBoxContainer/Top Row/B1").Text = (String)playerAttacksD[1]["name"];
     GetNode<Button>("Action Console/VBoxContainer/Bottom Row/B2").Text = (String)playerAttacksD[2]["name"];
-    GetNode<Button>("Action Console/VBoxContainer/Bottom Row/B3").Text = (String)playerAttacksD[3]["name"];
+    GetNode<Button>("Action Console/VBoxContainer/Bottom Row/B3").Text = (String)playerAttacksD[3]["name"];*/
+    
 
     /* Initialize opponent character */
     opponent = (Fighter)Fighter.Instance();
@@ -359,5 +370,10 @@ public class Fight : Node
   private void _on_B3_pressed() {
     if (CheckAttackSignalPermission() == 1) return;
     queuedAttack = 3;
+  }
+
+  public void _on_Attack_Selected(int index){
+    if(CheckAttackSignalPermission() == 1) return;
+    queuedAttack = index;
   }
 }
