@@ -22,13 +22,16 @@ public class Fight : Node
   int queuedAttack; // index of submitted attack in attack dictionary of attacking fighter | -1 for no queued attack | integer in [0, 3] for player | integer in [10, 13] for opponent
   int queuedMinigame; // index of minigame queued in switch statement in CallMinigame() | -1 for no queued minigame | integer >= 0 for minigame index
   int minigameResult; // -2: no minigame running, result used, minigame may be instantiated | -1: minigame active | [0, 100]: result of previous minigame, no minigame active, result not used
-  Fighter player, opponent;
+  Fighter player, opponent, f;
   Texture playerTexture, opponentTexture;
   HealthInterface pHealthBar, oHealthBar;
   private AudioStreamPlayer music, musicP, musicO, se;
   private static Dictionary _beastOptions = null;
   private static Dictionary _modifierOptions = null;
   private static Dictionary _attackOptions = null;
+  private bool playerAnim, opponentAnim;
+  private int animTickP, animTickO;
+  private Vector2 right, left;
   
   /* Make JSON files accessible */
   
@@ -123,6 +126,10 @@ public class Fight : Node
     Vector2 oHpBar = new Vector2(-600, -500);
     oHealthBar.SetPosition(oHpBar, false);
         
+    /* Vectors for anims: */
+    right = new Vector2(1,0);
+    left = new Vector2(-1,0);
+        
     /* Music */
 
     StartMusic();
@@ -206,6 +213,7 @@ public class Fight : Node
       GD.Print("opponent attack ", queuedAttack - 10, " dealt ", damage * opponent.GetAttackCount(queuedAttack - 10) * minigameResult / 100, " damage.");
       isPlayerTurn = 1;
       queuedAttack = -1;
+      PlayerHurtAnim();
     }
 
     // player attacking
@@ -217,10 +225,21 @@ public class Fight : Node
       GD.Print("player attack ", queuedAttack, " dealt ", damage * player.GetAttackCount(queuedAttack) * minigameResult / 100, " damage.");
       isPlayerTurn = 0;
       queuedAttack = -1;
+      OpponentHurtAnim();
     }
 
     // ready for next minigame
     minigameResult = -2;
+  }
+  
+  private void PlayerHurtAnim(){
+    playerAnim = true;
+    animTickP = 0;
+  }
+  
+  private void OpponentHurtAnim(){
+    opponentAnim = true;
+    animTickO = 0;
   }
   
   private void StartMusic(){
@@ -278,6 +297,43 @@ public class Fight : Node
     if (isPlayerTurn == 0 && opponent.GetHealth() != 0) {
       AITakeTurn();
     }
+    
+    if(playerAnim){
+      if(animTickP > 80) {
+        player.Visible = true;
+        playerAnim = false;
+      }
+      
+      if(animTickP < 10) player.Translate(2 * right);
+      else if(animTickP < 30) player.Translate(2 * left);
+      else if(animTickP < 50) player.Translate(2 * right);
+      else if(animTickP < 70) player.Translate(2 * left);
+      else player.Translate(2 * right);
+ 
+      if(animTickP % 30 < 5) player.Visible = false;
+      else player.Visible = true;
+      
+      animTickP += 1;
+    }
+    
+    if(opponentAnim){
+      if(animTickO > 80) {
+        opponent.Visible = true;
+        opponentAnim = false;
+      }
+      
+      if(animTickO < 10) opponent.Translate(2 * right);
+      else if(animTickO < 30) opponent.Translate(2 * left);
+      else if(animTickO < 50) opponent.Translate(2 * right);
+      else if(animTickO < 70) opponent.Translate(2 * left);
+      else opponent.Translate(2 * right);
+ 
+      if(animTickO % 29 < 5) opponent.Visible = false;
+      else opponent.Visible = true;
+      
+      animTickO += 1;
+    }
+    
   }
 
   /* Signals */
