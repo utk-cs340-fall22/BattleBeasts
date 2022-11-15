@@ -1,8 +1,20 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Fonts/PublicPixel-z84yD.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Menus/TitleMenu.cs" type="Script" id=2]
 [ext_resource path="res://Assets/Character Sprites/Auril-1.png" type="Texture" id=3]
+[ext_resource path="res://Assets/tournament.png" type="Texture" id=4]
+
+[sub_resource type="Gradient" id=4]
+offsets = PoolRealArray( 0.00558659, 0.240223, 0.290503, 0.337989, 0.53352, 0.703911, 0.916201, 1 )
+colors = PoolColorArray( 0, 0, 0, 1, 0.548189, 0.548189, 0.548189, 1, 0.726562, 0.721954, 0.721954, 1, 0.625185, 0.625185, 0.625185, 1, 0.921875, 0.908232, 0.908232, 1, 0.706625, 0.706625, 0.706625, 1, 1, 1, 1, 1, 0.722656, 0.711962, 0.711962, 1 )
+
+[sub_resource type="GradientTexture2D" id=5]
+gradient = SubResource( 4 )
+width = 1024
+height = 600
+fill_from = Vector2( 0.503916, 0.837448 )
+fill_to = Vector2( 0.5, 0.1 )
 
 [sub_resource type="DynamicFont" id=1]
 size = 60
@@ -21,34 +33,22 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.2, 3.8 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.3, 3.6, 3.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 350, 241 ), Vector2( 350, 241 ), Vector2( 650, 241 ) ]
+"values": [ Vector2( 350, 241 ), Vector2( 500, 241 ), Vector2( 524, 241 ), Vector2( 650, 241 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("AnimationPlayer/ColorRect:rect_position")
+tracks/1/path = NodePath("AnimationPlayer/Sprite:self_modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.2, 3.8 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 265, 150 ), Vector2( 265, 150 ), Vector2( 565, 150 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("AnimationPlayer/ColorRect:color")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.5, 3.6, 4 ),
+"times": PoolRealArray( 0, 0.3, 3.6, 3.8 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 0.184314, 0.184314, 0.184314, 1 ), Color( 0.184314, 0.184314, 0.184314, 0 ), Color( 0.184314, 0.184314, 0.184314, 0 ), Color( 0.184314, 0.184314, 0.184314, 1 ) ]
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
 [node name="TitleMenu" type="CanvasLayer"]
@@ -58,6 +58,19 @@ script = ExtResource( 2 )
 margin_right = 1024.0
 margin_bottom = 600.0
 color = Color( 0.184314, 0.184314, 0.184314, 1 )
+
+[node name="TextureRect" type="TextureRect" parent="."]
+modulate = Color( 1, 1, 1, 0.717647 )
+self_modulate = Color( 1, 1, 1, 0.8 )
+margin_right = 1024.0
+margin_bottom = 600.0
+texture = SubResource( 5 )
+
+[node name="Background" type="TextureRect" parent="TextureRect"]
+margin_right = 1024.0
+margin_bottom = 600.0
+texture = ExtResource( 4 )
+stretch_mode = 1
 
 [node name="Title" type="Label" parent="."]
 margin_right = 1024.0
@@ -79,15 +92,8 @@ text = "Play"
 anims/test = SubResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="AnimationPlayer"]
-position = Vector2( 350, 241 )
+position = Vector2( 512, 241 )
 scale = Vector2( 5.15625, 4.875 )
 texture = ExtResource( 3 )
-
-[node name="ColorRect" type="ColorRect" parent="AnimationPlayer"]
-margin_left = 265.0
-margin_top = 150.0
-margin_right = 438.015
-margin_bottom = 319.0
-color = Color( 0.184314, 0.184314, 0.184314, 1 )
 
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
