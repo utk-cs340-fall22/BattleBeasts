@@ -8,6 +8,7 @@ public class AttackNode : Control
     private CanvasLayer TeamSelect;
     private Panel Cover;
     private Sprite DmgType;
+    private Node Fight;
     public bool selected = false;
     private int index;
       
@@ -18,18 +19,17 @@ public class AttackNode : Control
         AttackDmg = GetNode<Label>("AttackDmg");
         AttackNum = GetNode<Label>("AttackNum");
         DmgType = GetNode<Sprite>("DmgType");
-        TeamSelect = GetNode<CanvasLayer>("../../..");
         Cover = GetNode<Panel>("Panel2");
         Cover.Hide();
     }
     
-    public void setup_AttackNode(string name, int dmg, int num, string type, int ind, CanvasLayer parent)
+    public void setup_AttackNode(string name, int dmg, int num, string type, int ind, object parent)
     {
       AttackName = GetNode<Label>("AttackName");
       AttackDmg = GetNode<Label>("AttackDmg");
       AttackNum = GetNode<Label>("AttackNum");
       DmgType = GetNode<Sprite>("DmgType");
-      TeamSelect = parent;
+      TeamSelect = (CanvasLayer) parent;
       Cover = GetNode<Panel>("Panel2");
       Cover.Hide();
       String d = dmg.ToString();
@@ -38,6 +38,7 @@ public class AttackNode : Control
       AttackDmg.Text = "ATK "+ d;
       AttackNum.Text = "HPA " + n;
       index = ind;
+    
       
       if(type == "Fire"){
         DmgType.Texture = ResourceLoader.Load("res://Assets/Attack Type Sprites/fire-icon.png") as Texture;  
@@ -57,6 +58,7 @@ public class AttackNode : Control
         bool val;
         
         val = (bool) TeamSelect.Call("_on_Attack_selected",index);
+        //if(scene_type) Fight.Call("_on_Attack_Selected",index);
         
         if(selected && val){
           Cover.Hide();

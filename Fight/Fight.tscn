@@ -1,21 +1,13 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Fight/Fighter.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Fonts/PublicPixel-z84yD.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Menus/AttackNodeSmall.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Fight/Fight.cs" type="Script" id=3]
 [ext_resource path="res://Fight/PowerSliderMiniGame.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Menus/PauseMenu2.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Fight/HealthInterface.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Fight/BulletHell.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Fight/QuickTimeKeyboard.tscn" type="PackedScene" id=8]
-
-[sub_resource type="DynamicFont" id=1]
-size = 12
-font_data = ExtResource( 2 )
-
-[sub_resource type="DynamicFont" id=2]
-size = 12
-font_data = ExtResource( 2 )
 
 [node name="Main" type="Node"]
 script = ExtResource( 3 )
@@ -34,69 +26,52 @@ margin_bottom = 502.0
 [node name="VBoxContainer" type="VBoxContainer" parent="Action Console"]
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 367.0
-margin_bottom = 112.0
+margin_right = 385.0
+margin_bottom = 129.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Top Row" type="HBoxContainer" parent="Action Console/VBoxContainer"]
-margin_right = 360.0
-margin_bottom = 50.0
+margin_right = 378.0
+margin_bottom = 59.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="B0" type="Button" parent="Action Console/VBoxContainer/Top Row"]
-margin_right = 178.0
-margin_bottom = 50.0
-focus_mode = 0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_fonts/font = SubResource( 1 )
-text = "attack 0"
+[node name="Attack0" parent="Action Console/VBoxContainer/Top Row" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 187.0
+margin_bottom = 59.5
 
-[node name="B1" type="Button" parent="Action Console/VBoxContainer/Top Row"]
-margin_left = 182.0
-margin_right = 360.0
-margin_bottom = 50.0
-focus_mode = 0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_fonts/font = SubResource( 2 )
-text = "attack 1"
+[node name="Attack1" parent="Action Console/VBoxContainer/Top Row" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 191.0
+margin_right = 378.0
+margin_bottom = 59.5
 
 [node name="Bottom Row" type="HBoxContainer" parent="Action Console/VBoxContainer"]
-margin_top = 54.0
-margin_right = 360.0
-margin_bottom = 105.0
+margin_top = 63.0
+margin_right = 378.0
+margin_bottom = 122.0
 size_flags_horizontal = 15
 size_flags_vertical = 15
 
-[node name="B2" type="Button" parent="Action Console/VBoxContainer/Bottom Row"]
-margin_right = 178.0
-margin_bottom = 51.0
-focus_mode = 0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_fonts/font = SubResource( 2 )
-text = "attack 2"
+[node name="Attack2" parent="Action Console/VBoxContainer/Bottom Row" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 187.0
+margin_bottom = 59.5
 
-[node name="B3" type="Button" parent="Action Console/VBoxContainer/Bottom Row"]
-margin_left = 182.0
-margin_right = 360.0
-margin_bottom = 51.0
-focus_mode = 0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_fonts/font = SubResource( 2 )
-text = "attack 3"
+[node name="Attack3" parent="Action Console/VBoxContainer/Bottom Row" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 191.0
+margin_right = 378.0
+margin_bottom = 59.5
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 2
 
 [node name="PauseMenu2" parent="CanvasLayer" instance=ExtResource( 5 )]
 visible = false
-
-[connection signal="pressed" from="Action Console/VBoxContainer/Top Row/B0" to="." method="_on_B0_pressed"]
-[connection signal="pressed" from="Action Console/VBoxContainer/Top Row/B1" to="." method="_on_B1_pressed"]
-[connection signal="pressed" from="Action Console/VBoxContainer/Bottom Row/B2" to="." method="_on_B2_pressed"]
-[connection signal="pressed" from="Action Console/VBoxContainer/Bottom Row/B3" to="." method="_on_B3_pressed"]
