@@ -1,7 +1,20 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Menus/PauseMenu2.cs" type="Script" id=1]
 [ext_resource path="res://Menus/OptionsMenu2.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Fonts/PublicPixel-z84yD.ttf" type="DynamicFontData" id=3]
+
+[sub_resource type="DynamicFont" id=1]
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=2]
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=3]
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=4]
+font_data = ExtResource( 3 )
 
 [node name="PauseMenu2" type="Control"]
 pause_mode = 2
@@ -20,41 +33,46 @@ anchor_bottom = 1.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
 margin_left = 437.0
-margin_top = 204.0
+margin_top = 203.0
 margin_right = 587.0
-margin_bottom = 395.0
+margin_bottom = 396.0
 custom_constants/separation = 9
 alignment = 1
 
 [node name="PausedLabel" type="Label" parent="CenterContainer/VBoxContainer"]
 margin_right = 150.0
-margin_bottom = 14.0
+margin_bottom = 16.0
+custom_fonts/font = SubResource( 1 )
 text = "Paused"
 align = 1
 valign = 1
 
 [node name="ResumeButton" type="Button" parent="CenterContainer/VBoxContainer"]
-margin_top = 23.0
+margin_top = 25.0
 margin_right = 150.0
-margin_bottom = 73.0
+margin_bottom = 75.0
 rect_min_size = Vector2( 150, 50 )
+custom_fonts/font = SubResource( 2 )
 text = "Resume"
 
 [node name="OptionButton" type="Button" parent="CenterContainer/VBoxContainer"]
-margin_top = 82.0
+margin_top = 84.0
 margin_right = 150.0
-margin_bottom = 132.0
+margin_bottom = 134.0
 rect_min_size = Vector2( 150, 50 )
+custom_fonts/font = SubResource( 3 )
 text = "Options"
 
 [node name="QuitButton" type="Button" parent="CenterContainer/VBoxContainer"]
-margin_top = 141.0
+margin_top = 143.0
 margin_right = 150.0
-margin_bottom = 191.0
+margin_bottom = 193.0
 rect_min_size = Vector2( 150, 50 )
-text = "Quit to Main Menu"
+custom_fonts/font = SubResource( 4 )
+text = "Quit"
 
 [node name="OptionsMenu2" parent="." instance=ExtResource( 2 )]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = 0.0
