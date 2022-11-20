@@ -38,7 +38,6 @@ public class AttackNode : Control
       AttackDmg.Text = "ATK "+ d;
       AttackNum.Text = "HPA " + n;
       index = ind;
-    
       
       if(type == "Fire"){
         DmgType.Texture = ResourceLoader.Load("res://Assets/Attack Type Sprites/fire-icon.png") as Texture;  

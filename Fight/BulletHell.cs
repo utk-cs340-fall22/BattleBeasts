@@ -11,8 +11,9 @@ public class BulletHell : Node2D
     private float StartTime;
     private float GameTime;
     private Control HPBar;
-    private float delay;
+    private float delay, itime;
     private Node fight;
+    private bool invincible;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -22,6 +23,8 @@ public class BulletHell : Node2D
         StartTime = 1;
         GameTime = 10;
         delay = (float) .2;
+        invincible = false;
+        itime = 0;
         rng.Randomize();
         
         // grab scenes
@@ -37,6 +40,13 @@ public class BulletHell : Node2D
     
     public override void _Process(float delta)
     { 
+        // invincibility time handler
+        if(itime > 0){
+          itime -= delta;
+          if(itime <= 0) invincible = false;
+          return;
+        }
+        
         // creates new bullets if needed
         if(StartTime < 0 && GetChildCount() < 400){
           if(delay > 0){
@@ -47,6 +57,7 @@ public class BulletHell : Node2D
           }
         }
         
+        // handle game time
         if(StartTime > 0) StartTime -= delta;
         if(StartTime < 0) GameTime -= delta;
         if(PlayerHealth < 0 || GameTime < 0)  _GameOver();
@@ -117,10 +128,13 @@ public class BulletHell : Node2D
     
     public void _ChangePlayerHealth(int change)
     {
+      if(invincible) return;
+      
       PlayerHealth += change;
       HPBar.Call("UpdateHealthFrac",100,PlayerHealth);
       HPBar.Call("AdjustHealth",PlayerHealth);
-      
+      invincible = true;
+      itime = (float) .5;    
     }
     
     private float RandRange(float min, float max)
