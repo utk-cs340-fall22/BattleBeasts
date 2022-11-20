@@ -9,14 +9,6 @@
 [ext_resource path="res://Fight/BulletHell.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Fight/QuickTimeKeyboard.tscn" type="PackedScene" id=8]
 
-[sub_resource type="DynamicFont" id=1]
-size = 12
-font_data = ExtResource( 2 )
-
-[sub_resource type="DynamicFont" id=2]
-size = 12
-font_data = ExtResource( 2 )
-
 [node name="Main" type="Node"]
 script = ExtResource( 3 )
 Fighter = ExtResource( 1 )
@@ -26,21 +18,21 @@ QuickTimeMinigame = ExtResource( 8 )
 HPinterface = ExtResource( 6 )
 
 [node name="Action Console" type="PanelContainer" parent="."]
-margin_left = 584.0
+margin_left = 526.0
 margin_top = 383.0
-margin_right = 958.0
-margin_bottom = 502.0
+margin_right = 1024.0
+margin_bottom = 519.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Action Console"]
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 385.0
+margin_right = 491.0
 margin_bottom = 129.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Top Row" type="HBoxContainer" parent="Action Console/VBoxContainer"]
-margin_right = 378.0
+margin_right = 484.0
 margin_bottom = 59.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -48,19 +40,19 @@ size_flags_vertical = 3
 [node name="Attack0" parent="Action Console/VBoxContainer/Top Row" instance=ExtResource( 2 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 187.0
+margin_right = 240.0
 margin_bottom = 59.5
 
 [node name="Attack1" parent="Action Console/VBoxContainer/Top Row" instance=ExtResource( 2 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 191.0
-margin_right = 378.0
+margin_left = 244.0
+margin_right = 484.0
 margin_bottom = 59.5
 
 [node name="Bottom Row" type="HBoxContainer" parent="Action Console/VBoxContainer"]
 margin_top = 63.0
-margin_right = 378.0
+margin_right = 484.0
 margin_bottom = 122.0
 size_flags_horizontal = 15
 size_flags_vertical = 15
@@ -68,14 +60,14 @@ size_flags_vertical = 15
 [node name="Attack2" parent="Action Console/VBoxContainer/Bottom Row" instance=ExtResource( 2 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 187.0
+margin_right = 240.0
 margin_bottom = 59.5
 
 [node name="Attack3" parent="Action Console/VBoxContainer/Bottom Row" instance=ExtResource( 2 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 191.0
-margin_right = 378.0
+margin_left = 244.0
+margin_right = 484.0
 margin_bottom = 59.5
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
@@ -83,8 +75,3 @@ layer = 2
 
 [node name="PauseMenu2" parent="CanvasLayer" instance=ExtResource( 5 )]
 visible = false
-
-[connection signal="pressed" from="Action Console/VBoxContainer/Top Row/B0" to="." method="_on_B0_pressed"]
-[connection signal="pressed" from="Action Console/VBoxContainer/Top Row/B1" to="." method="_on_B1_pressed"]
-[connection signal="pressed" from="Action Console/VBoxContainer/Bottom Row/B2" to="." method="_on_B2_pressed"]
-[connection signal="pressed" from="Action Console/VBoxContainer/Bottom Row/B3" to="." method="_on_B3_pressed"]
