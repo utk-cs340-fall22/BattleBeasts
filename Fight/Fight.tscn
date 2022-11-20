@@ -21,19 +21,19 @@ HPinterface = ExtResource( 6 )
 margin_left = 526.0
 margin_top = 383.0
 margin_right = 1024.0
-margin_bottom = 519.0
+margin_bottom = 556.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Action Console"]
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 491.0
-margin_bottom = 129.0
+margin_bottom = 166.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Top Row" type="HBoxContainer" parent="Action Console/VBoxContainer"]
 margin_right = 484.0
-margin_bottom = 59.0
+margin_bottom = 77.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -41,19 +41,19 @@ size_flags_vertical = 3
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 240.0
-margin_bottom = 59.5
+margin_bottom = 77.0
 
 [node name="Attack1" parent="Action Console/VBoxContainer/Top Row" instance=ExtResource( 2 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 244.0
 margin_right = 484.0
-margin_bottom = 59.5
+margin_bottom = 77.0
 
 [node name="Bottom Row" type="HBoxContainer" parent="Action Console/VBoxContainer"]
-margin_top = 63.0
+margin_top = 81.0
 margin_right = 484.0
-margin_bottom = 122.0
+margin_bottom = 159.0
 size_flags_horizontal = 15
 size_flags_vertical = 15
 
@@ -61,14 +61,14 @@ size_flags_vertical = 15
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 240.0
-margin_bottom = 59.5
+margin_bottom = 78.0
 
 [node name="Attack3" parent="Action Console/VBoxContainer/Bottom Row" instance=ExtResource( 2 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 244.0
 margin_right = 484.0
-margin_bottom = 59.5
+margin_bottom = 78.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 2
