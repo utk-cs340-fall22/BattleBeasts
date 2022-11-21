@@ -25,6 +25,7 @@ public class Fight : Node
   Fighter player, opponent, f;
   Texture playerTexture, opponentTexture;
   HealthInterface pHealthBar, oHealthBar;
+  Vector2 playerHealthBarPosition, opponentHealthBarPosition;
   private AudioStreamPlayer music, musicP, musicO, se;
   private static Dictionary _beastOptions = null;
   private static Dictionary _modifierOptions = null;
@@ -32,6 +33,7 @@ public class Fight : Node
   private bool playerAnim, opponentAnim;
   private int animTickP, animTickO;
   private Vector2 right, left;
+  private Control Attack0, Attack1, Attack2, Attack3;
   
   /* Make JSON files accessible */
   
@@ -92,7 +94,7 @@ public class Fight : Node
     for (i = 0; i < g.playerAttackIndices.Length; i++) playerAttacksD[i] = attackOptions[g.playerAttackIndices[i].ToString()] as Dictionary;
     playerTexture = ResourceLoader.Load((String)playerBeastD["texture"]) as Texture;
     player.GetNode<Sprite>("Texture").Texture = playerTexture;
-    player.Position = new Vector2(190, 280);
+    player.Position = new Vector2(190, 250);
     player.Scale = new Vector2(6, 6);
     player.Init("player", playerBeastD, playerModiferD, playerAttacksD);
 
@@ -100,12 +102,24 @@ public class Fight : Node
     pHealthBar = (HealthInterface)HPinterface.Instance();
     AddChild(pHealthBar);
     pHealthBar.CreateLabel(g.name, (String)playerModiferD["name"]);
+    Vector2 playerHealthBarPosition = new Vector2(-630, -450);
+    pHealthBar.SetPosition(playerHealthBarPosition, false);
 
     /* Initialize player attack options bottom right */
-    GetNode<Button>("Action Console/VBoxContainer/Top Row/B0").Text = (String)playerAttacksD[0]["name"];
+    Attack0 = GetNode<Control>("Action Console/VBoxContainer/Top Row/Attack0");
+    Attack1 = GetNode<Control>("Action Console/VBoxContainer/Top Row/Attack1");
+    Attack2 = GetNode<Control>("Action Console/VBoxContainer/Bottom Row/Attack2");
+    Attack3 = GetNode<Control>("Action Console/VBoxContainer/Bottom Row/Attack3");
+    
+    Attack0.Call("setup_AttackNode",(String) playerAttacksD[0]["name"], Convert.ToInt32(playerAttacksD[0]["strike_damage"]), Convert.ToInt32(playerAttacksD[0]["strike_count"]),(String) playerAttacksD[0]["type"], 0, this);
+    Attack1.Call("setup_AttackNode",(String) playerAttacksD[1]["name"], Convert.ToInt32(playerAttacksD[1]["strike_damage"]), Convert.ToInt32(playerAttacksD[1]["strike_count"]),(String) playerAttacksD[1]["type"], 1, this);
+    Attack2.Call("setup_AttackNode",(String) playerAttacksD[2]["name"], Convert.ToInt32(playerAttacksD[2]["strike_damage"]), Convert.ToInt32(playerAttacksD[2]["strike_count"]),(String) playerAttacksD[2]["type"], 2, this);
+    Attack3.Call("setup_AttackNode",(String) playerAttacksD[3]["name"], Convert.ToInt32(playerAttacksD[3]["strike_damage"]), Convert.ToInt32(playerAttacksD[3]["strike_count"]),(String) playerAttacksD[3]["type"], 3, this);
+    /*GetNode<Button>("Action Console/VBoxContainer/Top Row/B0").Text = (String)playerAttacksD[0]["name"];
     GetNode<Button>("Action Console/VBoxContainer/Top Row/B1").Text = (String)playerAttacksD[1]["name"];
     GetNode<Button>("Action Console/VBoxContainer/Bottom Row/B2").Text = (String)playerAttacksD[2]["name"];
-    GetNode<Button>("Action Console/VBoxContainer/Bottom Row/B3").Text = (String)playerAttacksD[3]["name"];
+    GetNode<Button>("Action Console/VBoxContainer/Bottom Row/B3").Text = (String)playerAttacksD[3]["name"];*/
+    
 
     /* Initialize opponent character */
     opponent = (Fighter)Fighter.Instance();
@@ -115,7 +129,7 @@ public class Fight : Node
     for (i = 0; i < g.oppAttacks.GetLength(1); i++) opponentAttacksD[i] = attackOptions[g.oppAttacks[g.currBeast, i].ToString()] as Dictionary;
     opponentTexture = ResourceLoader.Load((String) opponentBeastD["texture"]) as Texture;
     opponent.GetNode<Sprite>("Texture").Texture = opponentTexture;
-    opponent.Position = new Vector2(850, 170);
+    opponent.Position = new Vector2(850, 180);
     opponent.Scale = new Vector2(6, 6);
     opponent.Init("opponent", opponentBeastD, opponentModiferD, opponentAttacksD);
 
@@ -123,8 +137,8 @@ public class Fight : Node
     oHealthBar = (HealthInterface)HPinterface.Instance();
     AddChild(oHealthBar);
     oHealthBar.CreateLabel(g.oppName[g.currBeast], (String)opponentModiferD["name"]); 
-    Vector2 oHpBar = new Vector2(-600, -500);
-    oHealthBar.SetPosition(oHpBar, false);
+    Vector2 opponentHealthBarPosition = new Vector2(30, -510);
+    oHealthBar.SetPosition(opponentHealthBarPosition, false);
         
     /* Vectors for anims: */
     right = new Vector2(1,0);
@@ -356,5 +370,10 @@ public class Fight : Node
   private void _on_B3_pressed() {
     if (CheckAttackSignalPermission() == 1) return;
     queuedAttack = 3;
+  }
+
+  public void _on_Attack_Selected(int index){
+    if(CheckAttackSignalPermission() == 1) return;
+    queuedAttack = index;
   }
 }

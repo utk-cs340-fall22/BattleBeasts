@@ -47,19 +47,19 @@ public class Player : KinematicBody2D
     {
       velocity = new Vector2();
 
-      if (Input.IsActionPressed("right")){
+      if ((this.Position.x < OS.WindowSize.x) && Input.IsActionPressed("right")){
         velocity.x += 1;
       }
 
-      if (Input.IsActionPressed("left")){
+      if (this.Position.x > 0 && Input.IsActionPressed("left")){
         velocity.x -= 1;
       }
 
-      if (Input.IsActionPressed("down")){
+      if (this.Position.y < OS.WindowSize.y && Input.IsActionPressed("down")){
         velocity.y += 1;
       }
 
-      if (Input.IsActionPressed("up")){
+      if (this.Position.y > 0 && Input.IsActionPressed("up")){
         velocity.y -= 1;
       }
       velocity = velocity.Normalized() * speed;
