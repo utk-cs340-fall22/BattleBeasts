@@ -4,6 +4,8 @@ using System;
 
 public class TitleMenu : CanvasLayer
 {
+  
+  Transition t;
   // Declare member variables here. Examples:
   private AnimationPlayer titleAnim;
   private AudioStreamPlayer music, musicP, musicO, se;
@@ -30,6 +32,7 @@ public class TitleMenu : CanvasLayer
   {
     titleAnim = GetNode<AnimationPlayer>("AnimationPlayer");
     globals = GetNode<Globals>("/root/Gm");
+    t = (Transition)GetNode("/root/Transition");
     music = globals.GetNode<AudioStreamPlayer>("Music");
     musicP = globals.GetNode<AudioStreamPlayer>("MusicPlayer");
     musicO = globals.GetNode<AudioStreamPlayer>("MusicOpponent");
@@ -68,7 +71,7 @@ public class TitleMenu : CanvasLayer
     se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
     se.Play();
     
-    GetTree().ChangeScene("res://Menus/MainMenu.tscn");
+    t.ChangeScene("res://Menus/MainMenu.tscn", "res://Assets/Main.png");
   
   }
 }
