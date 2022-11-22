@@ -92,7 +92,8 @@ text = "Play"
 anims/test = SubResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="AnimationPlayer"]
-position = Vector2( 512, 241 )
+self_modulate = Color( 1, 1, 1, 0 )
+position = Vector2( 350, 241 )
 scale = Vector2( 5.15625, 4.875 )
 texture = ExtResource( 3 )
 

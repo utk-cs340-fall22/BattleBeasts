@@ -36,7 +36,7 @@ public class TitleMenu : CanvasLayer
     music = globals.GetNode<AudioStreamPlayer>("Music");
     musicP = globals.GetNode<AudioStreamPlayer>("MusicPlayer");
     musicO = globals.GetNode<AudioStreamPlayer>("MusicOpponent");
-    
+    se = globals.GetNode<AudioStreamPlayer>("SoundEffects");
   
     playcount = 0;
   
@@ -67,7 +67,6 @@ public class TitleMenu : CanvasLayer
 
   private void _on_Button_pressed()
   {
-    se = globals.GetNode<AudioStreamPlayer>("SoundEffects");
     se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
     se.Play();
     
