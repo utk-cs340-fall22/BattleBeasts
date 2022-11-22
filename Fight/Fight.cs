@@ -18,6 +18,7 @@ public class Fight : Node
 
 #pragma warning restore 649
   Globals g;
+  Transition t;
   int isPlayerTurn, aiAttackChoice;
   int queuedAttack; // index of submitted attack in attack dictionary of attacking fighter | -1 for no queued attack | integer in [0, 3] for player | integer in [10, 13] for opponent
   int queuedMinigame; // index of minigame queued in switch statement in CallMinigame() | -1 for no queued minigame | integer >= 0 for minigame index
@@ -81,6 +82,7 @@ public class Fight : Node
     int i;
     
     g = (Globals)GetNode("/root/Gm");
+    t = (Transition)GetNode("/root/Transition");
     isPlayerTurn = 1;
     minigameResult = -2;
     queuedAttack = -1;
@@ -280,12 +282,12 @@ public class Fight : Node
     if (player.GetHealth() <= 0) {
       GD.Print("opponent defeated player");
       g.fightOutcome = 0;
-      GetTree().ChangeScene("res://Bracket/Bracket.tscn");
+      t.ChangeScene2("res://Bracket/Bracket.tscn");
     }
     else if (opponent.GetHealth() <= 0) {
       GD.Print("player defeated opponent");
       g.fightOutcome = 1;
-      GetTree().ChangeScene("res://Bracket/Bracket.tscn");
+      t.ChangeScene2("res://Bracket/Bracket.tscn");
     }
 
     /* Update health bars */

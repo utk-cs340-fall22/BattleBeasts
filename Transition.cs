@@ -17,6 +17,7 @@ public class Transition : CanvasLayer
     
     public async Task ChangeScene(string target, string texture) 
     {
+      
         GetNode<TextureRect>("ColorRect").Texture = ResourceLoader.Load(texture) as Texture;
         var st = (AnimationPlayer) GetNode<AnimationPlayer>("animate");
         st.Play("dissolve");
@@ -25,6 +26,18 @@ public class Transition : CanvasLayer
         st.Play("RESET");
       
      }
+    
+        public async Task ChangeScene2(string target) 
+    {
+        //GetNode<ColorRect>("Color").Color = new Color(0,0,0,1);
+        var st = (AnimationPlayer) GetNode<AnimationPlayer>("animate");
+        st.Play("dissolve2");
+        await ToSignal(st, "animation_finished");
+        GetTree().ChangeScene(target);
+        st.Play("RESET");
+     }
+    
+    
     
 
 //  // Called every frame. 'delta' is the elapsed time since the previous frame.

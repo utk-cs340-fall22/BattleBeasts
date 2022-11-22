@@ -8,6 +8,7 @@ public class Bracket: Node2D
   Globals g;
   int size = 0;
   Sprite user, other;
+  Transition t;
 
   //Will be used for .json file
   private static Dictionary _beastsOps = null;
@@ -272,6 +273,7 @@ public class Bracket: Node2D
     
     //initialize globals
     g = (Globals)GetNode("/root/Gm");
+    t = (Transition)GetNode("/root/Transition");
 
     //Display welcome if it's the first time
     if (g.bracketSize == -1) {
@@ -456,7 +458,7 @@ public class Bracket: Node2D
 
   private void _on_Continue_pressed()
   {
-    GetTree().ChangeScene("res://Fight/Fight.tscn");
+    t.ChangeScene2("res://Fight/Fight.tscn");
   }
 
 
@@ -487,7 +489,7 @@ public class Bracket: Node2D
   {
     GetNode<Sprite>("Sprite").Position = new Vector2(0,0);
     reset_all();
-    GetTree().ChangeScene("res://Menus/TitleMenu.tscn");
+    t.ChangeScene("res://Menus/TitleMenu.tscn", "res://Assets/Title.png");
   }
 
   //This will be changed later to be cleaner (without switch statement)
