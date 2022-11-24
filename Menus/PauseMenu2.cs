@@ -5,6 +5,8 @@ public class PauseMenu2 : Control
 {
     bool is_paused, options_open;
     private Control Options;
+    private Globals globals;
+    private AudioStreamPlayer music, musicP;
 
     // initialize the scene to be hidden
     public override void _Ready()
@@ -17,6 +19,22 @@ public class PauseMenu2 : Control
     private void _on_QuitButton_pressed()
     {
         _SetPaused(false);
+        globals = (Globals)GetNode("/root/Gm");
+        music = globals.GetNode<AudioStreamPlayer>("Music");
+        musicP = globals.GetNode<AudioStreamPlayer>("MusicPlayer");
+        music.Stop(); 
+        musicP.Stop();
+        
+        globals.oppAttacks = new int[7, 4];
+        globals.level = 0;
+        globals.bracketSize = -1;
+        globals.fightOutcome = -1;   
+        globals.currBeast = -1;
+        globals.playerBeastIndex = 0;
+        globals.playerModifierIndex = 0;
+        for(int i = 0; i < 7; i++ ) globals.oppBeast[i] = -1;
+        
+        
         GetTree().ChangeScene("res://Menus/MainMenu.tscn");
     }
 

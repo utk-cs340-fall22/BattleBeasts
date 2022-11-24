@@ -4,12 +4,20 @@ using System;
 public class MainMenu : CanvasLayer
 {
   private Globals globals;
+  private Transition t;
   private Control Options;
-  private AudioStreamPlayer se;
+  private AudioStreamPlayer music, se;
   // Called when the node enters the scene tree for the first time.
   public override void _Ready()
   {
     globals = GetNode<Globals>("/root/Gm");
+    t = (Transition)GetNode("/root/Transition");
+    music = globals.GetNode<AudioStreamPlayer>("Music");
+    se = globals.GetNode<AudioStreamPlayer>("SoundEffects");
+    if(!music.IsPlaying()) {
+      music.Stream = ResourceLoader.Load("res://Assets/Music/TitleMusic.mp3") as AudioStream;
+      music.Play();
+    }
   }
   
   private void _on_Exit_pressed()
@@ -21,7 +29,7 @@ public class MainMenu : CanvasLayer
 
   private void _on_Settings_pressed()
   {
-    se = globals.GetNode<AudioStreamPlayer>("SoundEffects");
+    
     se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
     se.Play();
      
@@ -36,7 +44,7 @@ public class MainMenu : CanvasLayer
     se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
     se.Play();  
     
-  GetTree().ChangeScene("res://Username/username.tscn");
+  t.ChangeScene("res://Username/username.tscn", "res://Assets/username.png");
   }
   
   private void _on_Credits_pressed()

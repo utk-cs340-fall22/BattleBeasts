@@ -18,6 +18,7 @@ config/icon="res://Assets/Logo.png"
 
 Globals="*res://Globals.cs"
 Gm="*res://GM.tscn"
+Transition="*res://Transition.tscn"
 
 [display]
 
