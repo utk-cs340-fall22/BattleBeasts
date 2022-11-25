@@ -452,6 +452,8 @@ public class Bracket: Node2D
     GetNode<Button>("Exit").Show();
     GetNode<Button>("Exit").Text = "Exit";
     GetNode<Button>("Continue").Hide();
+    GetNode<Button>("Big").Hide();
+    GetNode<Button>("Small").Hide();
     GetNode<Label>("Welcome").Text = "You lose! Press exit to return to the title menu";
 
   }
@@ -464,7 +466,6 @@ public class Bracket: Node2D
 
   private void _on_Big_pressed()
   {
-    g = (Globals)GetNode("/root/Gm");
     g.bracketSize = 1;
     size = 4;
     for_button();
@@ -475,7 +476,6 @@ public class Bracket: Node2D
 
   private void _on_Small_pressed()
   {
-    g = (Globals)GetNode("/root/Gm");
     g.bracketSize = 0;
     size = 2;
     for_button();
