@@ -45,7 +45,7 @@ public class QuickTimeKeyboard : Control
       if (input is InputEventKey keyEvent && keyEvent.Pressed)
       {
         if(OS.GetScancodeString(keyEvent.Scancode) == alphabet[ltr].ToString()){
-          ret = 115 - (tick - wait);
+          ret = 120 - ((tick - wait) / 3);
           if(ret < 0) ret = 0;
           GD.Print("QT return: ", ret);
           fight.Call("MinigameReturn", ret);

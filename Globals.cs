@@ -11,7 +11,7 @@ public class Globals : Node
     public int level = 0;
     public int bracketSize = -1;
     public int fightOutcome = -1;   
-    public int currBeast = -1;
+    public int currBeast = 0;
     public int playerBeastIndex = 0;
     public int playerModifierIndex = 0;
     public int[] playerAttackIndices = {0, 0, 0, 0};

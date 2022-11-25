@@ -36,7 +36,7 @@ public class Bullet : Area2D
     // when the bullet hits a player subtract from health
     private void _on_Bullet_body_entered(KinematicBody2D body)
     {
-        GetParent().Call("_ChangePlayerHealth",-5);
+        GetParent().Call("_ChangePlayerHealth",-10);
     }
     
     public void set_destroy_on_collide(bool b)

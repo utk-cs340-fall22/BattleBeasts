@@ -33,7 +33,7 @@
     "name": "Glabbagool",
     "texture": "res://Assets/Character Sprites/Glabbagool.png",
     "health": 170,
-    "armor": 2,
+    "armor": 1,
     "type": "Electric",
     "modifiers": [0, 1, 2],
     "attacks": [6, 7, 8, 9, 10, 11],

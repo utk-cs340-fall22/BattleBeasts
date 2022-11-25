@@ -1,7 +1,7 @@
 {
   "0": {
     "name": "Sturdy",
-    "health_modifier": 30,
+    "health_modifier": 20,
     "armor_modifier": 1,
     "attacks": []
   },
