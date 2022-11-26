@@ -8,11 +8,13 @@ public class Bracket: Node2D
   Globals g;
   int size = 0;
   Sprite user, other;
+  Texture tex;
 
   //Will be used for .json file
   private static Dictionary _beastsOps = null;
   private static Dictionary _opponentsOps = null;
-  private static Dictionary _attackOptions = null;
+  private static Dictionary _attackOps = null;
+  private static Dictionary _modifierOps = null;
 
   private AudioStreamPlayer music, musicP, se;
 
@@ -42,40 +44,55 @@ public class Bracket: Node2D
     }
   }
 
-    private Dictionary attackOptions {
+  private Dictionary attackOptions 
+  {
     get {
-      if (_attackOptions == null) {
+      if (_attackOps == null) {
         var file = new File();
         file.Open("res://Data/Attacks.json", File.ModeFlags.Read);
         var text = file.GetAsText();
-        _attackOptions = JSON.Parse(text).Result as Dictionary;
+        _attackOps = JSON.Parse(text).Result as Dictionary;
       }
-      return _attackOptions;
+      return _attackOps;
     }
   }
   
+  private Dictionary modifierOps 
+  {
+    get {
+      if (_modifierOps == null) {
+        var file = new File();
+        file.Open("res://Data/Modifiers.json", File.ModeFlags.Read);
+        var text = file.GetAsText();
+        _modifierOps = JSON.Parse(text).Result as Dictionary;
+      }
+      return _modifierOps;
+    }
+  }
+  /*                      */
   private void get_curr_beast(Dictionary beasts)
   {
     select_beast("Other", g.currBeast, true);
-    
-   }
+  }
+
+  /* Draws a circle around the two opposing beasts */
   public void DrawCircleArc(Vector2 center, float radius, float angleFrom, float angleTo, Color color)
-{
+  {
     int nbPoints = 32;
     var pointsArc = new Vector2[nbPoints];
 
     for (int i = 0; i < nbPoints; ++i)
     {
-        float anglePoint = Mathf.Deg2Rad(angleFrom + i * (angleTo - angleFrom) / nbPoints - 90f);
-        pointsArc[i] = center + new Vector2(Mathf.Cos(anglePoint), Mathf.Sin(anglePoint)) * radius;
+      float anglePoint = Mathf.Deg2Rad(angleFrom + i * (angleTo - angleFrom) / nbPoints - 90f);
+      pointsArc[i] = center + new Vector2(Mathf.Cos(anglePoint), Mathf.Sin(anglePoint)) * radius;
     }
 
     for (int i = 0; i < nbPoints - 1; ++i)
-        DrawLine(pointsArc[i], pointsArc[i + 1], color);
+      DrawLine(pointsArc[i], pointsArc[i + 1], color);
 }
 
-  //At the end of the game, this will be reset to default values.
-  private void reset_all() 
+  /* At the end of the game, resets all values to default */
+    private void reset_all() 
   {
     g.name = "Player";
     for (int i = 0; i < 7; i++) g.oppName[i] = "CPU";
@@ -86,7 +103,7 @@ public class Bracket: Node2D
     g.fightOutcome = -1;
   }
 
-  //This function hides/shows certain things when the buttons big or small are pressed
+  /* This function hides/shows certain things when the buttons ("big" or "small") are pressed */
   private void for_button() 
   {
     GetNode<Button>("Big").Hide();
@@ -96,16 +113,15 @@ public class Bracket: Node2D
     GetNode<Button>("Continue").Show();
   }
 
-  //This function hides the continue and exit button
+  /* This function hides the continue and exit button */
   public void hideall() 
   {
     GetNode<Button>("Continue").Hide();
     GetNode<Sprite>("Sprite").Hide();
     GetNode<Button>("Exit").Hide();
-
   }
   
-  //This displays/hides certain things when the player wins
+  /* This displays/hides certain things when the player wins */
   public void display_win() 
   {
     GetNode<Button>("Continue").Hide();
@@ -118,38 +134,68 @@ public class Bracket: Node2D
     hide_sprites();
   }
 
-  //This function uses a random number generator to select a beast for the opponents
+ /* Use RNG to select opponents for the bracket */
   private void get_random_beast(Dictionary opponents, int opp) 
   {
-    Godot.Collections.Array attacks;
-    Dictionary beast;
+    Dictionary oppBeast;
     Random rnd = new Random();
     int num = rnd.Next();
-    opponents = opponentsOps[(num % 5).ToString()] as Dictionary;
-    beast = beastsOps[(num % 5).ToString()] as Dictionary;
-    attacks = (Godot.Collections.Array)beast["attacks"];
+    
+    opponents = opponentsOps[(num % opponentsOps.Count).ToString()] as Dictionary;
+    oppBeast = beastsOps[(num % beastsOps.Count).ToString()] as Dictionary;
     g.oppName[opp] = (String) opponents["name"];
     g.oppBeast[opp] = Int32.Parse((String) opponents["beast"]);
-    num = rnd.Next() % 3;
-    g.oppMods[opp] = num;
-    
-    for (int i = 0; i < 4; i++) {
-      num = rnd.Next();
-      num %= 6;
-      g.oppAttacks[opp,i] = (int)(float)attacks[num];
-      for (int j = 0; j < i; j++) {
-        if (g.oppAttacks[opp, i] == g.oppAttacks[opp, j]) {
-          i--;
-          break;
-        }
-      }
-    }
+    g.oppMods[opp] = rnd.Next() % modifierOps.Count;
 
-
-    GD.Print((String) beast["name"] + ": " + g.oppAttacks[opp,0] + " " + g.oppAttacks[opp, 1] + " " + g.oppAttacks[opp, 2] + " " + g.oppAttacks[opp, 3]);
   }
 
-  //This is what the user is greeted with when first entering the bracket
+  /* Generates the modifier and attacks for each opponenent */
+  private void define_opponent(int opp)
+  {
+    int[] attacksAllowed, used;
+    Godot.Collections.Array beastGArray, modifierGArray;
+    Dictionary beast, modifier, attack;
+    Random rnd = new Random();
+    int num = rnd.Next();
+    int i, j;
+    beast = beastsOps[opp.ToString()] as Dictionary;
+    modifier = modifierOps[opp.ToString()] as Dictionary;
+    beastGArray = (Godot.Collections.Array)beast["attacks"];
+    modifierGArray = (Godot.Collections.Array)modifier["attacks"];
+    attacksAllowed = new int[beastGArray.Count + modifierGArray.Count];
+    
+    for (i = 0; i < attacksAllowed.Length; i++) attacksAllowed[i] = -1;
+    for (i = 0; i < beastGArray.Count; i++) attacksAllowed[i] = (int)(float)beastGArray[i];
+    for (j = 0; j < modifierGArray.Count; j++) if (IsInArray(attacksAllowed, (int)(float)modifierGArray[j]) == 0) attacksAllowed[i + j] = (int)(float)modifierGArray[j];
+   /*
+    used = new int[attacksAllowed.Length];
+    for (i = 0; i < used.Length; i++) used[i] = -1;
+    for (i = 0; i < attacksAllowed.Length; i++) {
+      if (IsInArray(used, i) == 0 && i != -1) {   
+        used[i] = attacksAllowed[i];
+        attack = attackOptions[attacksAllowed[i].ToString()] as Dictionary;
+      }
+    } */
+    //attack = (Godot.Collections.Dictionary)beast["attacks"];
+
+    for (i = 0; i < 4; i++) {
+      num = rnd.Next();
+      int index = num % attacksAllowed.Length;
+      g.oppAttacks[opp,i] = attacksAllowed[num % attacksAllowed.Length];
+      GD.Print("Inside the loop " +g.oppAttacks[opp,i]);
+      for (j = index-1; j<attacksAllowed.Length - 1; j++){
+        attacksAllowed[j] = attacksAllowed[j + 1];
+      }      
+    }
+    GD.Print((String) beast["name"] + ": " + g.oppAttacks[opp,0] + " " + g.oppAttacks[opp, 1] + " " + g.oppAttacks[opp, 2] + " " + g.oppAttacks[opp, 3]);
+  }
+  /* Used for attack selection */
+  private int IsInArray(int[] array, int num) {
+    foreach (int i in array) if (i == num) return 1;
+    return 0;
+  }
+
+  /* This is what the user is greeted with when first entering the bracket */
   private void display_welcome() 
   {
     hideall();
@@ -158,7 +204,7 @@ public class Bracket: Node2D
     GetNode<Label>("Welcome").Text = "Hi " + g.name + "! Do you want to enter the small or big tournament?";
   }
   
-  //This function gets the player's name and beast from globals.cs and initializes them in bracket
+  /* This function gets the player's name and beast from globals.cs and initializes them in bracket */
   private void initialize_player(Globals g, Dictionary beasts) 
   {
     if (g.level == 0) beasts = beastsOps[(g.playerBeastIndex).ToString()] as Dictionary;
@@ -218,7 +264,7 @@ public class Bracket: Node2D
   //Shows the beasts that one the last bracket depending on the level
   private void show_on_bracket() 
   {
-        if (g.level == 1) {
+    if (g.level == 1) {
       GetNode<Sprite>("Sprite3").Show();
       select_beast("Other", 2, false);
       if (g.bracketSize == 1) {
@@ -226,15 +272,15 @@ public class Bracket: Node2D
         select_beast("Other", 4, false);
         GetNode<Sprite>("Sprite7").Show();
         select_beast("Other", 6, false);
-      } else {
+      }else {
         select_beast("Other", 1, false);
        }
     }
     
-      if (g.level >= 1) {
-    GetNode<Sprite>("Player").Show();
-    GetNode<Sprite>("Other").Show();
-   }
+    if (g.level >= 1) {
+      GetNode<Sprite>("Player").Show();
+      GetNode<Sprite>("Other").Show();
+    }
   }
 
     private void StartMusic(){
@@ -267,6 +313,7 @@ public class Bracket: Node2D
     
     Dictionary opponents = null;
     Dictionary beasts = null;
+    Dictionary modifiers = null;
     
     GetNode<Button>("Exit").Hide();
     
@@ -325,26 +372,23 @@ public class Bracket: Node2D
     //This creates the vectors necessary for making the bracket
     var points = new Vector2[100];
     var points2 = new Vector2[100];
-    var points4 = new Vector2[2];
     var points3 = new Vector2[100];
-    var color = new Color(1, 1, 1, 1 );
-    int i, levels;
-    levels = size;
+    var points4 = new Vector2[2];
     var left = new Vector2(500, 500);
     var right = new Vector2(875, 500);
     var center = new Vector2(650, 450);
+    var color = new Color(1, 1, 1, 1 );
     var col = new Color(1, 1, 1, 1 );
+    int i, levels;
+    levels = size;
     
-  GetNode<TextureRect>("TextureRect").RectPosition = center;
-  GetNode<TextureRect>("TextureRect").Texture = ResourceLoader.Load("res://Assets/Logo.png") as Texture;
+    GetNode<TextureRect>("TextureRect").RectPosition = center;
+    GetNode<TextureRect>("TextureRect").Texture = ResourceLoader.Load("res://Assets/Logo.png") as Texture;
 
-
-  DrawCircleArc(left, 80, 0, 380, col);
-  DrawCircleArc(right, 80, 0, 380, col);
-  GetNode<Sprite>("Player").Position = left;
-  GetNode<Sprite>("Other").Position = right;
-  
-  
+    DrawCircleArc(left, 80, 0, 380, col);
+    DrawCircleArc(right, 80, 0, 380, col);
+    GetNode<Sprite>("Player").Position = left;
+    GetNode<Sprite>("Other").Position = right;
   
     /*Level 1*/
     for (i = 0; i < levels; i++) {
@@ -354,7 +398,6 @@ public class Bracket: Node2D
       points[i*6 + 3] = new Vector2(200, 150 + i * 100);
       points[i*6 + 4] = new Vector2(200, 100 + 100* i);
       points[i*6 + 5] = new Vector2(200, 150 + 100 * i);
-
     }
 
     levels = levels / 2;
@@ -379,8 +422,8 @@ public class Bracket: Node2D
       DrawMultiline(points4, color, (float) 15.0, false );
 
       return;
-
     }
+    
     levels = levels / 2;
     
     /*Level 3*/
@@ -396,8 +439,6 @@ public class Bracket: Node2D
     /*LEVEL 4*/
     points4[0] = new Vector2(400, 275);
     points4[1] = new Vector2(500, 275);
-
-
 
     DrawMultiline(points, color, (float) 15.0, false );
     DrawMultiline(points2, color, (float) 15.0, false );
@@ -439,8 +480,8 @@ public class Bracket: Node2D
     g.level++;
   }
   
-  //When the player loses, this function is called
-  //It makes the player exit back to the title menu
+  /* When the player loses, this function is called
+     It makes the player exit back to the title menu */
   private void Lost()
   {
     g.name = "Player";
@@ -451,14 +492,12 @@ public class Bracket: Node2D
     GetNode<Button>("Exit").Text = "Exit";
     GetNode<Button>("Continue").Hide();
     GetNode<Label>("Welcome").Text = "You lose! Press exit to return to the title menu";
-
   }
 
   private void _on_Continue_pressed()
   {
     GetTree().ChangeScene("res://Fight/Fight.tscn");
   }
-
 
   private void _on_Big_pressed()
   {
@@ -470,7 +509,6 @@ public class Bracket: Node2D
     Update();
   }
 
-
   private void _on_Small_pressed()
   {
     g = (Globals)GetNode("/root/Gm");
@@ -481,8 +519,6 @@ public class Bracket: Node2D
     Update();
   }
 
-
-
   private void _on_Exit_pressed()
   {
     GetNode<Sprite>("Sprite").Position = new Vector2(0,0);
@@ -490,35 +526,15 @@ public class Bracket: Node2D
     GetTree().ChangeScene("res://Menus/TitleMenu.tscn");
   }
 
-  //This will be changed later to be cleaner (without switch statement)
-  //But right now, this function is used to set the sprite's texture
+  /* Sets the beasts texture */
   private void select_beast(string sprite, int opp, bool player) 
   {
+    Dictionary beast;
     int pick;
     if (player) pick = opp;
     else pick = g.oppBeast[opp];
-      
     
-    switch (pick) {
-      case 0:
-        GetNode<Sprite>(sprite).Texture = ResourceLoader.Load("res://Assets/Character Sprites/Auril-1.png") as Texture;
-        break;
-      case 1:
-        GetNode<Sprite>(sprite).Texture = ResourceLoader.Load("res://Assets/Character Sprites/Solanac-1.png") as Texture;
-        break;
-      case 2:
-        GetNode<Sprite>(sprite).Texture = ResourceLoader.Load("res://Assets/Character Sprites/Alzrius-1.png") as Texture;
-        break;
-      case 3:
-        GetNode<Sprite>(sprite).Texture = ResourceLoader.Load("res://Assets/Character Sprites/Glabbagool.png") as Texture;
-        break;
-      case 4:
-        GetNode<Sprite>(sprite).Texture = ResourceLoader.Load("res://Assets/Character Sprites/Bunpir.png") as Texture;
-        break;
-      default:
-        GetNode<Sprite>(sprite).Texture = ResourceLoader.Load("res://Assets/Character Sprites/Auril-1.png") as Texture;
-        break;
-    } 
+    beast = beastsOps[pick.ToString()] as Dictionary;
+    tex = ResourceLoader.Load((String)beast["texture"]) as Texture;
   }
-
 }
