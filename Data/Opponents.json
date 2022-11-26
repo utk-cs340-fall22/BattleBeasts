@@ -18,5 +18,21 @@
   "4": {  
     "name": "Noah",
     "beast": "4"
+  },
+  "5": {
+    "name": "Varun",
+    "beast": "3"
+  },
+  "6": {
+    "name": "Adam",
+    "beast": "2"
+  },
+  "7": {
+    "name": "Jonathan",
+    "beast": "1"
+  },
+  "8": {
+    "name": "Professor Reid",
+    "beast": "0"
   }
 }
