@@ -46,4 +46,4 @@ stuff here
 stuff here. navigate using the mouse. some keyboard usage required
 
 ## Licensing
-[link to LISENSE.txt (we dont have this yet)]()
+[link to LICENSE.txt (we dont have this yet)]()
