@@ -1,9 +1,5 @@
 # Battle Beasts
 
-## How to edit this code w/ Godot
-Clone this repo. Open Godot and click Import. Type the path of the folder and click "Import&Edit".
-To commit: In the highest level directory in the project on your machine do "git add ." to add any files changed by you or godot in response to things you did.
-
 ## Group Members
 
 | Name | GitHub Username | GitHub ID |
