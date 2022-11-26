@@ -6,20 +6,22 @@ public class PauseMenu2 : Control
     bool is_paused, options_open;
     private Control Options;
     private Globals globals;
-    private AudioStreamPlayer music, musicP;
+    private AudioStreamPlayer music, musicP, se;
 
     // initialize the scene to be hidden
     public override void _Ready()
     {
         is_paused = false;
         options_open = false;
+        globals = (Globals)GetNode("/root/Gm");
+        se = globals.GetNode<AudioStreamPlayer>("SoundEffects");
+        //se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
         this.Hide();
     }
 
     private void _on_QuitButton_pressed()
     {
         _SetPaused(false);
-        globals = (Globals)GetNode("/root/Gm");
         music = globals.GetNode<AudioStreamPlayer>("Music");
         musicP = globals.GetNode<AudioStreamPlayer>("MusicPlayer");
         music.Stop(); 
@@ -34,12 +36,16 @@ public class PauseMenu2 : Control
         globals.playerModifierIndex = 0;
         for(int i = 0; i < 7; i++ ) globals.oppBeast[i] = -1;
         
+        se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
+        se.Play();    
         
         GetTree().ChangeScene("res://Menus/MainMenu.tscn");
     }
 
     private void _on_ResumeButton_pressed()
     {
+        se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
+        se.Play();
         _SetPaused(false);
     }
 
@@ -54,6 +60,8 @@ public class PauseMenu2 : Control
     
     private void _on_OptionButton_pressed()
     {
+        se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
+        se.Play();
         Options = GetNode<Control>("OptionsMenu2");
         options_open = true;
         Options.Call("_Load_Options_Menu",true);
@@ -61,11 +69,6 @@ public class PauseMenu2 : Control
     
     public void _set_options_open(bool i){
         options_open = i;
-    }
-
-    public override void _Process(float delta)
-    {
-        
     }
     
     // on escape key pressed we pull up the pause menu

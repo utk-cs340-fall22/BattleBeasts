@@ -44,7 +44,7 @@ public class MainMenu : CanvasLayer
     se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
     se.Play();  
     
-  t.ChangeScene("res://Username/username.tscn", "res://Assets/username.png");
+    t.ChangeScene("res://Username/username.tscn", "res://Assets/username.png");
   }
   
   private void _on_Credits_pressed()
@@ -53,7 +53,17 @@ public class MainMenu : CanvasLayer
     se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
     se.Play();
     
-  GetTree().ChangeScene("res://Menus/Credits.tscn");
+    GetTree().ChangeScene("res://Menus/Credits.tscn");
+  }
+
+
+  private void _on_Tutorial_pressed()
+  {
+    se = globals.GetNode<AudioStreamPlayer>("SoundEffects");
+    se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
+    se.Play();
+    
+    GetTree().ChangeScene("res://Menus/Tutorial.tscn");
   }
 
 //  // Called every frame. 'delta' is the elapsed time since the previous frame.
