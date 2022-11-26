@@ -497,30 +497,14 @@ public class Bracket: Node2D
   private void select_beast(string sprite, int opp, bool player) 
   {
     int pick;
+    Dictionary beast;
+
     if (player) pick = opp;
     else pick = g.oppBeast[opp];
       
+    beast = beastsOps[pick.ToString()] as Dictionary;
     
-    switch (pick) {
-      case 0:
-        GetNode<Sprite>(sprite).Texture = ResourceLoader.Load("res://Assets/Character Sprites/Auril-1.png") as Texture;
-        break;
-      case 1:
-        GetNode<Sprite>(sprite).Texture = ResourceLoader.Load("res://Assets/Character Sprites/Solanac-1.png") as Texture;
-        break;
-      case 2:
-        GetNode<Sprite>(sprite).Texture = ResourceLoader.Load("res://Assets/Character Sprites/Alzrius-1.png") as Texture;
-        break;
-      case 3:
-        GetNode<Sprite>(sprite).Texture = ResourceLoader.Load("res://Assets/Character Sprites/Glabbagool.png") as Texture;
-        break;
-      case 4:
-        GetNode<Sprite>(sprite).Texture = ResourceLoader.Load("res://Assets/Character Sprites/Bunpir.png") as Texture;
-        break;
-      default:
-        GetNode<Sprite>(sprite).Texture = ResourceLoader.Load("res://Assets/Character Sprites/Auril-1.png") as Texture;
-        break;
-    } 
+    GetNode<Sprite>(sprite).Texture = ResourceLoader.Load((String)beast["texture"]) as Texture;
   }
 
 }

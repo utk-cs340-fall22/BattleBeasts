@@ -156,8 +156,9 @@ public class TeamSelect : CanvasLayer
     used = new int[attacksAllowed.Length];
     for (i = 0; i < used.Length; i++) used[i] = -1;
     for (i = 0; i < attacksAllowed.Length; i++) {
-      if (IsInArray(used, i) == 0 && i != -1) {   
+      if (IsInArray(used, attacksAllowed[i]) == 0 && attacksAllowed[i] != -1) {
         used[i] = attacksAllowed[i];
+        GD.Print("this: ", attacksAllowed[i].ToString());
         attack = attackOptions[attacksAllowed[i].ToString()] as Dictionary;
         
         var AttackInstance = (Control) Attack.Instance();

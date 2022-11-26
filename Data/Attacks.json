@@ -72,7 +72,7 @@
   "10": {
     "name": "Charged Bind",
     "type": "Electric",
-    "strike_damage": 9,
+    "strike_damage": 11,
     "strike_count": 3,
     "minigame": 1
   },
@@ -208,5 +208,47 @@
     "strike_damage": 6,
     "strike_count": 6,
     "minigame": 2
+  },
+  "30": {
+    "name": "Gun",
+    "type": "Dark Magic",
+    "strike_damage": 30,
+    "strike_count": 1,
+    "minigame": 0
+  },
+  "31": {
+    "name": "Democracy",
+    "type": "Dark Magic",
+    "strike_damage": 4,
+    "strike_count": 10,
+    "minigame": 1
+  },
+  "32": {
+    "name": "Neck Massage",
+    "type": "Dark Magic",
+    "strike_damage": 3,
+    "strike_count": 12,
+    "minigame": 2
+  },
+  "33": {
+    "name": "Hypoxia",
+    "type": "Dark Magic",
+    "strike_damage": 1,
+    "strike_count": 30,
+    "minigame": 2
+  },
+  "34": {
+    "name": "Backstab",
+    "type": "Dark Magic",
+    "strike_damage": 7,
+    "strike_count": 5,
+    "minigame": 0
+  },
+  "35": {
+    "name": "Nuclear Arsenal",
+    "type": "Dark Magic",
+    "strike_damage": 6,
+    "strike_count": 6,
+    "minigame": 1
   }
 }
