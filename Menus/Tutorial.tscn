@@ -1,0 +1,60 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Menus/Tutorial.cs" type="Script" id=1]
+[ext_resource path="res://Fonts/PublicPixel-z84yD.ttf" type="DynamicFontData" id=2]
+
+[sub_resource type="DynamicFont" id=1]
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=2]
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 8
+font_data = ExtResource( 2 )
+
+[node name="Tutorial" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_right = 1025.0
+margin_bottom = 599.0
+color = Color( 0.184314, 0.184314, 0.184314, 1 )
+
+[node name="CenterContainer" type="CenterContainer" parent="ColorRect"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Welcome" type="RichTextLabel" parent="ColorRect/CenterContainer"]
+margin_left = 302.0
+margin_top = 269.0
+margin_right = 722.0
+margin_bottom = 329.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_min_size = Vector2( 420, 60 )
+custom_fonts/mono_font = SubResource( 1 )
+custom_fonts/normal_font = SubResource( 2 )
+text = "Welcome to Battle Beasts!"
+
+[node name="Continue" type="RichTextLabel" parent="ColorRect/CenterContainer"]
+margin_left = 412.0
+margin_top = 289.0
+margin_right = 612.0
+margin_bottom = 309.0
+rect_min_size = Vector2( 200, 20 )
+custom_fonts/normal_font = SubResource( 3 )
+text = "Press Space to continue."
+
+[node name="Back" type="Button" parent="ColorRect"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -68.0
+margin_right = 148.0
+text = "Back"
+
+[node name="Line2D" type="Line2D" parent="."]
+width = 2.0
+default_color = Color( 1, 1, 1, 1 )
+
+[connection signal="pressed" from="ColorRect/Back" to="." method="_on_Back_pressed"]

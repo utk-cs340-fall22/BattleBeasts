@@ -8,6 +8,7 @@ public class Bracket: Node2D
   Globals g;
   int size = 0;
   Sprite user, other;
+
   Texture tex;
 
   //Will be used for .json file
@@ -319,6 +320,7 @@ public class Bracket: Node2D
     
     //initialize globals
     g = (Globals)GetNode("/root/Gm");
+    t = (Transition)GetNode("/root/Transition");
 
     //Display welcome if it's the first time
     if (g.bracketSize == -1) {
@@ -491,17 +493,18 @@ public class Bracket: Node2D
     GetNode<Button>("Exit").Show();
     GetNode<Button>("Exit").Text = "Exit";
     GetNode<Button>("Continue").Hide();
+    GetNode<Button>("Big").Hide();
+    GetNode<Button>("Small").Hide();
     GetNode<Label>("Welcome").Text = "You lose! Press exit to return to the title menu";
   }
 
   private void _on_Continue_pressed()
   {
-    GetTree().ChangeScene("res://Fight/Fight.tscn");
+    t.ChangeScene2("res://Fight/Fight.tscn");
   }
 
   private void _on_Big_pressed()
   {
-    g = (Globals)GetNode("/root/Gm");
     g.bracketSize = 1;
     size = 4;
     for_button();
@@ -511,7 +514,6 @@ public class Bracket: Node2D
 
   private void _on_Small_pressed()
   {
-    g = (Globals)GetNode("/root/Gm");
     g.bracketSize = 0;
     size = 2;
     for_button();
@@ -523,7 +525,7 @@ public class Bracket: Node2D
   {
     GetNode<Sprite>("Sprite").Position = new Vector2(0,0);
     reset_all();
-    GetTree().ChangeScene("res://Menus/TitleMenu.tscn");
+    t.ChangeScene("res://Menus/TitleMenu.tscn", "res://Assets/Title.png");
   }
 
   /* Sets the beasts texture */
@@ -531,6 +533,8 @@ public class Bracket: Node2D
   {
     Dictionary beast;
     int pick;
+    Dictionary beast;
+
     if (player) pick = opp;
     else pick = g.oppBeast[opp];
     

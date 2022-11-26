@@ -15,16 +15,22 @@ public class Fight : Node
   public PackedScene QuickTimeMinigame;
   [Export]
   public PackedScene HPinterface;
+  [Export]
+  public PackedScene Textbox;
 
 #pragma warning restore 649
   Globals g;
+  Transition t;
   int isPlayerTurn, aiAttackChoice;
   int queuedAttack; // index of submitted attack in attack dictionary of attacking fighter | -1 for no queued attack | integer in [0, 3] for player | integer in [10, 13] for opponent
   int queuedMinigame; // index of minigame queued in switch statement in CallMinigame() | -1 for no queued minigame | integer >= 0 for minigame index
   int minigameResult; // -2: no minigame running, result used, minigame may be instantiated | -1: minigame active | [0, 100]: result of previous minigame, no minigame active, result not used
+  float turnDelay = 1.5f; // seconds until opponent attacks after player attacks
   Fighter player, opponent, f;
   Texture playerTexture, opponentTexture;
   HealthInterface pHealthBar, oHealthBar;
+  Textbox textbox;
+  Timer timer;
   Vector2 playerHealthBarPosition, opponentHealthBarPosition;
   private AudioStreamPlayer music, musicP, musicO, se;
   private static Dictionary _beastOptions = null;
@@ -81,6 +87,9 @@ public class Fight : Node
     int i;
     
     g = (Globals)GetNode("/root/Gm");
+    t = (Transition)GetNode("/root/Transition");
+    timer = (Timer)GetNode("Timer");
+    timer.SetOneShot(true);
     isPlayerTurn = 1;
     minigameResult = -2;
     queuedAttack = -1;
@@ -163,19 +172,22 @@ public class Fight : Node
     aiAttackChoice = (int)(GD.Randi() % 4); // random number between 0 and 3
     queuedAttack = aiAttackChoice + 10;
     minigameResult = -1;
-    // CREATE MINIGAME
-    minigameResult = 100; // to remove
-    isPlayerTurn = 1; // to remove
+    minigameResult = 100;
+    isPlayerTurn = 1;
   }
 
   // Returns 1 if attack button signals shouldn't be obeyed
   public int CheckAttackSignalPermission () {
     if (isPlayerTurn == 0) {
-      GD.Print("Cannot attack on opponent's turn.");
+      GD.Print("Cannot select an attack on opponent's turn.");
       return 1;
     }
     if (minigameResult == -1) {
-      GD.Print("Cannot attack during active minigame.");
+      GD.Print("Cannot select an attack during active minigame.");
+      return 1;
+    }
+    if (timer.GetTimeLeft() != 0) {
+      GD.Print("Cannot select an attack during an attack.");
       return 1;
     }
 
@@ -213,7 +225,8 @@ public class Fight : Node
 
   // Performs the queued attack whether its from the player or the opponent
   public void PerformQueuedAttack() {
-    int damage;
+    Dictionary attackD;
+    int damage, damageDealt;
 
     // no queued attack
     if (queuedAttack == -1) return;
@@ -221,9 +234,19 @@ public class Fight : Node
     // opponent attacking
     if (queuedAttack >= 10) {
       damage = opponent.GetAttackStrength(queuedAttack - 10) - player.GetArmor();
-      minigameResult = 70; // nerf the opponent while the game isn't balanced at all so you can actually win
+      minigameResult = 85; // nerf the opponent
       if (damage < 1) damage = 1; // lowest damage dealt per strike is 1
-      player.ReduceHealth(damage * opponent.GetAttackCount(queuedAttack - 10) * minigameResult / 100);
+      damageDealt = damage * opponent.GetAttackCount(queuedAttack - 10) * minigameResult / 100;
+      player.ReduceHealth(damageDealt);
+
+      // text box
+      if (IsInstanceValid(textbox)) textbox.QueueFree();
+      textbox = (Textbox)Textbox.Instance();
+      AddChild(textbox);
+      attackD = attackOptions[g.oppAttacks[g.currBeast ,queuedAttack - 10].ToString()] as Dictionary;
+      textbox.Init(g.oppName[g.currBeast], (String)attackD["name"], damageDealt.ToString());
+      textbox.AnimateText();
+
       GD.Print("opponent attack ", queuedAttack - 10, " dealt ", damage * opponent.GetAttackCount(queuedAttack - 10) * minigameResult / 100, " damage.");
       isPlayerTurn = 1;
       queuedAttack = -1;
@@ -235,8 +258,18 @@ public class Fight : Node
       damage = player.GetAttackStrength(queuedAttack) - opponent.GetArmor();
       if (damage < 1) damage = 1;
       if (minigameResult >= 90) minigameResult = 120;
-      opponent.ReduceHealth(damage * player.GetAttackCount(queuedAttack) * minigameResult / 100);
-      GD.Print("player attack ", queuedAttack, " dealt ", damage * player.GetAttackCount(queuedAttack) * minigameResult / 100, " damage.");
+      if (minigameResult <= 50) minigameResult = 50;
+      damageDealt = damage * player.GetAttackCount(queuedAttack) * minigameResult / 100;
+      opponent.ReduceHealth(damageDealt);
+
+      // text box
+      if (IsInstanceValid(textbox)) textbox.QueueFree();
+      textbox = (Textbox)Textbox.Instance();
+      AddChild(textbox);
+      attackD = attackOptions[g.playerAttackIndices[queuedAttack].ToString()] as Dictionary;
+      textbox.Init(g.name, (String)attackD["name"], damageDealt.ToString());
+      textbox.AnimateText();
+
       isPlayerTurn = 0;
       queuedAttack = -1;
       OpponentHurtAnim();
@@ -244,6 +277,9 @@ public class Fight : Node
 
     // ready for next minigame
     minigameResult = -2;
+
+    // set delay before next attack can be performed
+    timer.Start(turnDelay);
   }
   
   private void PlayerHurtAnim(){
@@ -287,6 +323,7 @@ public class Fight : Node
       g.fightOutcome = 1;
       GetTree().ChangeScene("res://Bracket/Bracket.tscn");
     }
+  
 
     /* Update health bars */
     
@@ -303,7 +340,7 @@ public class Fight : Node
     /* Perform queued attack */
 
     if (minigameResult == -1) return;
-    PerformQueuedAttack();
+    if (timer.GetTimeLeft() == 0) PerformQueuedAttack();
 
     /* AI turn */
 

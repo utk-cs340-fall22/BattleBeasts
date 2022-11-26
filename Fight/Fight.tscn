@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Fight/Fighter.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Menus/AttackNodeSmall.tscn" type="PackedScene" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://Fight/HealthInterface.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Fight/BulletHell.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Fight/QuickTimeKeyboard.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Fight/Textbox.tscn" type="PackedScene" id=9]
 
 [node name="Main" type="Node"]
 script = ExtResource( 3 )
@@ -16,6 +17,7 @@ PowerSliderMinigame = ExtResource( 4 )
 BulletHellMinigame = ExtResource( 7 )
 QuickTimeMinigame = ExtResource( 8 )
 HPinterface = ExtResource( 6 )
+Textbox = ExtResource( 9 )
 
 [node name="Action Console" type="PanelContainer" parent="."]
 margin_left = 526.0
@@ -75,3 +77,5 @@ layer = 2
 
 [node name="PauseMenu2" parent="CanvasLayer" instance=ExtResource( 5 )]
 visible = false
+
+[node name="Timer" type="Timer" parent="."]

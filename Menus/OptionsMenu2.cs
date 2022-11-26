@@ -42,7 +42,7 @@ public class OptionsMenu2 : Control
       se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
       se.Play();
       
-        OS.WindowFullscreen = !OS.WindowFullscreen;
+      OS.WindowFullscreen = !OS.WindowFullscreen;
     }
     
     public void _Load_Options_Menu(bool main)

@@ -24,6 +24,7 @@ public class TeamSelect : CanvasLayer
   private AudioStreamPlayer se;
   
   Globals g;
+  Transition t;
   
   int attack0Prev, attack1Prev, attack2Prev, attack3Prev;
   Texture tex;
@@ -155,8 +156,9 @@ public class TeamSelect : CanvasLayer
     used = new int[attacksAllowed.Length];
     for (i = 0; i < used.Length; i++) used[i] = -1;
     for (i = 0; i < attacksAllowed.Length; i++) {
-      if (IsInArray(used, i) == 0 && i != -1) {   
+      if (IsInArray(used, attacksAllowed[i]) == 0 && attacksAllowed[i] != -1) {
         used[i] = attacksAllowed[i];
+        GD.Print("this: ", attacksAllowed[i].ToString());
         attack = attackOptions[attacksAllowed[i].ToString()] as Dictionary;
         
         var AttackInstance = (Control) Attack.Instance();
@@ -200,6 +202,7 @@ public class TeamSelect : CanvasLayer
   public override void _Ready()
   {
     g = (Globals)GetNode("/root/Gm");
+    t = (Transition)GetNode("/root/Transition");
 
     goButton = GetNode<BaseButton>("Go");
     goButton.Disabled = true;
@@ -315,7 +318,7 @@ public class TeamSelect : CanvasLayer
     se.Stream = ResourceLoader.Load("res://Assets/Music/BackSound.tres") as AudioStream;
     se.Play();
     
-    GetTree().ChangeScene("res://Menus/MainMenu.tscn");
+    t.ChangeScene("res://Menus/MainMenu.tscn", "res://Assets/Main.png");
   }
   
   private void _on_Go_pressed()
@@ -332,6 +335,6 @@ public class TeamSelect : CanvasLayer
     se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
     se.Play();
     
-    GetTree().ChangeScene("res://Bracket/Bracket.tscn");
+    t.ChangeScene("res://Bracket/Bracket.tscn", "res://Assets/Bracket.png");
   }
 }

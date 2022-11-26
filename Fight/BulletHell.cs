@@ -21,7 +21,7 @@ public class BulletHell : Node2D
         // defaults
         PlayerHealth = 100;
         StartTime = 1;
-        GameTime = 10;
+        GameTime = 6;
         delay = (float) .2;
         invincible = false;
         itime = 0;

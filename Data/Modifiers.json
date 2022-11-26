@@ -1,20 +1,38 @@
 {
   "0": {
     "name": "Sturdy",
-    "health_modifier": 30,
+    "health_modifier": 20,
     "armor_modifier": 1,
-    "attacks": []
+    "attacks": [0, 19, 23, 28]
   },
   "1": {
     "name": "Intelligent",
-    "health_modifier": -30,
+    "health_modifier": -40,
     "armor_modifier": 2,
-    "attacks": []
+    "attacks": [2, 7, 8, 13]
   },
   "2": {
     "name": "Massive",
-    "health_modifier": 50,
+    "health_modifier": 40,
     "armor_modifier": 0,
-    "attacks": []
+    "attacks": [6, 10, 12, 19]
+  },
+  "3": {
+    "name": "Nimble",
+    "health_modifier": 0,
+    "armor_modifier": 2,
+    "attacks": [8, 11, 14, 29]
+  },
+  "4": {
+    "name": "Bulky",
+    "health_modifier": 60,
+    "armor_modifier": -1,
+    "attacks": [2, 10, 16, 23]
+  },
+  "5": {
+    "name": "Sus",
+    "health_modifier": 20,
+    "armor_modifier": -1,
+    "attacks": [2, 10, 14, 32, 33, 34]
   }
 }

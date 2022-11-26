@@ -1,99 +1,49 @@
-# BattleBeasts
+# Battle Beasts
 
-## How to edit this code w/ Godot
-Clone this repo. Open Godot and click Import. Type the path of the folder and click "Import&Edit".
-To commit: In the highest level directory in the project on your machine do "git add ." to add any files changed by you or godot in response to things you did.
+## Group Members
 
-### Github usernames:
+| Name | GitHub Username | GitHub ID |
+| ---- | --------------- | --------- |
+| Christopher Canaday | ChrisCanaday | 89429907 |
+| Colin Canonaco | ColinC5 | 89421772 |
+| Noah Dahle | noahd15 | 91710565 |
+| Stephanie Hill | stephhill77 | 89418194 |
+| Jake Looney | 6a6c | 10680332 |
 
- - Noah Dahle - noahd15
- - Colin Canonaco - ColinC5
- - Jake Looney - 6a6c
- - Stephanie Hill - stephhill77
- - Christopher Canaday - ChrisCanaday
+![Battle Beasts Logo](https://github.com/utk-cs340-fall22/BattleBeasts/blob/main/Assets/Logo.png)
 
-## Game Design
-- ***Constraints***
-  - Short game loop
-    - The game needs to have a game loop that can be experienced in a substantial quantity in a few minutes (in the time we can present the game)
-      - Tournament bracket for multiple fights with similar base functionality
-    - Other parts of the game may be well served to be understood without much demonstration
-      - "In our game we also have a progression system, a short campaign with exploration..."
-  - Requires minimal onboarding
-    - Very transparent game mechanics (no hidden stats)
-    - Simple set of actions for player
-  - Reuse assets
-    - Diminishing returns with creating additional sprites
-    - Recoloring (one sprite can represent different types)
-- ***Game Loop***
-  - Game consists of the player trying to advance through a tournament bracket
-  - Player customizes their beast before each tournament
-    - Base beast, type, attacks
-  - Player fights through bracket. Winning advances through the bracket, losing is game over.
-- ***Fights***
-  - Player and AI opponent take turns performing actions
-  - Minigames like in Undertale combat, Sonic real-time interaction, Sonic Chronicles combat
-    - Successful completion boosts attack power or reduces damage taken
-  - Minimal to no RNG
-    - Quick time events/minigames as alternative for strength modifiers (ex. critical hits) (favor predictability and player agency)
-  - Attacks have simple stats/effects
-    - Label attacks with difficulty/type of minigame. Stronger attacks have harder minigames.
-- ***Scenes***
-  - Main menu
-    - Play, options, credits, quit
-  - Beast customization
-    - Select beast, type, move set
-  - Bracket
-    - Short animation of moving up in bracket
-    - Display player's beast and opponent's beast before each match
-    - Button to enter fight
-    - Transition between fight and bracket
-  - Fight
-    - Display involved beasts, attack options, beast health values
-- ***Stretch***
-  - Animations, sound effects
-  - More sprites/abilties
-  - Different tournament formats other than bo1 single elimination
-  - More fight quick times/mini games. More exclusive to abilities
-  - Difficulty settings
-  - Unlock beasts, types, and attacks after each game to use in future games
-    - Save progress
+## Description
 
-## Functionality
+Battle Beasts is a turn based game where you customize a beast to compete in a tournament against other beasts.
 
-### JSON
+### **Beast Customization**
+You choose a beast, modifier, and four attacks for each tournament. Your beast changes the modifiers you can choose from, and your beast-modifier combo determines the set of attacks you can choose from.  
+Every beast has base stats for maximum health and armor. Your beast is the primary factor in what attacks and modifiers you can select from.  
+Your modifier changes the health and armor values of your beast as well as granting you access to a larger attack selection.  
+Your attack options are presented with their name, damage per strike, and the number of strikes per attack. These will be used against your opponent to deplete their health pool to win the match.
 
-Each file describes default values that should never be taken on. All three files are 0 indexed and fields such as "types" and "attacks" make use of those indices. For a fighter to be able to take on any given attack, both the beast *and* the type must allow for the attack. Bit shifting and masking could be used for this but that's unreadable so instead we will index within the string.
+### **Bracket**
+Between matches in the tournament you can view the bracket to see your progress and what beasts you might encounter next.
 
-**Beasts**
+### **Fight**
+You and your opponent take turns attacking each other's beast. The match ends once a beast's health has reached zero resulting in the other beast winning the match.  
+The damage an attack deals is determined by the armor value of the defending beast as well as the result of a minigame completed by the attacker. The damage per strike of an attack is reduced by the armor value of the defending beast, then this new damage per strike is multiplied by the number of strikes for the given attack, and finally this value is changed by the result of the minigame performed by the attacker.
 
-- name: Beast name
-- health: Base maxium health
-- armor: Base armor
-- base_type: Default type
-- types: Types this beast can be. 1 means it can be that type, 0 means it can't. Index in this string corresponds to index in Types.json
-- attacks: Attacks this beast can have. Same format as types
+### **Minigames**
+After selecting an attack to perform on your turn you must complete a short minigame that changes the strength of your attack depending on your performance in the minigame. At worst your attack's strength is decreased by 50%, and at best your attack's strength is increased by 20%.  
+There are three possible minigames:
+- Power Bar: Press the spacebar to stop the arrow. Your performance is better the closer the arrow stops to the middle.
+- Bullet Hell: Use WASD to move and avoid the bullets. The fewer bullets that hit you the better.
+- Quick Time: Press the indicated key as quick as possible for the best performance.
 
-**Types**
+### **[describe overall game loop]**
+stuff here
 
-- name: Type name
-- health_modifier: Health added to base maximum health of beast
-- armor_modifier: Armor added to base armor of beast
-- attacks: Attacks this type can have. Same format as in Beasts.json
+## Installation Instructions
+stuff here
 
-**Attacks**
+## Usage Instructions
+stuff here. navigate using the mouse. some keyboard usage required
 
-- name: Attack name
-- strike_damage: How much damage one strike deals
-- strike_count: How many strikes are in one attack
-
-### Fights
-The Fight scene instantiates two Fighter nodes so one is controlled by the player and the other by the computer. The Fighter nodes are instantiated with a beast texture and information about the beast.
-Players can choose their beast/type as well as four attacks. Available types to choose from depend on the beast and attacks available depend on the beast and type.
-Base stats (hp, armor, type...) for all beasts will be stored in one text file in a specific format. Making a program to modify this file may be helpful.
-Information about attacks will all be stored in another similar text tile.
-Information in these files will be coded with positive integer identifiers which will correspond to the order in which the beast/type/attack information appears in its resective file.
-
-The beast, type, and attacks are chosen in menus before the Fight scene starts. The identifiers for the chosen stats will be passed from the menus to the Fight scene script, which will then pass the appropriate information to the initialization function in the Player and Opponent Fighter nodes. The Fighter nodes will then set their information.
-
-The information about attacks will be stored in their respective Fighter nodes. When an attack is sent the information on that attack will be sent to the Fight scene script which will calculate the result of the attack and will update the defending Fighter.
+## Licensing
+[link to LICENSE.txt (we dont have this yet)]()
