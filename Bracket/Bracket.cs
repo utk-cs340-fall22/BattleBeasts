@@ -8,6 +8,7 @@ public class Bracket: Node2D
   Globals g;
   int size = 0;
   Sprite user, other;
+  Transition t;
 
   Texture tex;
 
@@ -533,12 +534,11 @@ public class Bracket: Node2D
   {
     Dictionary beast;
     int pick;
-    Dictionary beast;
 
     if (player) pick = opp;
     else pick = g.oppBeast[opp];
     
     beast = beastsOps[pick.ToString()] as Dictionary;
-    tex = ResourceLoader.Load((String)beast["texture"]) as Texture;
+    GetNode<Sprite>(sprite).Texture = ResourceLoader.Load((String)beast["texture"]) as Texture;
   }
 }
