@@ -14,7 +14,7 @@
 
 ## Description
 
-Battle Beasts is a turn based game where you customize a beast to compete in a tournament against other beasts.
+Battle Beasts is a turn based game where you customize a beast to compete in a tournament by fighting against other beasts.
 
 ### **Beast Customization**
 You choose a beast, modifier, and four attacks for each tournament. Your beast changes the modifiers you can choose from, and your beast-modifier combo determines the set of attacks you can choose from.  
