@@ -1,7 +1,8 @@
 using Godot;
-using System;
 using Godot.Collections;
-
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 public class Bracket: Node2D
 {
@@ -13,93 +14,85 @@ public class Bracket: Node2D
   Texture tex;
 
   //Will be used for .json file
-  private static Dictionary _beastsOps = null;
-  private static Dictionary _opponentsOps = null;
-  private static Dictionary _attackOps = null;
-  private static Dictionary _modifierOps = null;
+  private static Dictionary _opponentOptions = null;
+  private static Dictionary _beastOptions = null;
+  private static Dictionary _attackOptions = null;
+  private static Dictionary _modifierOptions = null;
 
   private AudioStreamPlayer music, musicP, se;
 
-  private Dictionary opponentsOps 
-  {
+  private Dictionary opponentOptions {
     get {
-      if (_opponentsOps == null) {
+      if (_opponentOptions == null) {
         var file = new File();
         file.Open("res://Data/Opponents.json", File.ModeFlags.Read);
         var text = file.GetAsText();
-        _opponentsOps = JSON.Parse(text).Result as Dictionary;
+        _opponentOptions = JSON.Parse(text).Result as Dictionary;
       }
-      return _opponentsOps;
+      return _opponentOptions;
     }
   }
 
-  private Dictionary beastsOps 
-  {
+  private Dictionary beastOptions {
     get {
-      if (_beastsOps == null) {
+      if (_beastOptions == null) {
         var file = new File();
         file.Open("res://Data/Beasts.json", File.ModeFlags.Read);
         var text = file.GetAsText();
-        _beastsOps = JSON.Parse(text).Result as Dictionary;
+        _beastOptions = JSON.Parse(text).Result as Dictionary;
       }
-      return _beastsOps;
+      return _beastOptions;
     }
   }
 
-  private Dictionary attackOptions 
-  {
+  private Dictionary attackOptions {
     get {
-      if (_attackOps == null) {
+      if (_attackOptions == null) {
         var file = new File();
         file.Open("res://Data/Attacks.json", File.ModeFlags.Read);
         var text = file.GetAsText();
-        _attackOps = JSON.Parse(text).Result as Dictionary;
+        _attackOptions = JSON.Parse(text).Result as Dictionary;
       }
-      return _attackOps;
+      return _attackOptions;
     }
   }
   
-  private Dictionary modifierOps 
-  {
+  private Dictionary modifierOptions {
     get {
-      if (_modifierOps == null) {
+      if (_modifierOptions == null) {
         var file = new File();
         file.Open("res://Data/Modifiers.json", File.ModeFlags.Read);
         var text = file.GetAsText();
-        _modifierOps = JSON.Parse(text).Result as Dictionary;
+        _modifierOptions = JSON.Parse(text).Result as Dictionary;
       }
-      return _modifierOps;
+      return _modifierOptions;
     }
   }
-  /*                      */
-  private void get_curr_beast(Dictionary beasts)
-  {
+
+  /**/
+  private void get_curr_beast(Dictionary beasts) {
     select_beast("Other", g.currBeast, true);
   }
 
   /* Draws a circle around the two opposing beasts */
-  public void DrawCircleArc(Vector2 center, float radius, float angleFrom, float angleTo, Color color)
-  {
+  public void DrawCircleArc(Vector2 center, float radius, float angleFrom, float angleTo, Color color) {
     int nbPoints = 32;
     var pointsArc = new Vector2[nbPoints];
 
-    for (int i = 0; i < nbPoints; ++i)
-    {
+    for (int i = 0; i < nbPoints; ++i) {
       float anglePoint = Mathf.Deg2Rad(angleFrom + i * (angleTo - angleFrom) / nbPoints - 90f);
       pointsArc[i] = center + new Vector2(Mathf.Cos(anglePoint), Mathf.Sin(anglePoint)) * radius;
     }
 
-    for (int i = 0; i < nbPoints - 1; ++i)
-      DrawLine(pointsArc[i], pointsArc[i + 1], color);
-}
+    for (int i = 0; i < nbPoints - 1; ++i) DrawLine(pointsArc[i], pointsArc[i + 1], color);
+  }
 
   /* At the end of the game, resets all values to default */
-    private void reset_all() 
-  {
+  private void reset_all() {
     g.name = "Player";
     for (int i = 0; i < 7; i++) g.oppName[i] = "CPU";
     for (int i = 0; i < 7; i++) g.oppBeast[i] = -1;
-    g.playerBeastIndex = -1;
+    g.playerBeastIndex = 0;
     g.level = 0;
     g.bracketSize = -1;
     g.fightOutcome = -1;
@@ -137,69 +130,72 @@ public class Bracket: Node2D
   }
 
  /* Use RNG to select opponents for the bracket */
-  private void get_random_beast(Dictionary opponents, int opp) 
-  {
-    Dictionary oppBeast;
-    Random rnd = new Random();
-    int num = rnd.Next();
+  private void get_random_beast(Dictionary opponents, int opp) {
+    Dictionary opponentBeast;
+    int choice;
     
-    opponents = opponentsOps[(num % opponentsOps.Count).ToString()] as Dictionary;
-    oppBeast = beastsOps[(num % beastsOps.Count).ToString()] as Dictionary;
-    g.oppName[opp] = (String) opponents["name"];
-    g.oppBeast[opp] = Int32.Parse((String) opponents["beast"]);
-    g.oppMods[opp] = rnd.Next() % modifierOps.Count;
+    // choose name
+    choice = (int)(GD.Randi() % opponentOptions.Count);
+    opponents = opponentOptions[choice.ToString()] as Dictionary;
+    g.oppName[opp] = (String)opponents["name"];
 
+    // choose beast
+    choice = (int)(GD.Randi() % beastOptions.Count);
+    g.oppBeast[opp] = choice;
   }
 
-  /* Generates the modifier and attacks for each opponenent */
-  private void define_opponent(int opp)
-  {
-    int[] attacksAllowed, used;
-    Godot.Collections.Array beastGArray, modifierGArray;
-    Dictionary beast, modifier, attack;
-    Random rnd = new Random();
-    int num = rnd.Next();
-    int i, j;
-    beast = beastsOps[opp.ToString()] as Dictionary;
-    modifier = modifierOps[opp.ToString()] as Dictionary;
-    beastGArray = (Godot.Collections.Array)beast["attacks"];
-    modifierGArray = (Godot.Collections.Array)modifier["attacks"];
-    attacksAllowed = new int[beastGArray.Count + modifierGArray.Count];
-    
-    for (i = 0; i < attacksAllowed.Length; i++) attacksAllowed[i] = -1;
-    for (i = 0; i < beastGArray.Count; i++) attacksAllowed[i] = (int)(float)beastGArray[i];
-    for (j = 0; j < modifierGArray.Count; j++) if (IsInArray(attacksAllowed, (int)(float)modifierGArray[j]) == 0) attacksAllowed[i + j] = (int)(float)modifierGArray[j];
-   /*
-    used = new int[attacksAllowed.Length];
-    for (i = 0; i < used.Length; i++) used[i] = -1;
-    for (i = 0; i < attacksAllowed.Length; i++) {
-      if (IsInArray(used, i) == 0 && i != -1) {   
-        used[i] = attacksAllowed[i];
-        attack = attackOptions[attacksAllowed[i].ToString()] as Dictionary;
-      }
-    } */
-    //attack = (Godot.Collections.Dictionary)beast["attacks"];
-
-    for (i = 0; i < 4; i++) {
-      num = rnd.Next();
-      int index = num % attacksAllowed.Length;
-      g.oppAttacks[opp,i] = attacksAllowed[num % attacksAllowed.Length];
-      GD.Print("Inside the loop " +g.oppAttacks[opp,i]);
-      for (j = index-1; j<attacksAllowed.Length - 1; j++){
-        attacksAllowed[j] = attacksAllowed[j + 1];
-      }      
-    }
-    GD.Print((String) beast["name"] + ": " + g.oppAttacks[opp,0] + " " + g.oppAttacks[opp, 1] + " " + g.oppAttacks[opp, 2] + " " + g.oppAttacks[opp, 3]);
-  }
-  /* Used for attack selection */
+  /* For 1 dimensional arrays. Returns 0 if num isn't in array. Returns 1 if num is in array */
   private int IsInArray(int[] array, int num) {
     foreach (int i in array) if (i == num) return 1;
     return 0;
   }
 
+  /* For one subarray in 2 dimensional arrays. Returns 0 if num isn't in subarray. Returns 1 if num is in subarray */
+  private int IsInArray2(int[,] array, int index, int num) {
+    for (int i = 0; i < array.GetLength(1); i++) if (array[index, i] == num) return 1;
+    return 0;
+  }
+
+  /* Assign allowed modifiers and four unique attacks to an opposing beast */
+  private void CustomizeOpponent(int index) {
+    int i, choice;
+    int[] modifiersAllowed, attacksAllowed;
+    Dictionary beast, modifier, attack;
+    Godot.Collections.Array modifiersGArray, beastAttacksGArray, modifierAttacksGArray;
+
+    // assign random allowed modifier
+    beast = beastOptions[g.oppBeast[index].ToString()] as Dictionary;
+    modifiersGArray = (Godot.Collections.Array)beast["modifiers"];
+    modifiersAllowed = new int[modifiersGArray.Count];
+    for (i = 0; i < modifiersAllowed.Length; i++) modifiersAllowed[i] = (int)(float)modifiersGArray[i];
+    g.oppMods[index] = modifiersAllowed[GD.Randi() % modifiersAllowed.Length];
+
+    // find allowed attacks
+    modifier = modifierOptions[g.oppMods[index].ToString()] as Dictionary;
+    beastAttacksGArray = (Godot.Collections.Array)beast["attacks"];
+    modifierAttacksGArray = (Godot.Collections.Array)modifier["attacks"];
+    attacksAllowed = new int[beastAttacksGArray.Count + modifierAttacksGArray.Count];
+    for (i = 0; i < beastAttacksGArray.Count + modifierAttacksGArray.Count; i++) attacksAllowed[i] = -1;
+    for (i = 0; i < beastAttacksGArray.Count; i++) attacksAllowed[i] = (int)(float)beastAttacksGArray[i];
+    for (i = 0; i < modifierAttacksGArray.Count; i++) {
+      if (IsInArray(attacksAllowed, (int)(float)modifierAttacksGArray[i]) == 0) {
+        attacksAllowed[beastAttacksGArray.Count + i] = (int)(float)modifierAttacksGArray[i];
+      }
+    }
+
+    // assign four random unique allowed attacks
+    for (i = 0; i < 4; i++) g.oppAttacks[index, i] = -1;
+    for (i = 0; i < 4; i++) {
+      // find unique attack (not already chosen)
+      for (choice = attacksAllowed[GD.Randi() % attacksAllowed.Length]; IsInArray2(g.oppAttacks, index, choice) == 1 || choice == -1; choice = attacksAllowed[GD.Randi() % attacksAllowed.Length]);
+
+      // assign unique attack
+      g.oppAttacks[index, i] = choice;
+    }
+  }
+
   /* This is what the user is greeted with when first entering the bracket */
-  private void display_welcome() 
-  {
+  private void display_welcome() {
     hideall();
     GetNode<Button>("Small").Text = "Small";
     GetNode<Button>("Big").Text ="Big";
@@ -207,21 +203,17 @@ public class Bracket: Node2D
   }
   
   /* This function gets the player's name and beast from globals.cs and initializes them in bracket */
-  private void initialize_player(Globals g, Dictionary beasts) 
-  {
-    if (g.level == 0) beasts = beastsOps[(g.playerBeastIndex).ToString()] as Dictionary;
+  private void initialize_player(Globals g, Dictionary beasts) {
+    if (g.level == 0) beasts = beastOptions[(g.playerBeastIndex).ToString()] as Dictionary;
     select_beast("Sprite", g.playerBeastIndex, true);
     select_beast("Player", g.playerBeastIndex, true);
     GetNode<Label>("Sprite/Name").Text = g.name;
     GetNode<Label>("Sprite/Name").Show();
     GetNode<Sprite>("Sprite").Position = new Vector2(90 + 100*g.level, 55+50*g.level);
-    
   }
 
   //This gets the opponents that were randomly generated and initializes their names and beasts
-  private void initialize_opponents(Globals g) 
-  {
-
+  private void initialize_opponents(Globals g) {
     for (int i = 0; i < 7; i++) {
       select_beast("Sprite" + (i+2).ToString(), i, false);
       GetNode<Label>("Sprite" + (i+2).ToString() + "/Name").Text = g.oppName[i];
@@ -264,8 +256,7 @@ public class Bracket: Node2D
   }
   
   //Shows the beasts that one the last bracket depending on the level
-  private void show_on_bracket() 
-  {
+  private void show_on_bracket() {
     if (g.level == 1) {
       GetNode<Sprite>("Sprite3").Show();
       select_beast("Other", 2, false);
@@ -285,7 +276,7 @@ public class Bracket: Node2D
     }
   }
 
-    private void StartMusic(){
+  private void StartMusic() {
     se = g.GetNode<AudioStreamPlayer>("SoundEffects");
     music = g.GetNode<AudioStreamPlayer>("Music");
     musicP = g.GetNode<AudioStreamPlayer>("MusicPlayer");
@@ -300,33 +291,30 @@ public class Bracket: Node2D
       music.Stream = ResourceLoader.Load("res://Assets/Music/VictoryTheme.mp3") as AudioStream;
     else
       music.Stream = ResourceLoader.Load("res://Assets/Music/BracketTheme.mp3") as AudioStream;
-   
 
     music.Play();
   }
 
   //This is the function that gets called first
-  public override void _Ready() 
-  {
-
-    GetNode<TextureRect>("Background").Texture = ResourceLoader.Load("res://Assets/tournament.png") as Texture;
-    //I hide all sprites to begin with
-    hide_sprites();
-    
+  public override void _Ready() {
     Dictionary opponents = null;
     Dictionary beasts = null;
     Dictionary modifiers = null;
-    
-    GetNode<Button>("Exit").Hide();
     
     //initialize globals
     g = (Globals)GetNode("/root/Gm");
     t = (Transition)GetNode("/root/Transition");
 
+    GD.Randomize();
+
+    GetNode<TextureRect>("Background").Texture = ResourceLoader.Load("res://Assets/tournament.png") as Texture;
+    //I hide all sprites to begin with
+    hide_sprites();
+    
+    GetNode<Button>("Exit").Hide();
+
     //Display welcome if it's the first time
-    if (g.bracketSize == -1) {
-      display_welcome();
-    }
+    if (g.bracketSize == -1) display_welcome();
 
     //Set size depending on which bracket they chose
     if (g.bracketSize == 0) {
@@ -347,21 +335,20 @@ public class Bracket: Node2D
     if (g.fightOutcome == 1) Won();
     else if (g.fightOutcome == 0) Lost();
     
-
     //if it's the first time, create random beasts
     if (g.level == 0) {
       for (int i = 0; i < 7; i++) {
         get_random_beast(opponents, i);
+        CustomizeOpponent(i);
       }
     }
+
     //then initialize them
     initialize_opponents(g);
     if (g.level == 0) g.currBeast = g.oppBeast[0];
     get_curr_beast(beasts);
     
     show_on_bracket();
-    
-
     
     StartMusic();
   }
@@ -532,15 +519,14 @@ public class Bracket: Node2D
   }
 
   /* Sets the beasts texture */
-  private void select_beast(string sprite, int opp, bool player) 
-  {
+  private void select_beast(string sprite, int opp, bool player) {
     Dictionary beast;
     int pick;
 
     if (player) pick = opp;
     else pick = g.oppBeast[opp];
     
-    beast = beastsOps[pick.ToString()] as Dictionary;
+    beast = beastOptions[pick.ToString()] as Dictionary;
     GetNode<Sprite>(sprite).Texture = ResourceLoader.Load((String)beast["texture"]) as Texture;
   }
 }
