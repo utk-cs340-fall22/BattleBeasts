@@ -12,11 +12,15 @@ font_data = ExtResource( 5 )
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 2 )
 
+[node name="TextureRect" type="TextureRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
 [node name="PanelContainer" type="PanelContainer" parent="."]
-margin_left = 506.0
-margin_top = 199.0
-margin_right = 712.0
-margin_bottom = 237.0
+margin_left = 526.0
+margin_top = 100.0
+margin_right = 732.0
+margin_bottom = 138.0
 
 [node name="Enter_Name" type="LineEdit" parent="PanelContainer"]
 margin_left = 7.0
@@ -27,48 +31,46 @@ max_length = 10
 script = ExtResource( 1 )
 
 [node name="Exit" type="Label" parent="PanelContainer/Enter_Name"]
-margin_left = -87.0
-margin_top = 63.0
-margin_right = -47.0
-margin_bottom = 77.0
-
-[node name="press_here" type="Label" parent="PanelContainer/Enter_Name"]
-margin_left = -87.0
-margin_top = 106.0
-margin_right = -50.0
-margin_bottom = 120.0
+margin_left = -106.0
+margin_top = -58.0
+margin_right = -66.0
+margin_bottom = -44.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
 
 [node name="Button" type="Button" parent="PanelContainer/Enter_Name"]
-margin_left = -86.0
-margin_top = 147.0
-margin_right = -74.0
-margin_bottom = 167.0
+margin_left = -104.0
+margin_top = 42.0
+margin_right = -92.0
+margin_bottom = 64.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = SubResource( 1 )
 
-[node name="Enter" type="Label" parent="."]
-margin_left = 382.0
-margin_top = 211.0
-margin_right = 491.0
-margin_bottom = 225.0
+[node name="Enter" type="Label" parent="PanelContainer/Enter_Name"]
+margin_left = -131.0
+margin_top = 5.0
+margin_right = -22.0
+margin_bottom = 49.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Enter your name:"
 
-[node name="Welcome" type="Label" parent="."]
-margin_left = 351.0
-margin_top = 140.0
-margin_right = 877.0
-margin_bottom = 246.0
+[node name="Welcome" type="Label" parent="PanelContainer/Enter_Name"]
+margin_left = -146.0
+margin_top = -55.0
+margin_right = 380.0
+margin_bottom = 51.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Welcome Trainer. Before you start battling, I will need your name to enter you in 
 the tournament. Your name must be under 10 characters."
 
 [node name="Professor" type="Sprite" parent="."]
-position = Vector2( 153.5, 303 )
-scale = Vector2( 0.31, 0.328 )
+position = Vector2( 172, 452 )
+scale = Vector2( 0.633, 0.676 )
 texture = ExtResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 217.5, 344 )
+position = Vector2( 303, 547 )
+scale = Vector2( 2.3125, 2.0625 )
 texture = ExtResource( 4 )
 
 [connection signal="text_entered" from="PanelContainer/Enter_Name" to="PanelContainer/Enter_Name" method="_on_LineEdit_text_entered"]
