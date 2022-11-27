@@ -70,7 +70,7 @@ public class TitleMenu : CanvasLayer
     se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
     se.Play();
     
-    t.ChangeScene("res://Menus/MainMenu.tscn", "res://Assets/Main.png");
+    t.ChangeScene("res://Menus/MainMenu.tscn");
   
   }
 }

@@ -5,6 +5,7 @@ public class Tutorial : Node2D
 {
   private AudioStreamPlayer se;
   private Globals globals;
+  private Transition t;
   private RichTextLabel Welcome, Continue;
   private bool start;
   private Vector2 s,e;
@@ -15,6 +16,7 @@ public class Tutorial : Node2D
   // Called when the node enters the scene tree for the first time.
   public override void _Ready()
   {
+    t = (Transition)GetNode("/root/Transition");
     globals = GetNode<Globals>("/root/Gm");
     Welcome = GetNode<RichTextLabel>("ColorRect/CenterContainer/Welcome");
     Continue = GetNode<RichTextLabel>("ColorRect/CenterContainer/Continue");
@@ -29,7 +31,7 @@ public class Tutorial : Node2D
     se.Stream = ResourceLoader.Load("res://Assets/Music/BackSound.tres") as AudioStream;
     se.Play();
     
-    GetTree().ChangeScene("res://Menus/MainMenu.tscn");
+    t.ChangeScene("res://Menus/MainMenu.tscn");
   }
 
   // Handle the SpaceBar presses

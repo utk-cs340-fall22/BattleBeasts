@@ -9,6 +9,7 @@ public class Credits : Control
   private List<String> lines = new List<string>();
   private AudioStreamPlayer se;
   private Globals globals;
+  private Transition t;
 
   // Called when the node enters the scene tree for the first time.
   public override void _Ready()
@@ -19,6 +20,7 @@ public class Credits : Control
     // grab your node
     credits = GetNode<VBoxContainer>("ScrollContainer/ScrollingText");
     globals = GetNode<Globals>("/root/Gm");
+    t = (Transition)GetNode("/root/Transition");
   
     // open the credits file
     file.Open("res://Menus/credits.txt",File.ModeFlags.Read);
@@ -59,7 +61,7 @@ public class Credits : Control
     se.Stream = ResourceLoader.Load("res://Assets/Music/BackSound.tres") as AudioStream;
     se.Play();
     
-    GetTree().ChangeScene("res://Menus/MainMenu.tscn");
+   t.ChangeScene("res://Menus/MainMenu.tscn");
   }
 
 //  // Called every frame. 'delta' is the elapsed time since the previous frame.
