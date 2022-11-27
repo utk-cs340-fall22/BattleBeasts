@@ -526,7 +526,9 @@ public class Bracket: Node2D
   {
     GetNode<Sprite>("Sprite").Position = new Vector2(0,0);
     reset_all();
-    t.ChangeScene("res://Menus/TitleMenu.tscn", "res://Assets/Title.png");
+    GetNode<Sprite>("Sprite").Hide();
+    t.ChangeScene("res://Menus/TitleMenu.tscn");
+    
   }
 
   /* Sets the beasts texture */

@@ -28,6 +28,6 @@ public class Enter_Name : Godot.LineEdit
   
   private void _on_Button_pressed()
   {
-    t.ChangeScene("res://Menus/TeamSelect.tscn", "res://Assets/TeamSelect.png");
+    t.ChangeScene("res://Menus/TeamSelect.tscn");
   }
 }

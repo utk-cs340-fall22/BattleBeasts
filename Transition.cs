@@ -15,15 +15,15 @@ public class Transition : CanvasLayer
       
     }
     
-    public async Task ChangeScene(string target, string texture) 
+    public async Task ChangeScene(string target) 
     {
       
-        GetNode<TextureRect>("ColorRect").Texture = ResourceLoader.Load(texture) as Texture;
+        GetNode<ColorRect>("ColorRect").Color = new Color(0,0,0);
         var st = (AnimationPlayer) GetNode<AnimationPlayer>("animate");
         st.Play("dissolve");
         await ToSignal(st, "animation_finished");
         GetTree().ChangeScene(target);
-        st.Play("RESET");
+        st.PlayBackwards("dissolve");
       
      }
     

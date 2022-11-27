@@ -318,7 +318,7 @@ public class TeamSelect : CanvasLayer
     se.Stream = ResourceLoader.Load("res://Assets/Music/BackSound.tres") as AudioStream;
     se.Play();
     
-    t.ChangeScene("res://Menus/MainMenu.tscn", "res://Assets/Main.png");
+    t.ChangeScene("res://Menus/MainMenu.tscn");
   }
   
   private void _on_Go_pressed()
@@ -335,6 +335,6 @@ public class TeamSelect : CanvasLayer
     se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
     se.Play();
     
-    t.ChangeScene("res://Bracket/Bracket.tscn", "res://Assets/Bracket.png");
+    t.ChangeScene("res://Bracket/Bracket.tscn");
   }
 }
