@@ -281,11 +281,15 @@ public class Fight : Node
   private void PlayerHurtAnim(){
     playerAnim = true;
     animTickP = 0;
+    se.Stream = ResourceLoader.Load("res://Assets/Music/HitSound.tres") as AudioStream;
+    se.Play();
   }
   
   private void OpponentHurtAnim(){
     opponentAnim = true;
     animTickO = 0;
+    se.Stream = ResourceLoader.Load("res://Assets/Music/HitSound.tres") as AudioStream;
+    se.Play();
   }
   
   private void StartMusic(){
