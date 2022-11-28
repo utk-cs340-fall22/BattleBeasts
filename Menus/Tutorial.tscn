@@ -1,7 +1,14 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Menus/Tutorial.cs" type="Script" id=1]
 [ext_resource path="res://Fonts/PublicPixel-z84yD.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Menus/AttackNode.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Menus/AttackNodeSmall.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Assets/Attack Type Sprites/fire-icon.png" type="Texture" id=5]
+[ext_resource path="res://Assets/Attack Type Sprites/poison-icon.png" type="Texture" id=6]
+[ext_resource path="res://Assets/Attack Type Sprites/ice-icon.png" type="Texture" id=7]
+[ext_resource path="res://Assets/Attack Type Sprites/electric-icon.png" type="Texture" id=8]
+[ext_resource path="res://Assets/Attack Type Sprites/darkmagic-icon.png" type="Texture" id=9]
 
 [sub_resource type="DynamicFont" id=1]
 font_data = ExtResource( 2 )
@@ -9,8 +16,14 @@ font_data = ExtResource( 2 )
 [sub_resource type="DynamicFont" id=2]
 font_data = ExtResource( 2 )
 
+[sub_resource type="DynamicFont" id=5]
+font_data = ExtResource( 2 )
+
 [sub_resource type="DynamicFont" id=3]
 size = 8
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=4]
 font_data = ExtResource( 2 )
 
 [node name="Tutorial" type="Node2D"]
@@ -36,12 +49,78 @@ rect_min_size = Vector2( 420, 60 )
 custom_fonts/mono_font = SubResource( 1 )
 custom_fonts/normal_font = SubResource( 2 )
 text = "Welcome to Battle Beasts!"
+fit_content_height = true
 
-[node name="Continue" type="RichTextLabel" parent="ColorRect/CenterContainer"]
+[node name="Fire" type="Sprite" parent="ColorRect"]
+position = Vector2( 184.5, 91 )
+scale = Vector2( 2.5, 2.5 )
+z_index = 1
+texture = ExtResource( 5 )
+
+[node name="Ice" type="Sprite" parent="ColorRect"]
+position = Vector2( 271.75, 91 )
+scale = Vector2( 2.5, 2.5 )
+z_index = 1
+texture = ExtResource( 7 )
+
+[node name="Electric" type="Sprite" parent="ColorRect"]
+position = Vector2( 387, 91 )
+scale = Vector2( 2.5, 2.5 )
+z_index = 1
+texture = ExtResource( 8 )
+
+[node name="Poison" type="Sprite" parent="ColorRect"]
+position = Vector2( 532, 91 )
+scale = Vector2( 2.5, 2.5 )
+z_index = 1
+texture = ExtResource( 6 )
+
+[node name="Dark Magic" type="Sprite" parent="ColorRect"]
+position = Vector2( 749, 91 )
+scale = Vector2( 2.5, 2.5 )
+z_index = 1
+texture = ExtResource( 9 )
+
+[node name="Attack" parent="ColorRect" instance=ExtResource( 3 )]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -227.5
+margin_top = -63.5
+margin_right = 227.5
+margin_bottom = 16.5
+
+[node name="AttackSmall" parent="ColorRect" instance=ExtResource( 4 )]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -120.5
+margin_top = 19.5
+margin_right = 120.5
+margin_bottom = 98.5
+
+[node name="HSlider" type="HSlider" parent="ColorRect"]
+margin_left = 393.0
+margin_top = 106.0
+margin_right = 593.0
+margin_bottom = 145.0
+value = 50.0
+
+[node name="Info" type="RichTextLabel" parent="ColorRect"]
+margin_left = 152.0
+margin_top = 23.0
+margin_right = 897.0
+margin_bottom = 576.0
+custom_fonts/normal_font = SubResource( 5 )
+bbcode_enabled = true
+
+[node name="Continue" type="RichTextLabel" parent="ColorRect"]
 margin_left = 412.0
-margin_top = 289.0
+margin_top = 586.0
 margin_right = 612.0
-margin_bottom = 309.0
+margin_bottom = 606.0
 rect_min_size = Vector2( 200, 20 )
 custom_fonts/normal_font = SubResource( 3 )
 text = "Press Space to continue."
@@ -51,10 +130,8 @@ anchor_top = 1.0
 anchor_bottom = 1.0
 margin_top = -68.0
 margin_right = 148.0
+focus_mode = 0
+custom_fonts/font = SubResource( 4 )
 text = "Back"
-
-[node name="Line2D" type="Line2D" parent="."]
-width = 2.0
-default_color = Color( 1, 1, 1, 1 )
 
 [connection signal="pressed" from="ColorRect/Back" to="." method="_on_Back_pressed"]

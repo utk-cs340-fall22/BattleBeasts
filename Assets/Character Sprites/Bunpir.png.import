@@ -14,7 +14,7 @@ dest_files=[ "res://.import/Bunpir.png-d51edbdfb323fcd84ccaf71944363ea9.stex" ]
 
 [params]
 
-compress/mode=0
+compress/mode=3
 compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0

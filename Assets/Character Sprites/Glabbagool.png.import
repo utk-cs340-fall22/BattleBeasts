@@ -14,7 +14,7 @@ dest_files=[ "res://.import/Glabbagool.png-e4cd333f13cfb0b4545878a9a7af9028.stex
 
 [params]
 
-compress/mode=0
+compress/mode=3
 compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0

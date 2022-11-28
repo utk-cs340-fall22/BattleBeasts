@@ -57,7 +57,6 @@ public class AttackNode : Control
         bool val;
         
         val = (bool) TeamSelect.Call("_on_Attack_selected",index);
-        //if(scene_type) Fight.Call("_on_Attack_Selected",index);
         
         if(selected && val){
           Cover.Hide();
