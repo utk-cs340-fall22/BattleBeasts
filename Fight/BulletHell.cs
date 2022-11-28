@@ -53,7 +53,7 @@ public class BulletHell : Node2D
             delay -= delta;
           }else{
             _MakeBullet();
-            delay = (float) rng.RandfRange((float) .4,(float) .8);
+            delay = (float) rng.RandfRange((float) .2,(float) .5);
           }
         }
         
@@ -82,7 +82,6 @@ public class BulletHell : Node2D
       float radius = 1024;
       float theta = 0;
       float stat = 2;
-      float end = 4;
       Vector2 dt;
       
       // randomize either wall or circle
@@ -108,8 +107,12 @@ public class BulletHell : Node2D
         dt.x = 512;
         dt.y = 300;
         
+        // get random start position
+        theta = rng.RandfRange((float) 0,(float) 1.7);
+        stat = theta;
+        
         // spawn bullets in circle
-        while(theta <= /*2 * */Mathf.Pi){
+        while(theta < (1.7+stat)){
           Vector2 dx;
           
           // get spawn point
@@ -117,16 +120,14 @@ public class BulletHell : Node2D
           dx.y = dt.y + radius * Mathf.Sin(theta * Mathf.Pi);
           
           // spawn bullet
-          GD.Print(theta);
-          GD.Print(theta < stat);
-          if(theta < 3.1){
-            var BulletInstance = (Area2D) Bullet.Instance();
-            AddChild(BulletInstance);
-            BulletInstance.Position = dx;
-            BulletInstance.LookAt(dt);
-            BulletInstance.Call("set_destroy_on_collide",true);
-          }
-          theta += (float) .1;
+          var BulletInstance = (Area2D) Bullet.Instance();
+          AddChild(BulletInstance);
+          BulletInstance.Position = dx;
+          BulletInstance.LookAt(dt);
+          BulletInstance.Call("set_destroy_on_collide",true);
+          
+          // increment
+          theta += (float) .03;
         }
       }
     }

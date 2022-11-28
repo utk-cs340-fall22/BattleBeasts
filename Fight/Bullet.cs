@@ -22,15 +22,12 @@ public class Bullet : Area2D
       time += delta;
       
       // delete the bullet if its off screen
-      if((this.Position.x > OS.WindowSize.x ||
-         this.Position.y > OS.WindowSize.y ||
+      if((this.Position.x > 1024 ||
+         this.Position.y > 600 ||
          this.Position.x < 0 ||
          this.Position.y < 0) && time > 2){
         QueueFree();
       }
-      /*if((this.Position.x-10) < (OS.WindowSize.x / 2 - 10) && (this.Position.y-10) < (OS.WindowSize.y / 2 - 10)){
-        QueueFree();
-      }*/
     }
     
     // when the bullet hits a player subtract from health
@@ -52,6 +49,10 @@ public class Bullet : Area2D
     private void _on_Bullet_area_entered(Area2D area)
     {
       bool t = (bool) area.Call("get_destroy_on_collide");
-      //if(destroy_on_collide && t) QueueFree();
+      if(destroy_on_collide && t && close_to_center()) QueueFree();
+    }
+    
+    private bool close_to_center(){
+      return (Mathf.Abs(this.Position.x - 512) < 20 && Mathf.Abs(this.Position.y - 300) < 20);
     }
 }
