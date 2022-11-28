@@ -193,9 +193,9 @@ public class Bracket: Node2D
   /* This is what the user is greeted with when first entering the bracket */
   private void display_welcome() {
     hideall();
-    GetNode<Button>("Small").Text = "Small";
-    GetNode<Button>("Big").Text ="Big";
-    GetNode<Label>("Welcome").Text = "Hi " + g.name + "! Do you want to enter the small or big tournament?";
+    GetNode<Button>("Small").Text = "Regular";
+    GetNode<Button>("Big").Text = "Ultimate";
+    GetNode<Label>("Welcome").Text = "Hi " + g.name + "! Choose your bracket!";
   }
   
   /* This function gets the player's name and beast from globals.cs and initializes them in bracket */
