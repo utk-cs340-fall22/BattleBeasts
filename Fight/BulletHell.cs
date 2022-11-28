@@ -48,7 +48,7 @@ public class BulletHell : Node2D
         }
         
         // creates new bullets if needed
-        if(StartTime < 0 && GetChildCount() < 400){
+        if(StartTime < 0 && GetChildCount() < 200){
           if(delay > 0){
             delay -= delta;
           }else{
