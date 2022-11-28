@@ -30,8 +30,8 @@ public class Player : KinematicBody2D
         Dictionary beast;
       
         // start the beast in middle of screen
-        startpos.x = GetViewport().Size.x/2;
-        startpos.y = GetViewport().Size.y/2;
+        startpos.x = 512;
+        startpos.y = 300;
         this.Position = startpos;
         
         g = (Globals)GetNode("/root/Gm");
@@ -47,7 +47,7 @@ public class Player : KinematicBody2D
     {
       velocity = new Vector2();
 
-      if ((this.Position.x < OS.WindowSize.x) && Input.IsActionPressed("right")){
+      if ((this.Position.x < 1024) && Input.IsActionPressed("right")){
         velocity.x += 1;
       }
 
@@ -55,7 +55,7 @@ public class Player : KinematicBody2D
         velocity.x -= 1;
       }
 
-      if (this.Position.y < OS.WindowSize.y && Input.IsActionPressed("down")){
+      if (this.Position.y < 600 && Input.IsActionPressed("down")){
         velocity.y += 1;
       }
 

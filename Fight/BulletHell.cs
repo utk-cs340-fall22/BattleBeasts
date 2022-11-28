@@ -79,7 +79,7 @@ public class BulletHell : Node2D
       BulletSpawnLocation.Offset = _random.Next();
       Random tmp_random = new Random();
       double start = BulletSpawnLocation.Offset;
-      float radius = OS.WindowSize.y/2;
+      float radius = 1024;
       float theta = 0;
       float stat = 2;
       float end = 4;
@@ -105,8 +105,8 @@ public class BulletHell : Node2D
       // creates circle
       if(todo == 1){
         // get middle of screen
-        dt.x = OS.WindowSize.x / 2;
-        dt.y = OS.WindowSize.y / 2;
+        dt.x = 512;
+        dt.y = 300;
         
         // spawn bullets in circle
         while(theta <= /*2 * */Mathf.Pi){
