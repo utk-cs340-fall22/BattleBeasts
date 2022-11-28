@@ -4,26 +4,22 @@ using System;
 public class AttackNodeSmall : Control
 {
     private Label AttackName, AttackDmg, AttackNum;
-    //private Sprite DmgType;
+    private StyleBoxFlat backgroundstyle;
+    private Color bordercolor;
+    private Panel background;
     private Node Fight;
     private int index;
-    private StyleBoxFlat backgroundstyle;
-    private Panel background;
-    private Color bordercolor;
 
-    // Called when the node enters the scene tree for the first time.
-    public override void _Ready()
+    public void setup_AttackNode(String name, int dmg, int num, String type, int ind, object parent)
     {
-        
-    }
-
-    public void setup_AttackNode(string name, int dmg, int num, string type, int ind, object parent)
-    {
+      // get all the nodes
       AttackName = GetNode<Label>("AttackName");
       AttackDmg = GetNode<Label>("AttackDmg");
       AttackNum = GetNode<Label>("AttackNum");
       background = GetNode<Panel>("Panel");
       Fight = (Node) parent;
+      
+      // set all the values
       String d = dmg.ToString();
       String n = num.ToString();
       AttackName.Text = name;
@@ -31,40 +27,28 @@ public class AttackNodeSmall : Control
       AttackNum.Text = "HPA " + n;
       index = ind;
       
-      //background.Panel;
-      backgroundstyle = (StyleBoxFlat) background.GetStylebox("panel");
+      // grab a duplicate of the style
+      backgroundstyle = (StyleBoxFlat) background.GetStylebox("panel").Duplicate();
       
+      // get the color of the border
       if(type == "Fire"){
-        bordercolor.a = 1;
-        bordercolor.b = (float) .21;
-        bordercolor.g = (float) .21;
-        bordercolor.r = (float) .74;
+        bordercolor = new Color((float).74,(float).21,(float).21,1);
       }else if(type == "Electric"){
-        bordercolor.a = 1;
-        bordercolor.b = (float) .21;
-        bordercolor.g = (float) .67;
-        bordercolor.r = (float) .74;
+        bordercolor = new Color((float).74,(float).67,(float).21,1);
       }else if(type == "Poison"){
-        bordercolor.a = 1;
-        bordercolor.b = (float) .21;
-        bordercolor.g = (float) .74;
-        bordercolor.r = (float) .35;
+        bordercolor = new Color((float).35,(float).74,(float).21,1);
       }else if(type == "Ice"){
-        bordercolor.a = 1;
-        bordercolor.b = (float) .74;
-        bordercolor.g = (float) .74;
-        bordercolor.r = (float) .21;
+        bordercolor = new Color((float).21,(float).74,(float).74,1);
       }else if(type == "Dark Magic"){
-        bordercolor.a = 1;
-        bordercolor.b = (float) .74;
-        bordercolor.g = (float) .21;
-        bordercolor.r = (float) .47;
+        bordercolor = new Color((float).47,(float).21,(float).74,1);
       }
       
-      
+      // set the border color and override the style
       backgroundstyle.BorderColor = bordercolor;
+      background.AddStyleboxOverride("panel", backgroundstyle);
     }
     
+    // Use the attack
     private void _on_TextureButton_pressed()
     {
         Fight.Call("_on_Attack_Selected",index);

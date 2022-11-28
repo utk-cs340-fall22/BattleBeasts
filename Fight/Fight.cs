@@ -120,11 +120,20 @@ public class Fight : Node
     Attack2 = GetNode<Control>("Action Console/VBoxContainer/Bottom Row/Attack2");
     Attack3 = GetNode<Control>("Action Console/VBoxContainer/Bottom Row/Attack3");
     
-    Attack0.Call("setup_AttackNode",(String) playerAttacksD[0]["name"], Convert.ToInt32(playerAttacksD[0]["strike_damage"]), Convert.ToInt32(playerAttacksD[0]["strike_count"]),(String) playerAttacksD[0]["type"], 0, this);
-    Attack1.Call("setup_AttackNode",(String) playerAttacksD[1]["name"], Convert.ToInt32(playerAttacksD[1]["strike_damage"]), Convert.ToInt32(playerAttacksD[1]["strike_count"]),(String) playerAttacksD[1]["type"], 1, this);
-    Attack2.Call("setup_AttackNode",(String) playerAttacksD[2]["name"], Convert.ToInt32(playerAttacksD[2]["strike_damage"]), Convert.ToInt32(playerAttacksD[2]["strike_count"]),(String) playerAttacksD[2]["type"], 2, this);
-    Attack3.Call("setup_AttackNode",(String) playerAttacksD[3]["name"], Convert.ToInt32(playerAttacksD[3]["strike_damage"]), Convert.ToInt32(playerAttacksD[3]["strike_count"]),(String) playerAttacksD[3]["type"], 3, this);
+    String tmp0 = (String) playerAttacksD[0]["type"];
+    String tmp1 = (String) playerAttacksD[1]["type"];
+    String tmp2 = (String) playerAttacksD[2]["type"];
+    String tmp3 = (String) playerAttacksD[3]["type"];
     
+    Attack0.Call("setup_AttackNode",(String) playerAttacksD[0]["name"], Convert.ToInt32(playerAttacksD[0]["strike_damage"]), Convert.ToInt32(playerAttacksD[0]["strike_count"]),tmp0, 0, this);
+    Attack1.Call("setup_AttackNode",(String) playerAttacksD[1]["name"], Convert.ToInt32(playerAttacksD[1]["strike_damage"]), Convert.ToInt32(playerAttacksD[1]["strike_count"]),tmp1, 1, this);
+    Attack2.Call("setup_AttackNode",(String) playerAttacksD[2]["name"], Convert.ToInt32(playerAttacksD[2]["strike_damage"]), Convert.ToInt32(playerAttacksD[2]["strike_count"]),tmp2, 2, this);
+    Attack3.Call("setup_AttackNode",(String) playerAttacksD[3]["name"], Convert.ToInt32(playerAttacksD[3]["strike_damage"]), Convert.ToInt32(playerAttacksD[3]["strike_count"]),tmp3, 3, this);
+    
+    GD.Print(tmp0);
+    GD.Print(tmp1);
+    GD.Print(tmp2);
+    GD.Print(tmp3);
     /* Initialize opponent character */
     GD.Print("g.currentOpponentIndex: ", g.currentOpponentIndex);
     opponent = (Fighter)Fighter.Instance();
