@@ -124,28 +124,24 @@ public class Fight : Node
     Attack1.Call("setup_AttackNode",(String) playerAttacksD[1]["name"], Convert.ToInt32(playerAttacksD[1]["strike_damage"]), Convert.ToInt32(playerAttacksD[1]["strike_count"]),(String) playerAttacksD[1]["type"], 1, this);
     Attack2.Call("setup_AttackNode",(String) playerAttacksD[2]["name"], Convert.ToInt32(playerAttacksD[2]["strike_damage"]), Convert.ToInt32(playerAttacksD[2]["strike_count"]),(String) playerAttacksD[2]["type"], 2, this);
     Attack3.Call("setup_AttackNode",(String) playerAttacksD[3]["name"], Convert.ToInt32(playerAttacksD[3]["strike_damage"]), Convert.ToInt32(playerAttacksD[3]["strike_count"]),(String) playerAttacksD[3]["type"], 3, this);
-    /*GetNode<Button>("Action Console/VBoxContainer/Top Row/B0").Text = (String)playerAttacksD[0]["name"];
-    GetNode<Button>("Action Console/VBoxContainer/Top Row/B1").Text = (String)playerAttacksD[1]["name"];
-    GetNode<Button>("Action Console/VBoxContainer/Bottom Row/B2").Text = (String)playerAttacksD[2]["name"];
-    GetNode<Button>("Action Console/VBoxContainer/Bottom Row/B3").Text = (String)playerAttacksD[3]["name"];*/
     
-
     /* Initialize opponent character */
+    GD.Print("g.currentOpponentIndex: ", g.currentOpponentIndex);
     opponent = (Fighter)Fighter.Instance();
     AddChild(opponent);
-    opponentBeastD = beastOptions[g.currBeast.ToString()] as Dictionary;
-    opponentModiferD = modifierOptions[g.oppMods[g.currBeast].ToString()] as Dictionary;
-    for (i = 0; i < g.oppAttacks.GetLength(1); i++) opponentAttacksD[i] = attackOptions[g.oppAttacks[g.currBeast, i].ToString()] as Dictionary;
+    opponentBeastD = beastOptions[g.oppBeast[g.currentOpponentIndex].ToString()] as Dictionary;
+    opponentModiferD = modifierOptions[g.oppMods[g.currentOpponentIndex].ToString()] as Dictionary;
+    for (i = 0; i < g.oppAttacks.GetLength(1); i++) opponentAttacksD[i] = attackOptions[g.oppAttacks[g.currentOpponentIndex, i].ToString()] as Dictionary;
     opponentTexture = ResourceLoader.Load((String) opponentBeastD["texture"]) as Texture;
     opponent.GetNode<Sprite>("Texture").Texture = opponentTexture;
     opponent.Position = new Vector2(850, 180);
     opponent.Scale = new Vector2(6, 6);
     opponent.Init("opponent", opponentBeastD, opponentModiferD, opponentAttacksD);
 
-    /* Initialize opponent health bar to top left*/
+    /* Initialize opponent health bar */
     oHealthBar = (HealthInterface)HPinterface.Instance();
     AddChild(oHealthBar);
-    oHealthBar.CreateLabel(g.oppName[g.currBeast], (String)opponentModiferD["name"]); 
+    oHealthBar.CreateLabel(g.oppName[g.currentOpponentIndex], (String)opponentModiferD["name"]);
     Vector2 opponentHealthBarPosition = new Vector2(30, -510);
     oHealthBar.SetPosition(opponentHealthBarPosition, false);
         
@@ -243,8 +239,8 @@ public class Fight : Node
       if (IsInstanceValid(textbox)) textbox.QueueFree();
       textbox = (Textbox)Textbox.Instance();
       AddChild(textbox);
-      attackD = attackOptions[g.oppAttacks[g.currBeast ,queuedAttack - 10].ToString()] as Dictionary;
-      textbox.Init(g.oppName[g.currBeast], (String)attackD["name"], damageDealt.ToString());
+      attackD = attackOptions[g.oppAttacks[g.currentOpponentIndex, queuedAttack - 10].ToString()] as Dictionary;
+      textbox.Init(g.oppName[g.currentOpponentIndex], (String)attackD["name"], damageDealt.ToString());
       textbox.AnimateText();
 
       GD.Print("opponent attack ", queuedAttack - 10, " dealt ", damage * opponent.GetAttackCount(queuedAttack - 10) * minigameResult / 100, " damage.");

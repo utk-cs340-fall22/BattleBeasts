@@ -1,4 +1,4 @@
-This program was made for the semester long CS340 project at the University of Tennessee Knoxville.
+This program was made for the semester long COSC 340 project at the University of Tennessee Knoxville.
 
 [Professor]
 David Reid
@@ -7,11 +7,11 @@ David Reid
 Adam Mcdaniel
 
 [Developers]
-Noah Dahle
-Colin Canonaco
-Jake Looney
-Stephanie Hill
 Christopher Canaday
+Colin Canonaco
+Noah Dahle
+Stephanie Hill
+Jake Looney
 
 
 This game uses Godot Engine, available under the following license:

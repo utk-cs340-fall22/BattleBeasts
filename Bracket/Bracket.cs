@@ -150,7 +150,7 @@ public class Bracket: Node2D
     return 0;
   }
 
-  /* For one subarray in 2 dimensional arrays. Returns 0 if num isn't in subarray. Returns 1 if num is in subarray */
+  /* For one subarray index in 2 dimensional arrays. Returns 0 if num isn't in subarray. Returns 1 if num is in subarray */
   private int IsInArray2(int[,] array, int index, int num) {
     for (int i = 0; i < array.GetLength(1); i++) if (array[index, i] == num) return 1;
     return 0;
@@ -214,12 +214,17 @@ public class Bracket: Node2D
 
   //This gets the opponents that were randomly generated and initializes their names and beasts
   private void initialize_opponents(Globals g) {
+    string name;
+    
     for (int i = 0; i < 7; i++) {
-      select_beast("Sprite" + (i+2).ToString(), i, false);
-      GetNode<Label>("Sprite" + (i+2).ToString() + "/Name").Text = g.oppName[i];
-      GetNode<Label>("Sprite" + (i+2).ToString() + "/Name").Show();
-      if (g.level == 0) GetNode<Sprite>("Sprite" + (i+2).ToString()).Hide();
-      if (g.level == 0) GetNode<Sprite>("Sprite" + (i+2).ToString()).Position = new Vector2(110, 40+ 50*(i+2));
+      name = "Sprite" + (i+2).ToString();
+      select_beast(name, i, false);
+      GetNode<Label>(name + "/Name").Text = g.oppName[i];
+      GetNode<Label>(name + "/Name").Show();
+      if (g.level == 0) {
+        GetNode<Sprite>(name).Hide();
+        GetNode<Sprite>(name).Position = new Vector2(110, 40+ 50*(i+2));
+      }
     }
   }
 
@@ -341,11 +346,25 @@ public class Bracket: Node2D
         get_random_beast(opponents, i);
         CustomizeOpponent(i);
       }
+      // debug
+      GD.Print("g.oppName.Length: ", g.oppName.Length);
+      for (int i = 0; i < g.oppName.Length; i++) {
+        GD.Print("i: ", i);
+        GD.Print(g.oppName[i], " ", g.oppBeast[i], " ", g.oppMods[i]);
+        for (int j = 0; j < 4; j++) {
+          GD.Print(g.oppAttacks[i, j]);
+        }
+        GD.Print("");
+      }
     }
 
     //then initialize them
     initialize_opponents(g);
-    if (g.level == 0) g.currBeast = g.oppBeast[0];
+    if (g.level == 0) {
+      g.currBeast = g.oppBeast[0];
+      g.currentOpponentIndex = 0;
+    }
+
     get_curr_beast(beasts);
     
     show_on_bracket();
@@ -438,14 +457,14 @@ public class Bracket: Node2D
 
 
   //This is called when the player won the last fight
-  private void Won()
-  {
+  private void Won() {
     GetNode<Sprite>("Sprite").Position = new Vector2(100 + 100*(g.level+1), 50+50*(g.level+1));
 
     if (g.level == 0) {
 
       GetNode<Sprite>("Sprite3").Position = new Vector2(120 + 100*(g.level+1), 180 + 50*(g.level+1));
       g.currBeast = g.oppBeast[1];
+      g.currentOpponentIndex = 1;
       if (g.bracketSize == 1) {
         GetNode<Sprite>("Sprite5").Position = new Vector2(120 + 100*(g.level+1), 210 + 100*(g.level+1));
         GetNode<Sprite>("Sprite7").Position = new Vector2(120 + 100*(g.level+1), 250 + 150*(g.level+1));
@@ -455,6 +474,7 @@ public class Bracket: Node2D
   
     if (g.level == 1 && g.bracketSize == 1) {
        g.currBeast = g.oppBeast[6];
+       g.currentOpponentIndex = 5;
        GetNode<Sprite>("Sprite7").Position = new Vector2(120 + 100*(g.level+1), 350);
        GetNode<Sprite>("Sprite7").Show();
      }
