@@ -26,13 +26,13 @@ public class Fight : Node
   int queuedMinigame; // index of minigame queued in switch statement in CallMinigame() | -1 for no queued minigame | integer >= 0 for minigame index
   int minigameResult; // -2: no minigame running, result used, minigame may be instantiated | -1: minigame active | [0, 100]: result of previous minigame, no minigame active, result not used
   float turnDelay = 1.5f; // seconds until opponent attacks after player attacks
-  Fighter player, opponent, f;
+  Fighter player, opponent;
   Texture playerTexture, opponentTexture;
   HealthInterface pHealthBar, oHealthBar;
   Textbox textbox;
   Timer timer;
   Vector2 playerHealthBarPosition, opponentHealthBarPosition;
-  private AudioStreamPlayer music, musicP, musicO, se;
+  private AudioStreamPlayer music, musicP, se;
   private static Dictionary _beastOptions = null;
   private static Dictionary _modifierOptions = null;
   private static Dictionary _attackOptions = null;
@@ -111,7 +111,7 @@ public class Fight : Node
     pHealthBar = (HealthInterface)HPinterface.Instance();
     AddChild(pHealthBar);
     pHealthBar.CreateLabel(g.name, (String)playerModiferD["name"]);
-    Vector2 playerHealthBarPosition = new Vector2(-630, -450);
+    playerHealthBarPosition = new Vector2(-630, -450);
     pHealthBar.SetPosition(playerHealthBarPosition, false);
 
     /* Initialize player attack options bottom right */
@@ -142,7 +142,7 @@ public class Fight : Node
     oHealthBar = (HealthInterface)HPinterface.Instance();
     AddChild(oHealthBar);
     oHealthBar.CreateLabel(g.oppName[g.currentOpponentIndex], (String)opponentModiferD["name"]);
-    Vector2 opponentHealthBarPosition = new Vector2(30, -510);
+    opponentHealthBarPosition = new Vector2(30, -510);
     oHealthBar.SetPosition(opponentHealthBarPosition, false);
         
     /* Vectors for anims: */
@@ -182,7 +182,7 @@ public class Fight : Node
       GD.Print("Cannot select an attack during active minigame.");
       return 1;
     }
-    if (timer.GetTimeLeft() != 0) {
+    if (timer.TimeLeft != 0) {
       GD.Print("Cannot select an attack during an attack.");
       return 1;
     }
@@ -340,7 +340,7 @@ public class Fight : Node
     /* Perform queued attack */
 
     if (minigameResult == -1) return;
-    if (timer.GetTimeLeft() == 0) PerformQueuedAttack();
+    if (timer.TimeLeft == 0) PerformQueuedAttack();
 
     /* AI turn */
 

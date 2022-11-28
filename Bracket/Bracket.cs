@@ -8,10 +8,7 @@ public class Bracket: Node2D
 {
   Globals g;
   int size = 0;
-  Sprite user, other;
   Transition t;
-
-  Texture tex;
 
   //Will be used for .json file
   private static Dictionary _opponentOptions = null;
@@ -131,7 +128,6 @@ public class Bracket: Node2D
 
  /* Use RNG to select opponents for the bracket */
   private void get_random_beast(Dictionary opponents, int opp) {
-    Dictionary opponentBeast;
     int choice;
     
     // choose name
@@ -160,7 +156,7 @@ public class Bracket: Node2D
   private void CustomizeOpponent(int index) {
     int i, choice;
     int[] modifiersAllowed, attacksAllowed;
-    Dictionary beast, modifier, attack;
+    Dictionary beast, modifier;
     Godot.Collections.Array modifiersGArray, beastAttacksGArray, modifierAttacksGArray;
 
     // assign random allowed modifier
@@ -304,7 +300,6 @@ public class Bracket: Node2D
   public override void _Ready() {
     Dictionary opponents = null;
     Dictionary beasts = null;
-    Dictionary modifiers = null;
     
     //initialize globals
     g = (Globals)GetNode("/root/Gm");

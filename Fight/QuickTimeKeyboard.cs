@@ -9,7 +9,7 @@ public class QuickTimeKeyboard : Control
     
     private Label press, letter;
     private Node fight;
-    private int tick, ltr, wait, score;
+    private int tick, ltr, wait;
     private int ret;
     private string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     private Random rnd;
@@ -35,8 +35,8 @@ public class QuickTimeKeyboard : Control
       tick += 1;
       
       if(tick == wait){
-          press.SetText("Press:");
-          letter.SetText(alphabet[ltr].ToString());
+          press.Text = "Press:";
+          letter.Text = alphabet[ltr].ToString();
       }
     }
     

@@ -3,7 +3,7 @@ using System;
 
 public class Bullet : Area2D
 {
-    public int speed = 400;
+    public int speed = 360;
     Vector2 velocity;
     float time = 0;
     public bool destroy_on_collide = false;

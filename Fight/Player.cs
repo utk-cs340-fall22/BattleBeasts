@@ -4,7 +4,7 @@ using System;
 
 public class Player : KinematicBody2D
 {
-    [Export] public int speed = 300;
+    [Export] public int speed = 400;
     private static Dictionary _beastOptions = null;
     public Vector2 velocity = new Vector2();
     Texture playerTexture;

@@ -7,6 +7,7 @@ public class BulletHell : Node2D
     private Random _random = new Random();
     PathFollow2D BulletSpawnLocation;
     public PackedScene Bullet;
+    private int todo;
     private int PlayerHealth;
     private float StartTime;
     private float GameTime;
@@ -20,12 +21,17 @@ public class BulletHell : Node2D
     {
         // defaults
         PlayerHealth = 100;
-        StartTime = 1;
+        StartTime = 0.01f;
         GameTime = 6;
         delay = (float) .2;
         invincible = false;
         itime = 0;
         rng.Randomize();
+        
+        // wall 25%, circle 75%
+        Random tmp_random = new Random();
+        todo = tmp_random.Next() % 100;
+        todo = (todo < 25) ? 0 : 1;
         
         // grab scenes
         BulletSpawnLocation = GetNode<PathFollow2D>("BulletSpawn/SpawnLocation");
@@ -53,7 +59,7 @@ public class BulletHell : Node2D
             delay -= delta;
           }else{
             _MakeBullet();
-            delay = (float) rng.RandfRange((float) .2,(float) .5);
+            delay = (float) rng.RandfRange((float) .7,(float) 0.9);
           }
         }
         
@@ -77,19 +83,15 @@ public class BulletHell : Node2D
     private void _MakeBullet()
     {
       BulletSpawnLocation.Offset = _random.Next();
-      Random tmp_random = new Random();
       double start = BulletSpawnLocation.Offset;
-      float radius = 1024;
+      float radius = 600;
       float theta = 0;
       float stat = 2;
       Vector2 dt;
       
-      // randomize either wall or circle
-      int todo = tmp_random.Next() % 2;
-      
-      // make a wall with 10 bullets
+      // make a wall with 20 bullets
       if(todo == 0){
-        for(int i = 0; i < 10; i++){
+        for(int i = 0; i < 20; i++){
           var BulletInstance = (Area2D) Bullet.Instance();
           AddChild(BulletInstance);
           BulletInstance.Position = BulletSpawnLocation.Position;

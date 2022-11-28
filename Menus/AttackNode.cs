@@ -8,7 +8,6 @@ public class AttackNode : Control
     private CanvasLayer TeamSelect;
     private Panel Cover;
     private Sprite DmgType;
-    private Node Fight;
     public bool selected = false;
     private int index;
       
