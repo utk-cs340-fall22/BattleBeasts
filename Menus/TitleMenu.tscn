@@ -3,14 +3,14 @@
 [ext_resource path="res://Fonts/PublicPixel-z84yD.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Menus/TitleMenu.cs" type="Script" id=2]
 [ext_resource path="res://Assets/Character Sprites/Auril-1.png" type="Texture" id=3]
-[ext_resource path="res://Assets/tournament.png" type="Texture" id=4]
+[ext_resource path="res://Assets/tournament_blur.png" type="Texture" id=4]
 
-[sub_resource type="Gradient" id=4]
+[sub_resource type="Gradient" id=6]
 offsets = PoolRealArray( 0.00558659, 0.240223, 0.290503, 0.337989, 0.53352, 0.703911, 0.916201, 1 )
 colors = PoolColorArray( 0, 0, 0, 1, 0.548189, 0.548189, 0.548189, 1, 0.726562, 0.721954, 0.721954, 1, 0.625185, 0.625185, 0.625185, 1, 0.921875, 0.908232, 0.908232, 1, 0.706625, 0.706625, 0.706625, 1, 1, 1, 1, 1, 0.722656, 0.711962, 0.711962, 1 )
 
 [sub_resource type="GradientTexture2D" id=5]
-gradient = SubResource( 4 )
+gradient = SubResource( 6 )
 width = 1024
 height = 600
 fill_from = Vector2( 0.503916, 0.837448 )

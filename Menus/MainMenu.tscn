@@ -1,8 +1,20 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Fonts/PublicPixel-z84yD.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Menus/MainMenu.cs" type="Script" id=2]
 [ext_resource path="res://Menus/OptionsMenu2.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Assets/tournament_blur.png" type="Texture" id=4]
+
+[sub_resource type="Gradient" id=4]
+offsets = PoolRealArray( 0.00558659, 0.240223, 0.290503, 0.337989, 0.53352, 0.703911, 0.916201, 1 )
+colors = PoolColorArray( 0, 0, 0, 1, 0.548189, 0.548189, 0.548189, 1, 0.726562, 0.721954, 0.721954, 1, 0.625185, 0.625185, 0.625185, 1, 0.921875, 0.908232, 0.908232, 1, 0.706625, 0.706625, 0.706625, 1, 1, 1, 1, 1, 0.722656, 0.711962, 0.711962, 1 )
+
+[sub_resource type="GradientTexture2D" id=7]
+gradient = SubResource( 4 )
+width = 1024
+height = 600
+fill_from = Vector2( 0.503916, 0.837448 )
+fill_to = Vector2( 0.5, 0.1 )
 
 [sub_resource type="DynamicFont" id=2]
 font_data = ExtResource( 1 )
@@ -10,7 +22,7 @@ font_data = ExtResource( 1 )
 [sub_resource type="DynamicFont" id=3]
 font_data = ExtResource( 1 )
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=8]
 font_data = ExtResource( 1 )
 
 [sub_resource type="DynamicFont" id=1]
@@ -30,6 +42,19 @@ script = ExtResource( 2 )
 margin_right = 1025.0
 margin_bottom = 599.0
 color = Color( 0.184314, 0.184314, 0.184314, 1 )
+
+[node name="TextureRect" type="TextureRect" parent="."]
+modulate = Color( 1, 1, 1, 0.717647 )
+self_modulate = Color( 1, 1, 1, 0.8 )
+margin_right = 1024.0
+margin_bottom = 600.0
+texture = SubResource( 7 )
+
+[node name="Background" type="TextureRect" parent="TextureRect"]
+margin_right = 1024.0
+margin_bottom = 600.0
+texture = ExtResource( 4 )
+stretch_mode = 1
 
 [node name="Play" type="Button" parent="."]
 anchor_left = 0.5
@@ -67,7 +92,7 @@ margin_right = 610.0
 margin_bottom = 546.0
 focus_neighbour_top = NodePath("../Settings")
 focus_neighbour_bottom = NodePath("../Play")
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 8 )
 text = "Exit"
 
 [node name="Text" type="Label" parent="."]
