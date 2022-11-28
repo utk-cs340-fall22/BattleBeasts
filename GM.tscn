@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Globals.cs" type="Script" id=1]
 [ext_resource path="res://Assets/Music/TitleMusic.mp3" type="AudioStream" id=2]
-[ext_resource path="res://Assets/Music/BackSound.tres" type="AudioStream" id=3]
+[ext_resource path="res://Assets/Music/HitSound.tres" type="AudioStream" id=3]
 
 [node name="Node" type="Node"]
 script = ExtResource( 1 )
@@ -14,7 +14,7 @@ bus = "Music"
 
 [node name="SoundEffects" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
-volume_db = -14.857
+volume_db = -17.042
 bus = "SoundEffects"
 
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
