@@ -98,7 +98,7 @@ public class Tutorial : Node2D
       BracketSizeChoice.Visible = true;
       Continue.Visible = true;
       BracketLayout.Visible = true;
-      Info.Text = "After you have created your beast you will get to choose the size of your tournament.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAfterwards the tournament bracket will appear.";
+      Info.Text = "After you have created your beast you will get to choose the size of your tournament.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAfterwards the tournament bracket will appear.";
       step = 2;
     }else if(stepnum == 3){
       Info.Visible = true;
