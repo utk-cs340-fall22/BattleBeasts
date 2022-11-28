@@ -140,8 +140,8 @@ scale = Vector2( 0.442383, 0.391847 )
 texture = ExtResource( 11 )
 
 [node name="BracketLayout" type="Sprite" parent="ColorRect"]
-position = Vector2( 493.406, 470.688 )
-scale = Vector2( 0.443866, 0.374162 )
+position = Vector2( 493.406, 479.688 )
+scale = Vector2( 0.443866, 0.344012 )
 texture = ExtResource( 12 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="ColorRect"]
