@@ -142,6 +142,11 @@ public class TeamSelect : CanvasLayer
       n.QueueFree();  
     }
     
+    attack0Prev = -1;
+    attack1Prev = -1;
+    attack2Prev = -1;
+    attack3Prev = -1;
+    
     // find allowed options
     beast = beastOptions[beastSelector.GetSelectedId().ToString()] as Dictionary;
     modifier = modifierOptions[modifierSelector.GetSelectedId().ToString()] as Dictionary;

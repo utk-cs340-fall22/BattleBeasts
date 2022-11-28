@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Menus/Tutorial.cs" type="Script" id=1]
 [ext_resource path="res://Fonts/PublicPixel-z84yD.ttf" type="DynamicFontData" id=2]
@@ -9,6 +9,9 @@
 [ext_resource path="res://Assets/Attack Type Sprites/ice-icon.png" type="Texture" id=7]
 [ext_resource path="res://Assets/Attack Type Sprites/electric-icon.png" type="Texture" id=8]
 [ext_resource path="res://Assets/Attack Type Sprites/darkmagic-icon.png" type="Texture" id=9]
+[ext_resource path="res://Menus/TeamSelect.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Assets/Bracket.png" type="Texture" id=11]
+[ext_resource path="res://Assets/tournybracket.png" type="Texture" id=12]
 
 [sub_resource type="DynamicFont" id=1]
 font_data = ExtResource( 2 )
@@ -116,6 +119,12 @@ margin_bottom = 576.0
 custom_fonts/normal_font = SubResource( 5 )
 bbcode_enabled = true
 
+[node name="TeamSelect" parent="ColorRect" instance=ExtResource( 10 )]
+layer = 0
+offset = Vector2( 200, 150 )
+scale = Vector2( 0.6, 0.6 )
+transform = Transform2D( 0.6, 0, 0, 0.6, 200, 150 )
+
 [node name="Continue" type="RichTextLabel" parent="ColorRect"]
 margin_left = 412.0
 margin_top = 586.0
@@ -124,6 +133,25 @@ margin_bottom = 606.0
 rect_min_size = Vector2( 200, 20 )
 custom_fonts/normal_font = SubResource( 3 )
 text = "Press Space to continue."
+
+[node name="BracketSizeChoice" type="Sprite" parent="ColorRect"]
+position = Vector2( 494, 198 )
+scale = Vector2( 0.442383, 0.391847 )
+texture = ExtResource( 11 )
+
+[node name="BracketLayout" type="Sprite" parent="ColorRect"]
+position = Vector2( 493.406, 470.688 )
+scale = Vector2( 0.443866, 0.374162 )
+texture = ExtResource( 12 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="ColorRect"]
+
+[node name="ColorRect" type="ColorRect" parent="ColorRect/CanvasLayer"]
+margin_left = 193.0
+margin_top = 464.0
+margin_right = 825.0
+margin_bottom = 529.0
+color = Color( 0.184314, 0.184314, 0.184314, 1 )
 
 [node name="Back" type="Button" parent="ColorRect"]
 anchor_top = 1.0
