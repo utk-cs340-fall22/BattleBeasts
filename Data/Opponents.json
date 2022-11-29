@@ -1,38 +1,29 @@
 {
   "0": {
-    "name": "Chris",
-    "beast": "0"
+    "name": "Chris"
   },
   "1": {
-    "name": "Jake",
-    "beast": "1"
+    "name": "Jake"
   },
   "2": {
-    "name": "Steph",
-    "beast": "2"
+    "name": "Steph"
   },
   "3": {
-    "name": "Colin",
-    "beast": "3"
+    "name": "Colin"
   },
   "4": {  
-    "name": "Noah",
-    "beast": "4"
+    "name": "Noah"
   },
   "5": {
-    "name": "Varun",
-    "beast": "3"
+    "name": "Bob"
   },
   "6": {
-    "name": "Adam",
-    "beast": "2"
+    "name": "Bill"
   },
   "7": {
-    "name": "Jonathan",
-    "beast": "1"
+    "name": "Jebadiah"
   },
   "8": {
-    "name": "Professor Reid",
-    "beast": "0"
+    "name": "Valentina"
   }
 }

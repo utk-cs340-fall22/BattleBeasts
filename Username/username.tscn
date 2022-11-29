@@ -27,7 +27,7 @@ margin_left = 7.0
 margin_top = 7.0
 margin_right = 199.0
 margin_bottom = 31.0
-max_length = 10
+max_length = 12
 script = ExtResource( 1 )
 
 [node name="Exit" type="Label" parent="PanelContainer/Enter_Name"]
@@ -61,7 +61,7 @@ margin_right = 380.0
 margin_bottom = 51.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Welcome Trainer. Before you start battling, I will need your name to enter you in 
-the tournament. Your name must be under 10 characters."
+the tournament. Your name must be under 12 characters."
 
 [node name="Professor" type="Sprite" parent="."]
 position = Vector2( 172, 452 )

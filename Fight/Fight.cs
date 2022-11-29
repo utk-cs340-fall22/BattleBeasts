@@ -110,9 +110,10 @@ public class Fight : Node
     /* Initialize player health bar to bottom right*/
     pHealthBar = (HealthInterface)HPinterface.Instance();
     AddChild(pHealthBar);
-    pHealthBar.CreateLabel(g.name, (String)playerModiferD["name"]);
+    pHealthBar.CreateLabel(g.name, (String)playerModiferD["name"], player.GetArmor().ToString());
     playerHealthBarPosition = new Vector2(-630, -450);
     pHealthBar.SetPosition(playerHealthBarPosition, false);
+    pHealthBar.GetNode<Label>("UserMods").SetAlign((Godot.Label.AlignEnum)0);
 
     /* Initialize player attack options bottom right */
     Attack0 = GetNode<Control>("Action Console/VBoxContainer/Top Row/Attack0");
@@ -141,9 +142,10 @@ public class Fight : Node
     /* Initialize opponent health bar */
     oHealthBar = (HealthInterface)HPinterface.Instance();
     AddChild(oHealthBar);
-    oHealthBar.CreateLabel(g.oppName[g.currentOpponentIndex], (String)opponentModiferD["name"]);
+    oHealthBar.CreateLabel(g.oppName[g.currentOpponentIndex], (String)opponentModiferD["name"], player.GetArmor().ToString());
     opponentHealthBarPosition = new Vector2(30, -510);
     oHealthBar.SetPosition(opponentHealthBarPosition, false);
+    oHealthBar.GetNode<Label>("UserMods").SetAlign((Godot.Label.AlignEnum)2);
         
     /* Vectors for anims: */
     right = new Vector2(1,0);
