@@ -90,7 +90,7 @@ public class Fight : Node
     g = (Globals)GetNode("/root/Gm");
     t = (Transition)GetNode("/root/Transition");
     timer = (Timer)GetNode("Timer");
-    timer.SetOneShot(true);
+    timer.OneShot = true;
     isPlayerTurn = 1;
     minigameResult = -2;
     queuedAttack = -1;

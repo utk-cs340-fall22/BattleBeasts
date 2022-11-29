@@ -229,12 +229,6 @@ public class TeamSelect : CanvasLayer
     
     InitMenus();
   }
-  
-//  // Called every frame. 'delta' is the elapsed time since the previous frame.
-//  public override void _Process(float delta)
-//  {
-//      
-//  }
 
   /* Signals */
   
@@ -317,16 +311,16 @@ public class TeamSelect : CanvasLayer
     return true;
   }
   
-  private void _on_Back_pressed()
+  private async void _on_Back_pressed()
   {
     /* Plays sound */
     se.Stream = ResourceLoader.Load("res://Assets/Music/BackSound.tres") as AudioStream;
     se.Play();
     
-    t.ChangeScene("res://Menus/MainMenu.tscn");
+    await t.ChangeScene("res://Menus/MainMenu.tscn");
   }
   
-  private void _on_Go_pressed()
+  private async void _on_Go_pressed()
   {    
     g.playerBeastIndex = beastSelector.GetSelectedId();
     g.playerModifierIndex = modifierSelector.GetSelectedId();
@@ -340,6 +334,6 @@ public class TeamSelect : CanvasLayer
     se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
     se.Play();
     
-    t.ChangeScene("res://Bracket/Bracket.tscn");
+    await t.ChangeScene("res://Bracket/Bracket.tscn");
   }
 }

@@ -509,9 +509,9 @@ public class Bracket: Node2D
     GetNode<Label>("Welcome").Text = "You lose! Press exit to return to the title menu";
   }
 
-  private void _on_Continue_pressed()
+  private async void _on_Continue_pressed()
   {
-    t.ChangeScene2("res://Fight/Fight.tscn");
+    await t.ChangeScene2("res://Fight/Fight.tscn");
   }
 
   private void _on_Big_pressed()
@@ -532,13 +532,12 @@ public class Bracket: Node2D
     Update();
   }
 
-  private void _on_Exit_pressed()
+  private async void _on_Exit_pressed()
   {
     GetNode<Sprite>("Sprite").Position = new Vector2(0,0);
     reset_all();
     GetNode<Sprite>("Sprite").Hide();
-    t.ChangeScene("res://Menus/TitleMenu.tscn");
-    
+    await t.ChangeScene("res://Menus/TitleMenu.tscn");
   }
 
   /* Sets the beasts texture */

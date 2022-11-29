@@ -14,7 +14,7 @@ public class MainMenu : CanvasLayer
     t = (Transition)GetNode("/root/Transition");
     music = globals.GetNode<AudioStreamPlayer>("Music");
     se = globals.GetNode<AudioStreamPlayer>("SoundEffects");
-    if(!music.IsPlaying()) {
+    if(!music.Playing) {
       music.Stream = ResourceLoader.Load("res://Assets/Music/TitleMusic.mp3") as AudioStream;
       music.Play();
     }
@@ -38,32 +38,32 @@ public class MainMenu : CanvasLayer
   }
 
 
-  private void _on_Play_pressed()
+  private async void _on_Play_pressed()
   {
     se = globals.GetNode<AudioStreamPlayer>("SoundEffects");
     se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
     se.Play();  
     
-    t.ChangeScene("res://Username/username.tscn");
+    await t.ChangeScene("res://Username/username.tscn");
   }
   
-  private void _on_Credits_pressed()
+  private async void _on_Credits_pressed()
   {
     se = globals.GetNode<AudioStreamPlayer>("SoundEffects");
     se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
     se.Play();
     
-    t.ChangeScene("res://Menus/Credits.tscn");
+    await t.ChangeScene("res://Menus/Credits.tscn");
   }
 
 
-  private void _on_Tutorial_pressed()
+  private async void _on_Tutorial_pressed()
   {
     se = globals.GetNode<AudioStreamPlayer>("SoundEffects");
     se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
     se.Play();
     
-    t.ChangeScene("res://Menus/Tutorial.tscn");
+    await t.ChangeScene("res://Menus/Tutorial.tscn");
   }
 
 //  // Called every frame. 'delta' is the elapsed time since the previous frame.

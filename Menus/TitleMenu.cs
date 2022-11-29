@@ -47,7 +47,7 @@ public class TitleMenu : CanvasLayer
     music.Play();
   }
 
-//  // Called every frame. 'delta' is the elapsed time since the previous frame.
+  // Called every frame. 'delta' is the elapsed time since the previous frame.
   public override void _Process(float delta)
   {
     if( titleAnim.IsPlaying() == false ){
@@ -65,12 +65,11 @@ public class TitleMenu : CanvasLayer
     } 
   }
 
-  private void _on_Button_pressed()
+  private async void _on_Button_pressed()
   {
     se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
     se.Play();
     
-    t.ChangeScene("res://Menus/MainMenu.tscn");
-  
+    await t.ChangeScene("res://Menus/MainMenu.tscn");
   }
 }

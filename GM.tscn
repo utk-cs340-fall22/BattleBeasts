@@ -13,6 +13,7 @@ volume_db = -12.236
 bus = "Music"
 
 [node name="SoundEffects" type="AudioStreamPlayer" parent="."]
+pause_mode = 2
 stream = ExtResource( 3 )
 volume_db = -17.042
 bus = "SoundEffects"

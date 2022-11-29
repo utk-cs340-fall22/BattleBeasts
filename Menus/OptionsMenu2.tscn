@@ -1,6 +1,10 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Menus/OptionsMenu2.cs" type="Script" id=1]
+[ext_resource path="res://Fonts/PublicPixel-z84yD.ttf" type="DynamicFontData" id=2]
+
+[sub_resource type="DynamicFont" id=1]
+font_data = ExtResource( 2 )
 
 [node name="OptionsMenu2" type="Control"]
 margin_right = 40.0
@@ -55,6 +59,7 @@ margin_bottom = 116.0
 margin_top = 527.0
 margin_right = 160.0
 margin_bottom = 600.0
+custom_fonts/font = SubResource( 1 )
 text = "Back"
 
 [connection signal="pressed" from="CenterContainer/VBoxContainer/FullscreenButton" to="." method="_on_FullscreenButton_pressed"]

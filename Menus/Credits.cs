@@ -44,24 +44,14 @@ public class Credits : Control
     // set the lines list to null so garbage collector will grab it
     lines = null;
   }
-  
-  private void _on_BackgroundVideo_finished()
-  {
-    // Replace with function body.
-  }
-  
-  private void _on_MusicPlayer_finished()
-  {
-    // Replace with function body.
-  }
 
-  private void _on_Back_pressed()
+  private async void _on_Back_pressed()
   {
     se = globals.GetNode<AudioStreamPlayer>("SoundEffects");
     se.Stream = ResourceLoader.Load("res://Assets/Music/BackSound.tres") as AudioStream;
     se.Play();
     
-   t.ChangeScene("res://Menus/MainMenu.tscn");
+   await t.ChangeScene("res://Menus/MainMenu.tscn");
   }
 
 //  // Called every frame. 'delta' is the elapsed time since the previous frame.

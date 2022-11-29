@@ -27,8 +27,8 @@ public class Enter_Name : Godot.LineEdit
   }
   
   
-  private void _on_Button_pressed()
+  private async void _on_Button_pressed()
   {
-    t.ChangeScene("res://Menus/TeamSelect.tscn");
+    await t.ChangeScene("res://Menus/TeamSelect.tscn");
   }
 }

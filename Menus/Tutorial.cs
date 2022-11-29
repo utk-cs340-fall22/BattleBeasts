@@ -56,14 +56,14 @@ public class Tutorial : Node2D
   }
   
   // Return to the previous step of the tutorial or to the Main Menu
-  private void _on_Back_pressed()
+  private async void _on_Back_pressed()
   {
     se = globals.GetNode<AudioStreamPlayer>("SoundEffects");
     se.Stream = ResourceLoader.Load("res://Assets/Music/BackSound.tres") as AudioStream;
     se.Play();
     
     if(step == 0){
-      t.ChangeScene("res://Menus/MainMenu.tscn");
+      await t.ChangeScene("res://Menus/MainMenu.tscn");
     }else{
       _DoStep(step-1);
     }
