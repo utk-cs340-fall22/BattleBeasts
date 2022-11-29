@@ -37,6 +37,7 @@ public class Fight : Node
   private static Dictionary _modifierOptions = null;
   private static Dictionary _attackOptions = null;
   private bool playerAnim, opponentAnim;
+  private bool exit;
   private int animTickP, animTickO;
   private Vector2 right, left;
   private Control Attack0, Attack1, Attack2, Attack3;
@@ -152,8 +153,10 @@ public class Fight : Node
     left = new Vector2(-1,0);
         
     /* Music */
-
     StartMusic();
+    
+    /* Exit contorls exiting the battle */
+    exit = false;
   }
 
   /* AI chooses and performs an attack */
@@ -309,23 +312,58 @@ public class Fight : Node
     music.Play();
     musicP.Play();
   }
+  
+  private void PlayerDefeated(){
+    exit = true;
+    if (IsInstanceValid(textbox)) textbox.QueueFree();
+    textbox = (Textbox)Textbox.Instance();
+    AddChild(textbox);
+    textbox.Init("", "", "");
+    textbox.beastL.Text = g.name;
+    textbox.usedL.Text = "was";
+    textbox.attackL.Text =  "defeated";
+    textbox.dealingL.Text = "by opponent ";
+    textbox.damageValueL.Text = g.oppName[g.currentOpponentIndex];
+    textbox.damageL.Text =  "";
+    textbox.AnimateText();
+    player.Visible = false;
+    timer.Start(turnDelay);
+  }
+  
+  private void OpponentDefeated(){
+     exit = true;
+    if (IsInstanceValid(textbox)) textbox.QueueFree();
+    textbox = (Textbox)Textbox.Instance();
+    AddChild(textbox);
+    textbox.Init("", "", "");
+    textbox.beastL.Text = g.oppName[g.currentOpponentIndex];
+    textbox.usedL.Text = "was";
+    textbox.attackL.Text =  "defeated";
+    textbox.dealingL.Text = "by player ";
+    textbox.damageValueL.Text =  g.name;
+    textbox.damageL.Text =  "";
+    textbox.AnimateText();
+    opponent.Visible = false;
+    timer.Start(turnDelay);
+  }
 
   // Called every frame. 'delta' is the elapsed time since the previous frame.
   public override void _Process(float delta)
   {
     /* End fight once a beast has 0 health */
 
-    if (player.GetHealth() <= 0) {
+    if (player.GetHealth() <= 0 && !exit) {
       GD.Print("opponent defeated player");
       g.fightOutcome = 0;
-      GetTree().ChangeScene("res://Bracket/Bracket.tscn");
+      PlayerDefeated();
     }
-    else if (opponent.GetHealth() <= 0) {
+    else if (opponent.GetHealth() <= 0 && !exit) {
       GD.Print("player defeated opponent");
       g.fightOutcome = 1;
-      GetTree().ChangeScene("res://Bracket/Bracket.tscn");
+      OpponentDefeated();
     }
   
+    if(exit && timer.TimeLeft <= 0) GetTree().ChangeScene("res://Bracket/Bracket.tscn");
 
     /* Update health bars */
     

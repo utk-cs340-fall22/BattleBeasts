@@ -8,7 +8,8 @@ public class Textbox : Node
     string beast, attack, damage;
     VBoxContainer vbox;
     HBoxContainer topRow, bottomRow;
-    Label beastL, usedL, attackL, dealingL, damageValueL, damageL;
+    /* Made this public to fit end of fight messages in here */
+    public Label beastL, usedL, attackL, dealingL, damageValueL, damageL;
     Label[] labelArray;
     Tween tween;
 
