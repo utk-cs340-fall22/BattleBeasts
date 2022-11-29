@@ -1,0 +1,158 @@
+-e 
+Bracket.cs
+
+727a9ed3 (Noah Dahle     2022-11-28 18:59:46 -0500 196)     GetNode<Button>("Small").Text = "Regular";
+727a9ed3 (Noah Dahle     2022-11-28 18:59:46 -0500 197)     GetNode<Button>("Big").Text = "Ultimate";
+727a9ed3 (Noah Dahle     2022-11-28 18:59:46 -0500 198)     GetNode<Label>("Welcome").Text = "Hi " + g.name + "! Choose your bracket!";
+2a389ebb (Noah Dahle     2022-11-21 23:46:33 -0500 306)     t = (Transition)GetNode("/root/Transition");
+f44aad9d (Noah Dahle     2022-11-24 23:58:03 -0500 499)     GetNode<Button>("Big").Hide();
+f44aad9d (Noah Dahle     2022-11-24 23:58:03 -0500 500)     GetNode<Button>("Small").Hide();
+2a389ebb (Noah Dahle     2022-11-21 23:46:33 -0500 506)     t.ChangeScene2("res://Fight/Fight.tscn");
+5499c410 (Noah Dahle     2022-11-26 22:58:54 -0500 531)     GetNode<Sprite>("Sprite").Hide();
+5499c410 (Noah Dahle     2022-11-26 22:58:54 -0500 532)     t.ChangeScene("res://Menus/TitleMenu.tscn");
+5499c410 (Noah Dahle     2022-11-26 22:58:54 -0500 533)     
+-e 
+Bullet.cs
+
+-e 
+BulletHell.cs
+
+-e 
+Fight.cs
+
+2a389ebb (Noah Dahle          2022-11-21 23:46:33 -0500  23)   Transition t;
+2a389ebb (Noah Dahle          2022-11-21 23:46:33 -0500  90)     t = (Transition)GetNode("/root/Transition");
+f44aad9d (Noah Dahle          2022-11-24 23:58:03 -0500 319)       GetTree().ChangeScene("res://Bracket/Bracket.tscn");
+f44aad9d (Noah Dahle          2022-11-24 23:58:03 -0500 324)       GetTree().ChangeScene("res://Bracket/Bracket.tscn");
+f44aad9d (Noah Dahle          2022-11-24 23:58:03 -0500 327) 
+-e 
+Fighter.cs
+
+-e 
+HealthInterface.cs
+
+-e 
+Player.cs
+
+-e 
+PowerSliderMiniGame.cs
+
+-e 
+QuickTimeKeyboard.cs
+
+-e 
+Textbox.cs
+
+-e 
+Globals.cs
+
+-e 
+AttackNode.cs
+
+-e 
+AttackNodeSmall.cs
+
+-e 
+Credits.cs
+
+5499c410 (Noah Dahle          2022-11-26 22:58:54 -0500 12)   private Transition t;
+5499c410 (Noah Dahle          2022-11-26 22:58:54 -0500 23)     t = (Transition)GetNode("/root/Transition");
+5499c410 (Noah Dahle          2022-11-26 22:58:54 -0500 64)    t.ChangeScene("res://Menus/MainMenu.tscn");
+-e 
+MainMenu.cs
+
+f8ad3451 (Noah Dahle          2022-11-21 22:59:26 -0500  7)   private Transition t;
+f8ad3451 (Noah Dahle          2022-11-21 22:59:26 -0500 14)     t = (Transition)GetNode("/root/Transition");
+5499c410 (Noah Dahle          2022-11-26 22:58:54 -0500 47)     t.ChangeScene("res://Username/username.tscn");
+5499c410 (Noah Dahle          2022-11-26 22:58:54 -0500 56)     t.ChangeScene("res://Menus/Credits.tscn");
+5499c410 (Noah Dahle          2022-11-26 22:58:54 -0500 66)     t.ChangeScene("res://Menus/Tutorial.tscn");
+-e 
+OptionsMenu2.cs
+
+-e 
+PauseMenu2.cs
+
+-e 
+TeamSelect.cs
+
+f8ad3451 (Noah Dahle          2022-11-21 22:59:26 -0500  27)   Transition t;
+f8ad3451 (Noah Dahle          2022-11-21 22:59:26 -0500 210)     t = (Transition)GetNode("/root/Transition");
+5499c410 (Noah Dahle          2022-11-26 22:58:54 -0500 326)     t.ChangeScene("res://Menus/MainMenu.tscn");
+5499c410 (Noah Dahle          2022-11-26 22:58:54 -0500 343)     t.ChangeScene("res://Bracket/Bracket.tscn");
+-e 
+TitleMenu.cs
+
+f8ad3451 (Noah Dahle  2022-11-21 22:59:26 -0500  7)   
+f8ad3451 (Noah Dahle  2022-11-21 22:59:26 -0500  8)   Transition t;
+f8ad3451 (Noah Dahle  2022-11-21 22:59:26 -0500 35)     t = (Transition)GetNode("/root/Transition");
+5499c410 (Noah Dahle  2022-11-26 22:58:54 -0500 73)     t.ChangeScene("res://Menus/MainMenu.tscn");
+-e 
+Tutorial.cs
+
+5499c410 (Noah Dahle          2022-11-26 22:58:54 -0500   8)   private Transition t;
+5499c410 (Noah Dahle          2022-11-26 22:58:54 -0500  26)     t = (Transition)GetNode("/root/Transition");
+5499c410 (Noah Dahle          2022-11-26 22:58:54 -0500  66)       t.ChangeScene("res://Menus/MainMenu.tscn");
+-e 
+Transition.cs
+
+f8ad3451 (Noah Dahle 2022-11-21 22:59:26 -0500  1) using Godot;
+f8ad3451 (Noah Dahle 2022-11-21 22:59:26 -0500  2) using System;
+f8ad3451 (Noah Dahle 2022-11-21 22:59:26 -0500  3) using System.Threading.Tasks;
+f8ad3451 (Noah Dahle 2022-11-21 22:59:26 -0500  4) 
+f8ad3451 (Noah Dahle 2022-11-21 22:59:26 -0500  5) public class Transition : CanvasLayer
+f8ad3451 (Noah Dahle 2022-11-21 22:59:26 -0500  6) {
+f8ad3451 (Noah Dahle 2022-11-21 22:59:26 -0500  7)     // Declare member variables here. Examples:
+f8ad3451 (Noah Dahle 2022-11-21 22:59:26 -0500  8)     // private int a = 2;
+f8ad3451 (Noah Dahle 2022-11-21 22:59:26 -0500  9)     // private string b = "text";
+f8ad3451 (Noah Dahle 2022-11-21 22:59:26 -0500 10) 
+f8ad3451 (Noah Dahle 2022-11-21 22:59:26 -0500 11) 
+f8ad3451 (Noah Dahle 2022-11-21 22:59:26 -0500 12)     // Called when the node enters the scene tree for the first time.
+f8ad3451 (Noah Dahle 2022-11-21 22:59:26 -0500 13)     public override void _Ready()
+f8ad3451 (Noah Dahle 2022-11-21 22:59:26 -0500 14)     {
+f8ad3451 (Noah Dahle 2022-11-21 22:59:26 -0500 15)       
+f8ad3451 (Noah Dahle 2022-11-21 22:59:26 -0500 16)     }
+f8ad3451 (Noah Dahle 2022-11-21 22:59:26 -0500 17)     
+5499c410 (Noah Dahle 2022-11-26 22:58:54 -0500 18)     public async Task ChangeScene(string target) 
+f8ad3451 (Noah Dahle 2022-11-21 22:59:26 -0500 19)     {
+2a389ebb (Noah Dahle 2022-11-21 23:46:33 -0500 20)       
+5499c410 (Noah Dahle 2022-11-26 22:58:54 -0500 21)         GetNode<ColorRect>("ColorRect").Color = new Color(0,0,0);
+f8ad3451 (Noah Dahle 2022-11-21 22:59:26 -0500 22)         var st = (AnimationPlayer) GetNode<AnimationPlayer>("animate");
+f8ad3451 (Noah Dahle 2022-11-21 22:59:26 -0500 23)         st.Play("dissolve");
+f8ad3451 (Noah Dahle 2022-11-21 22:59:26 -0500 24)         await ToSignal(st, "animation_finished");
+f8ad3451 (Noah Dahle 2022-11-21 22:59:26 -0500 25)         GetTree().ChangeScene(target);
+5499c410 (Noah Dahle 2022-11-26 22:58:54 -0500 26)         st.PlayBackwards("dissolve");
+f8ad3451 (Noah Dahle 2022-11-21 22:59:26 -0500 27)       
+f8ad3451 (Noah Dahle 2022-11-21 22:59:26 -0500 28)      }
+f8ad3451 (Noah Dahle 2022-11-21 22:59:26 -0500 29)     
+2a389ebb (Noah Dahle 2022-11-21 23:46:33 -0500 30)         public async Task ChangeScene2(string target) 
+2a389ebb (Noah Dahle 2022-11-21 23:46:33 -0500 31)     {
+2a389ebb (Noah Dahle 2022-11-21 23:46:33 -0500 32)         //GetNode<ColorRect>("Color").Color = new Color(0,0,0,1);
+2a389ebb (Noah Dahle 2022-11-21 23:46:33 -0500 33)         var st = (AnimationPlayer) GetNode<AnimationPlayer>("animate");
+2a389ebb (Noah Dahle 2022-11-21 23:46:33 -0500 34)         st.Play("dissolve2");
+2a389ebb (Noah Dahle 2022-11-21 23:46:33 -0500 35)         await ToSignal(st, "animation_finished");
+2a389ebb (Noah Dahle 2022-11-21 23:46:33 -0500 36)         GetTree().ChangeScene(target);
+2a389ebb (Noah Dahle 2022-11-21 23:46:33 -0500 37)         st.Play("RESET");
+2a389ebb (Noah Dahle 2022-11-21 23:46:33 -0500 38)      }
+2a389ebb (Noah Dahle 2022-11-21 23:46:33 -0500 39)     
+2a389ebb (Noah Dahle 2022-11-21 23:46:33 -0500 40)     
+2a389ebb (Noah Dahle 2022-11-21 23:46:33 -0500 41)     
+f8ad3451 (Noah Dahle 2022-11-21 22:59:26 -0500 42) 
+f8ad3451 (Noah Dahle 2022-11-21 22:59:26 -0500 43) //  // Called every frame. 'delta' is the elapsed time since the previous frame.
+f8ad3451 (Noah Dahle 2022-11-21 22:59:26 -0500 44) //  public override void _Process(float delta)
+f8ad3451 (Noah Dahle 2022-11-21 22:59:26 -0500 45) //  {
+f8ad3451 (Noah Dahle 2022-11-21 22:59:26 -0500 46) //      
+f8ad3451 (Noah Dahle 2022-11-21 22:59:26 -0500 47) //  }
+f8ad3451 (Noah Dahle 2022-11-21 22:59:26 -0500 48) }
+-e 
+Enter_Name.cs
+
+f8ad3451 (Noah Dahle  2022-11-21 22:59:26 -0500  7)   Transition t;
+f8ad3451 (Noah Dahle  2022-11-21 22:59:26 -0500 15)     t = (Transition)GetNode("/root/Transition");
+5b85b44d (Noah Dahle  2022-11-27 16:41:31 -0500 22)     GetNode<Label>("Welcome").Hide();
+5b85b44d (Noah Dahle  2022-11-27 16:41:31 -0500 23)     GetNode<Label>("Enter").Hide();
+5b85b44d (Noah Dahle  2022-11-27 16:41:31 -0500 24)     GetNode<Label>("Exit").Text = "Hello " + new_text + ". Welcome to the world of Battle Beasts!";
+5499c410 (Noah Dahle  2022-11-26 22:58:54 -0500 32)     t.ChangeScene("res://Menus/TeamSelect.tscn");
+-e 
+username.cs
+
+5b85b44d (Noah Dahle  2022-11-27 16:41:31 -0500  9)     GetNode<TextureRect>("TextureRect").Texture = ResourceLoader.Load("res://Assets/lab.png") as Texture;
