@@ -102,7 +102,7 @@ public class Tutorial : Node2D
       step = 2;
     }else if(stepnum == 3){
       Info.Visible = true;
-      Info.Text = "After you have selected your tournament you can continue onto your first fight.\n\nFor every attack you will play a mini-game to decide how effective your attack is.\n\nYour attack can be as low as 50% effective or as high as 120% effective.\n\nEach beast has an armor value that is subtracted from the damage number to produce the correct damage to be dealt.\n\n\nFrom here do your best to beat all of your opponents and be the winner of the tournament!\n\n\n\n\n\n\n\n\n\n\n\n\nContinue for more info about mini-games and types.";
+      Info.Text = "After you have selected your tournament you can continue onto your first fight.\n\nAbove each beast will be the beast's owner's name, its modifier, and its armor value.\n\nFor every attack you will play a mini-game to decide how effective your attack is.\n\nYour attack can be as low as 50% effective or as high as 120% effective.\n\nEach beast has an armor value that is subtracted from the damage number to produce the correct damage to be dealt.\n\n\nFrom here do your best to beat all of your opponents and be the winner of the tournament!\n\n\n\n\n\n\n\n\n\n\n\nContinue for more info about mini-games and types.";
       Continue.Visible = true;
       step = 3;
     }else if(stepnum == 4){

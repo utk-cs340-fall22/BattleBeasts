@@ -142,7 +142,7 @@ public class Fight : Node
     /* Initialize opponent health bar */
     oHealthBar = (HealthInterface)HPinterface.Instance();
     AddChild(oHealthBar);
-    oHealthBar.CreateLabel(g.oppName[g.currentOpponentIndex], (String)opponentModiferD["name"], player.GetArmor().ToString());
+    oHealthBar.CreateLabel(g.oppName[g.currentOpponentIndex], (String)opponentModiferD["name"], opponent.GetArmor().ToString());
     opponentHealthBarPosition = new Vector2(10, -510);
     oHealthBar.SetPosition(opponentHealthBarPosition, false);
         
@@ -320,7 +320,7 @@ public class Fight : Node
     textbox.beastL.Text = g.name;
     textbox.usedL.Text = "was";
     textbox.attackL.Text =  "defeated";
-    textbox.dealingL.Text = "by opponent ";
+    textbox.dealingL.Text = "by ";
     textbox.damageValueL.Text = g.oppName[g.currentOpponentIndex];
     textbox.damageL.Text =  "";
     textbox.AnimateText();
@@ -337,7 +337,7 @@ public class Fight : Node
     textbox.beastL.Text = g.oppName[g.currentOpponentIndex];
     textbox.usedL.Text = "was";
     textbox.attackL.Text =  "defeated";
-    textbox.dealingL.Text = "by player ";
+    textbox.dealingL.Text = "by ";
     textbox.damageValueL.Text =  g.name;
     textbox.damageL.Text =  "";
     textbox.AnimateText();
