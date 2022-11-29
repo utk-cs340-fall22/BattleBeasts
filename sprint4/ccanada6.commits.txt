@@ -1,0 +1,327 @@
+-e 
+Bullet.cs
+
+af6ade19 (Christopher Canaday 2022-11-28 16:14:23 -0500 25)       if((this.Position.x > 1024 ||
+af6ade19 (Christopher Canaday 2022-11-28 16:14:23 -0500 26)          this.Position.y > 600 ||
+af6ade19 (Christopher Canaday 2022-11-28 16:14:23 -0500 52)       if(destroy_on_collide && t && close_to_center()) QueueFree();
+af6ade19 (Christopher Canaday 2022-11-28 16:14:23 -0500 53)     }
+af6ade19 (Christopher Canaday 2022-11-28 16:14:23 -0500 54)     
+af6ade19 (Christopher Canaday 2022-11-28 16:14:23 -0500 55)     private bool close_to_center(){
+af6ade19 (Christopher Canaday 2022-11-28 16:14:23 -0500 56)       return (Mathf.Abs(this.Position.x - 512) < 20 && Mathf.Abs(this.Position.y - 300) < 20);
+-e 
+BulletHell.cs
+
+af51e1a3 (Christopher Canaday 2022-11-20 18:46:54 -0500  15)     private float delay, itime;
+af51e1a3 (Christopher Canaday 2022-11-20 18:46:54 -0500  17)     private bool invincible;
+af51e1a3 (Christopher Canaday 2022-11-20 18:46:54 -0500  27)         invincible = false;
+af51e1a3 (Christopher Canaday 2022-11-20 18:46:54 -0500  28)         itime = 0;
+af51e1a3 (Christopher Canaday 2022-11-20 18:46:54 -0500  49)         // invincibility time handler
+af51e1a3 (Christopher Canaday 2022-11-20 18:46:54 -0500  50)         if(itime > 0){
+af51e1a3 (Christopher Canaday 2022-11-20 18:46:54 -0500  51)           itime -= delta;
+af51e1a3 (Christopher Canaday 2022-11-20 18:46:54 -0500  52)           if(itime <= 0) invincible = false;
+af51e1a3 (Christopher Canaday 2022-11-20 18:46:54 -0500  53)           return;
+af51e1a3 (Christopher Canaday 2022-11-20 18:46:54 -0500  54)         }
+af51e1a3 (Christopher Canaday 2022-11-20 18:46:54 -0500  55)         
+1477f2a6 (Christopher Canaday 2022-11-28 18:27:55 -0500  57)         if(StartTime < 0 && GetChildCount() < 200){
+af51e1a3 (Christopher Canaday 2022-11-20 18:46:54 -0500  66)         // handle game time
+670a91af (Christopher Canaday 2022-11-20 22:46:56 -0500  89)       float stat = 2;
+b44616ab (Christopher Canaday 2022-11-28 12:43:35 -0500 109)         dt.x = 512;
+b44616ab (Christopher Canaday 2022-11-28 12:43:35 -0500 110)         dt.y = 300;
+af6ade19 (Christopher Canaday 2022-11-28 16:14:23 -0500 112)         // get random start position
+af6ade19 (Christopher Canaday 2022-11-28 16:14:23 -0500 113)         theta = rng.RandfRange((float) 0,(float) 1.7);
+af6ade19 (Christopher Canaday 2022-11-28 16:14:23 -0500 114)         stat = theta;
+af6ade19 (Christopher Canaday 2022-11-28 16:14:23 -0500 115)         
+af6ade19 (Christopher Canaday 2022-11-28 16:14:23 -0500 117)         while(theta < (1.7+stat)){
+af6ade19 (Christopher Canaday 2022-11-28 16:14:23 -0500 130)           
+af6ade19 (Christopher Canaday 2022-11-28 16:14:23 -0500 131)           // increment
+af6ade19 (Christopher Canaday 2022-11-28 16:14:23 -0500 132)           theta += (float) .03;
+670a91af (Christopher Canaday 2022-11-20 22:46:56 -0500 133)         }
+af51e1a3 (Christopher Canaday 2022-11-20 18:46:54 -0500 139)       if(invincible) return;
+af51e1a3 (Christopher Canaday 2022-11-20 18:46:54 -0500 140)       
+af51e1a3 (Christopher Canaday 2022-11-20 18:46:54 -0500 144)       invincible = true;
+af51e1a3 (Christopher Canaday 2022-11-20 18:46:54 -0500 145)       itime = (float) .5;    
+-e 
+Fight.cs
+
+1bdbf6b9 (Christopher Canaday 2022-11-15 09:18:22 -0500  43)   private Control Attack0, Attack1, Attack2, Attack3;
+1bdbf6b9 (Christopher Canaday 2022-11-15 09:18:22 -0500 119)     Attack0 = GetNode<Control>("Action Console/VBoxContainer/Top Row/Attack0");
+1bdbf6b9 (Christopher Canaday 2022-11-15 09:18:22 -0500 120)     Attack1 = GetNode<Control>("Action Console/VBoxContainer/Top Row/Attack1");
+1bdbf6b9 (Christopher Canaday 2022-11-15 09:18:22 -0500 121)     Attack2 = GetNode<Control>("Action Console/VBoxContainer/Bottom Row/Attack2");
+1bdbf6b9 (Christopher Canaday 2022-11-15 09:18:22 -0500 122)     Attack3 = GetNode<Control>("Action Console/VBoxContainer/Bottom Row/Attack3");
+1bdbf6b9 (Christopher Canaday 2022-11-15 09:18:22 -0500 123)     
+f4c2939a (Christopher Canaday 2022-11-28 13:12:53 -0500 124)     Attack0.Call("setup_AttackNode",(String) playerAttacksD[0]["name"], Convert.ToInt32(playerAttacksD[0]["strike_damage"]), Convert.ToInt32(playerAttacksD[0]["strike_count"]),(String) playerAttacksD[0]["type"], 0, this);
+f4c2939a (Christopher Canaday 2022-11-28 13:12:53 -0500 125)     Attack1.Call("setup_AttackNode",(String) playerAttacksD[1]["name"], Convert.ToInt32(playerAttacksD[1]["strike_damage"]), Convert.ToInt32(playerAttacksD[1]["strike_count"]),(String) playerAttacksD[1]["type"], 1, this);
+f4c2939a (Christopher Canaday 2022-11-28 13:12:53 -0500 126)     Attack2.Call("setup_AttackNode",(String) playerAttacksD[2]["name"], Convert.ToInt32(playerAttacksD[2]["strike_damage"]), Convert.ToInt32(playerAttacksD[2]["strike_count"]),(String) playerAttacksD[2]["type"], 2, this);
+f4c2939a (Christopher Canaday 2022-11-28 13:12:53 -0500 127)     Attack3.Call("setup_AttackNode",(String) playerAttacksD[3]["name"], Convert.ToInt32(playerAttacksD[3]["strike_damage"]), Convert.ToInt32(playerAttacksD[3]["strike_count"]),(String) playerAttacksD[3]["type"], 3, this);
+1bdbf6b9 (Christopher Canaday 2022-11-15 09:18:22 -0500 449) 
+1bdbf6b9 (Christopher Canaday 2022-11-15 09:18:22 -0500 450)   public void _on_Attack_Selected(int index){
+1bdbf6b9 (Christopher Canaday 2022-11-15 09:18:22 -0500 451)     if(CheckAttackSignalPermission() == 1) return;
+1bdbf6b9 (Christopher Canaday 2022-11-15 09:18:22 -0500 452)     queuedAttack = index;
+1bdbf6b9 (Christopher Canaday 2022-11-15 09:18:22 -0500 453)   }
+-e 
+Player.cs
+
+b44616ab (Christopher Canaday 2022-11-28 12:43:35 -0500 33)         startpos.x = 512;
+b44616ab (Christopher Canaday 2022-11-28 12:43:35 -0500 34)         startpos.y = 300;
+b44616ab (Christopher Canaday 2022-11-28 12:43:35 -0500 50)       if ((this.Position.x < 1024) && Input.IsActionPressed("right")){
+670a91af (Christopher Canaday 2022-11-20 22:46:56 -0500 54)       if (this.Position.x > 0 && Input.IsActionPressed("left")){
+b44616ab (Christopher Canaday 2022-11-28 12:43:35 -0500 58)       if (this.Position.y < 600 && Input.IsActionPressed("down")){
+670a91af (Christopher Canaday 2022-11-20 22:46:56 -0500 62)       if (this.Position.y > 0 && Input.IsActionPressed("up")){
+-e 
+AttackNode.cs
+
+1bdbf6b9 (Christopher Canaday 2022-11-15 09:18:22 -0500 25)     public void setup_AttackNode(string name, int dmg, int num, string type, int ind, object parent)
+1bdbf6b9 (Christopher Canaday 2022-11-15 09:18:22 -0500 31)       TeamSelect = (CanvasLayer) parent;
+-e 
+AttackNodeSmall.cs
+
+1bdbf6b9 (Christopher Canaday 2022-11-15 09:18:22 -0500  1) using Godot;
+1bdbf6b9 (Christopher Canaday 2022-11-15 09:18:22 -0500  2) using System;
+1bdbf6b9 (Christopher Canaday 2022-11-15 09:18:22 -0500  3) 
+1bdbf6b9 (Christopher Canaday 2022-11-15 09:18:22 -0500  4) public class AttackNodeSmall : Control
+1bdbf6b9 (Christopher Canaday 2022-11-15 09:18:22 -0500  5) {
+1bdbf6b9 (Christopher Canaday 2022-11-15 09:18:22 -0500  6)     private Label AttackName, AttackDmg, AttackNum;
+d72a0b84 (Christopher Canaday 2022-11-20 18:34:36 -0500  7)     private StyleBoxFlat backgroundstyle;
+d72a0b84 (Christopher Canaday 2022-11-20 18:34:36 -0500  8)     private Color bordercolor;
+a541c513 (Christopher Canaday 2022-11-28 13:11:31 -0500  9)     private Panel background;
+a541c513 (Christopher Canaday 2022-11-28 13:11:31 -0500 10)     private Node Fight;
+a541c513 (Christopher Canaday 2022-11-28 13:11:31 -0500 11)     private int index;
+1bdbf6b9 (Christopher Canaday 2022-11-15 09:18:22 -0500 12) 
+a541c513 (Christopher Canaday 2022-11-28 13:11:31 -0500 13)     public void setup_AttackNode(String name, int dmg, int num, String type, int ind, object parent)
+1bdbf6b9 (Christopher Canaday 2022-11-15 09:18:22 -0500 14)     {
+a541c513 (Christopher Canaday 2022-11-28 13:11:31 -0500 15)       // get all the nodes
+1bdbf6b9 (Christopher Canaday 2022-11-15 09:18:22 -0500 16)       AttackName = GetNode<Label>("AttackName");
+1bdbf6b9 (Christopher Canaday 2022-11-15 09:18:22 -0500 17)       AttackDmg = GetNode<Label>("AttackDmg");
+1bdbf6b9 (Christopher Canaday 2022-11-15 09:18:22 -0500 18)       AttackNum = GetNode<Label>("AttackNum");
+d72a0b84 (Christopher Canaday 2022-11-20 18:34:36 -0500 19)       background = GetNode<Panel>("Panel");
+1bdbf6b9 (Christopher Canaday 2022-11-15 09:18:22 -0500 20)       Fight = (Node) parent;
+a541c513 (Christopher Canaday 2022-11-28 13:11:31 -0500 21)       
+a541c513 (Christopher Canaday 2022-11-28 13:11:31 -0500 22)       // set all the values
+1bdbf6b9 (Christopher Canaday 2022-11-15 09:18:22 -0500 23)       String d = dmg.ToString();
+1bdbf6b9 (Christopher Canaday 2022-11-15 09:18:22 -0500 24)       String n = num.ToString();
+1bdbf6b9 (Christopher Canaday 2022-11-15 09:18:22 -0500 25)       AttackName.Text = name;
+1bdbf6b9 (Christopher Canaday 2022-11-15 09:18:22 -0500 26)       AttackDmg.Text = "ATK "+ d;
+1bdbf6b9 (Christopher Canaday 2022-11-15 09:18:22 -0500 27)       AttackNum.Text = "HPA " + n;
+1bdbf6b9 (Christopher Canaday 2022-11-15 09:18:22 -0500 28)       index = ind;
+d72a0b84 (Christopher Canaday 2022-11-20 18:34:36 -0500 29)       
+a541c513 (Christopher Canaday 2022-11-28 13:11:31 -0500 30)       // grab a duplicate of the style
+a541c513 (Christopher Canaday 2022-11-28 13:11:31 -0500 31)       backgroundstyle = (StyleBoxFlat) background.GetStylebox("panel").Duplicate();
+d72a0b84 (Christopher Canaday 2022-11-20 18:34:36 -0500 32)       
+a541c513 (Christopher Canaday 2022-11-28 13:11:31 -0500 33)       // get the color of the border
+d72a0b84 (Christopher Canaday 2022-11-20 18:34:36 -0500 34)       if(type == "Fire"){
+a541c513 (Christopher Canaday 2022-11-28 13:11:31 -0500 35)         bordercolor = new Color((float).74,(float).21,(float).21,1);
+d72a0b84 (Christopher Canaday 2022-11-20 18:34:36 -0500 36)       }else if(type == "Electric"){
+a541c513 (Christopher Canaday 2022-11-28 13:11:31 -0500 37)         bordercolor = new Color((float).74,(float).67,(float).21,1);
+d72a0b84 (Christopher Canaday 2022-11-20 18:34:36 -0500 38)       }else if(type == "Poison"){
+a541c513 (Christopher Canaday 2022-11-28 13:11:31 -0500 39)         bordercolor = new Color((float).35,(float).74,(float).21,1);
+d72a0b84 (Christopher Canaday 2022-11-20 18:34:36 -0500 40)       }else if(type == "Ice"){
+a541c513 (Christopher Canaday 2022-11-28 13:11:31 -0500 41)         bordercolor = new Color((float).21,(float).74,(float).74,1);
+d72a0b84 (Christopher Canaday 2022-11-20 18:34:36 -0500 42)       }else if(type == "Dark Magic"){
+a541c513 (Christopher Canaday 2022-11-28 13:11:31 -0500 43)         bordercolor = new Color((float).47,(float).21,(float).74,1);
+d72a0b84 (Christopher Canaday 2022-11-20 18:34:36 -0500 44)       }
+d72a0b84 (Christopher Canaday 2022-11-20 18:34:36 -0500 45)       
+a541c513 (Christopher Canaday 2022-11-28 13:11:31 -0500 46)       // set the border color and override the style
+d72a0b84 (Christopher Canaday 2022-11-20 18:34:36 -0500 47)       backgroundstyle.BorderColor = bordercolor;
+a541c513 (Christopher Canaday 2022-11-28 13:11:31 -0500 48)       background.AddStyleboxOverride("panel", backgroundstyle);
+1bdbf6b9 (Christopher Canaday 2022-11-15 09:18:22 -0500 49)     }
+1bdbf6b9 (Christopher Canaday 2022-11-15 09:18:22 -0500 50)     
+a541c513 (Christopher Canaday 2022-11-28 13:11:31 -0500 51)     // Use the attack
+1bdbf6b9 (Christopher Canaday 2022-11-15 09:18:22 -0500 52)     private void _on_TextureButton_pressed()
+1bdbf6b9 (Christopher Canaday 2022-11-15 09:18:22 -0500 53)     {
+1bdbf6b9 (Christopher Canaday 2022-11-15 09:18:22 -0500 54)         Fight.Call("_on_Attack_Selected",index);
+1bdbf6b9 (Christopher Canaday 2022-11-15 09:18:22 -0500 55)     }
+1bdbf6b9 (Christopher Canaday 2022-11-15 09:18:22 -0500 56) }
+-e 
+Credits.cs
+
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600 11)   private Globals globals;
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600 22)     globals = GetNode<Globals>("/root/Gm");
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600 60)     se = globals.GetNode<AudioStreamPlayer>("SoundEffects");
+-e 
+MainMenu.cs
+
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600 59) 
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600 60)   private void _on_Tutorial_pressed()
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600 61)   {
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600 62)     se = globals.GetNode<AudioStreamPlayer>("SoundEffects");
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600 63)     se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600 64)     se.Play();
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600 65)     
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600 67)   }
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600 68) 
+-e 
+PauseMenu2.cs
+
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600  9)     private AudioStreamPlayer music, musicP, se;
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600 16)         globals = (Globals)GetNode("/root/Gm");
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600 17)         se = globals.GetNode<AudioStreamPlayer>("SoundEffects");
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600 18)         //se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600 39)         se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600 40)         se.Play();    
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600 47)         se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600 48)         se.Play();
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600 63)         se.Stream = ResourceLoader.Load("res://Assets/Music/MenuClick.tres") as AudioStream;
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600 64)         se.Play();
+-e 
+TeamSelect.cs
+
+2910a182 (Christopher Canaday 2022-11-10 12:43:46 -0500 105)     // remove old attacks
+2910a182 (Christopher Canaday 2022-11-10 12:43:46 -0500 106)     foreach (Control n in AttacksList.GetChildren()){
+2910a182 (Christopher Canaday 2022-11-10 12:43:46 -0500 107)       AttacksList.RemoveChild(n);
+2910a182 (Christopher Canaday 2022-11-10 12:43:46 -0500 108)       n.QueueFree();  
+2910a182 (Christopher Canaday 2022-11-10 12:43:46 -0500 109)     }
+2910a182 (Christopher Canaday 2022-11-10 12:43:46 -0500 110)     
+0d1b1b7f (Christopher Canaday 2022-11-28 15:44:42 -0500 145)     attack0Prev = -1;
+0d1b1b7f (Christopher Canaday 2022-11-28 15:44:42 -0500 146)     attack1Prev = -1;
+0d1b1b7f (Christopher Canaday 2022-11-28 15:44:42 -0500 147)     attack2Prev = -1;
+0d1b1b7f (Christopher Canaday 2022-11-28 15:44:42 -0500 148)     attack3Prev = -1;
+0d1b1b7f (Christopher Canaday 2022-11-28 15:44:42 -0500 149)     
+-e 
+Tutorial.cs
+
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600   1) using Godot;
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600   2) using System;
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600   3) 
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600   4) public class Tutorial : Node2D
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600   5) {
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600   6)   private AudioStreamPlayer se;
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600   7)   private Globals globals;
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500   9)   private RichTextLabel Welcome, Continue, Info;
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  10)   private HSlider PowerSlider;
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  11)   //private Vector2 s,e;
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  12)   //private Color c;
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  13)   //private Line2D line1, line2, line3, line4, line5;
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  14)   private Control Attack, AttackSmall;
+0d1b1b7f (Christopher Canaday 2022-11-28 15:44:42 -0500  15)   private Sprite Fire, Ice, Electric, Poison, DM, BracketSizeChoice, BracketLayout;
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  16)   private int step/*, ATK, HPA*/;
+0d1b1b7f (Christopher Canaday 2022-11-28 15:44:42 -0500  17)   private CanvasLayer TeamSelect;
+0d1b1b7f (Christopher Canaday 2022-11-28 15:44:42 -0500  18)   private ColorRect Cover;
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  19)   //private string name, type;
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600  20) 
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600  21) 
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600  22)   // Called when the node enters the scene tree for the first time.
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600  23)   public override void _Ready()
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600  24)   {
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  25)     // transition and global
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600  27)     globals = GetNode<Globals>("/root/Gm");
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  28)     
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  29)     // starting text nodes
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600  30)     Welcome = GetNode<RichTextLabel>("ColorRect/CenterContainer/Welcome");
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  31)     Continue = GetNode<RichTextLabel>("ColorRect/Continue");
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  32)     
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  33)     // attack nodes
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  34)     Attack = GetNode<Control>("ColorRect/Attack");
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  35)     AttackSmall = GetNode<Control>("ColorRect/AttackSmall");
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  36)     
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  37)     // type nodes (the sprites)
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  38)     Fire = GetNode<Sprite>("ColorRect/Fire");
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  39)     Ice = GetNode<Sprite>("ColorRect/Ice");
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  40)     Electric = GetNode<Sprite>("ColorRect/Electric");
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  41)     Poison = GetNode<Sprite>("ColorRect/Poison");
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  42)     DM = GetNode<Sprite>("ColorRect/Dark Magic");
+0d1b1b7f (Christopher Canaday 2022-11-28 15:44:42 -0500  43)     BracketSizeChoice = GetNode<Sprite>("ColorRect/BracketSizeChoice");
+0d1b1b7f (Christopher Canaday 2022-11-28 15:44:42 -0500  44)     BracketLayout = GetNode<Sprite>("ColorRect/BracketLayout");
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  45)     
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  46)     // big text section
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  47)     Info = GetNode<RichTextLabel>("ColorRect/Info");
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  48)     //Info.BBCodeEnabled = true;
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  49)     
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  50)     PowerSlider = GetNode<HSlider>("ColorRect/HSlider");
+0d1b1b7f (Christopher Canaday 2022-11-28 15:44:42 -0500  51)     TeamSelect = GetNode<CanvasLayer>("ColorRect/TeamSelect");
+0d1b1b7f (Christopher Canaday 2022-11-28 15:44:42 -0500  52)     Cover = GetNode<ColorRect>("ColorRect/CanvasLayer/ColorRect");
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  53)     
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  54)     // do the first step of the tutorial
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  55)     _DoStep(0);
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600  56)   }
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600  57)   
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  58)   // Return to the previous step of the tutorial or to the Main Menu
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600  59)   private void _on_Back_pressed()
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600  60)   {
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600  61)     se = globals.GetNode<AudioStreamPlayer>("SoundEffects");
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600  62)     se.Stream = ResourceLoader.Load("res://Assets/Music/BackSound.tres") as AudioStream;
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600  63)     se.Play();
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600  64)     
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  65)     if(step == 0){
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  67)     }else{
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  68)       _DoStep(step-1);
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  69)     }
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  70)     
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600  71)   }
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600  72) 
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600  73)   // Handle the SpaceBar presses
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600  74)   public override void _Input(InputEvent inputEvent)
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600  75)   {
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  76)     if (inputEvent.IsActionPressed("ui_accept"))
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600  77)     {
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  78)       _DoStep(step+1);
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  79)     }
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  80)   }
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600  81)   
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  82)   // makes everything for the required step of the turoial visible
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  83)   private void _DoStep(int stepnum){
+0d1b1b7f (Christopher Canaday 2022-11-28 15:44:42 -0500  84)     if(stepnum <= 5) _HideAll();
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  85)     if(stepnum == 0){
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  86)       Continue.Visible = true;
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  87)       Welcome.Visible = true;
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  88)       step = 0;
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  89)     }else if(stepnum == 1){
+0d1b1b7f (Christopher Canaday 2022-11-28 15:44:42 -0500  90)       Info.Visible = true;
+0d1b1b7f (Christopher Canaday 2022-11-28 15:44:42 -0500  91)       TeamSelect.Visible = true;
+0d1b1b7f (Christopher Canaday 2022-11-28 15:44:42 -0500  92)       Cover.Visible = true;
+0d1b1b7f (Christopher Canaday 2022-11-28 15:44:42 -0500  93)       Continue.Visible = true;
+0d1b1b7f (Christopher Canaday 2022-11-28 15:44:42 -0500  94)       Info.Text = "A large part of Battle Beasts is being able to customize your own beast. Each beast has different modifiers and those modifiers allow the beast to perform a variety of attacks.\n\nGive it a try!";
+0d1b1b7f (Christopher Canaday 2022-11-28 15:44:42 -0500  95)       step = 1;
+0d1b1b7f (Christopher Canaday 2022-11-28 15:44:42 -0500  96)     }else if(stepnum == 2){
+0d1b1b7f (Christopher Canaday 2022-11-28 15:44:42 -0500  97)       Info.Visible = true;
+0d1b1b7f (Christopher Canaday 2022-11-28 15:44:42 -0500  98)       BracketSizeChoice.Visible = true;
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500  99)       Continue.Visible = true;
+0d1b1b7f (Christopher Canaday 2022-11-28 15:44:42 -0500 100)       BracketLayout.Visible = true;
+42a524b6 (Christopher Canaday 2022-11-28 18:20:17 -0500 101)       Info.Text = "After you have created your beast you will get to choose the size of your tournament.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAfterwards the tournament bracket will appear.";
+0d1b1b7f (Christopher Canaday 2022-11-28 15:44:42 -0500 102)       step = 2;
+0d1b1b7f (Christopher Canaday 2022-11-28 15:44:42 -0500 103)     }else if(stepnum == 3){
+0d1b1b7f (Christopher Canaday 2022-11-28 15:44:42 -0500 104)       Info.Visible = true;
+0d1b1b7f (Christopher Canaday 2022-11-28 15:44:42 -0500 106)       Continue.Visible = true;
+0d1b1b7f (Christopher Canaday 2022-11-28 15:44:42 -0500 107)       step = 3;
+0d1b1b7f (Christopher Canaday 2022-11-28 15:44:42 -0500 108)     }else if(stepnum == 4){
+0d1b1b7f (Christopher Canaday 2022-11-28 15:44:42 -0500 109)       Info.Visible = true;
+0d1b1b7f (Christopher Canaday 2022-11-28 15:44:42 -0500 110)       Continue.Visible = true;
+0d1b1b7f (Christopher Canaday 2022-11-28 15:44:42 -0500 111)       PowerSlider.Visible = true;
+0d1b1b7f (Christopher Canaday 2022-11-28 15:44:42 -0500 112)       
+0d1b1b7f (Christopher Canaday 2022-11-28 15:44:42 -0500 113)       Info.Text = "Power Slider is a Mini-Game where your goal is to stop the tick of the slider as close to the center as possible. To stop the slider you press the spacebar.\n\n\n\n\nQuick Time is a Mini-Game where you press a key as fast as possible.\n\n\nBullet Hell is a Mini-Game where you dodge bullets and your finishing health is what decides your score. You are capable of using either WASD or the arrow keys to move your beast.";
+0d1b1b7f (Christopher Canaday 2022-11-28 15:44:42 -0500 114)       step = 4;
+0d1b1b7f (Christopher Canaday 2022-11-28 15:44:42 -0500 115)     }else if(stepnum == 5){
+0d1b1b7f (Christopher Canaday 2022-11-28 15:44:42 -0500 116)       Welcome.Visible = false;
+0d1b1b7f (Christopher Canaday 2022-11-28 15:44:42 -0500 117)       //Continue.Visible = true;
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500 118)       Fire.Visible = true;
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500 119)       Ice.Visible = true;
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500 120)       Electric.Visible = true;
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500 121)       Poison.Visible = true;
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500 122)       DM.Visible = true;
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500 123)       Info.Visible = true;
+0d1b1b7f (Christopher Canaday 2022-11-28 15:44:42 -0500 124)       Info.BbcodeText = "There are 5 types in Battle Beasts.\n\n[color=#bd3636]Fire[/color], [color=#36bdbd]Ice[/color], [color=#bdab36]Electric[/color], [color=#59bd36]Poison[/color], and [color=#7836bd]Dark Magic[/color].\n\n\nAn attack contains a name, type, attack damage (ATK), and hits per attack (HPA).\n\nThe name, ATK, and HPA are always listed. The type however can be either the dots from above or the border of the attack.";
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500 125)       Attack.Show();
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500 126)       AttackSmall.Show();
+0d1b1b7f (Christopher Canaday 2022-11-28 15:44:42 -0500 127)       step = 5;
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500 128)     }
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600 129)   }
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500 130)   
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500 131)   // hides everything
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500 132)   private void _HideAll(){
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500 133)     Fire.Visible = false;
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500 134)     Ice.Visible = false;
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500 135)     Electric.Visible = false;
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500 136)     Poison.Visible = false;
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500 137)     DM.Visible = false;
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500 138)     Info.Visible = false;
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500 139)     Continue.Visible = false;
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500 140)     Welcome.Visible = false;
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500 141)     PowerSlider.Visible = false;
+0d1b1b7f (Christopher Canaday 2022-11-28 15:44:42 -0500 142)     Cover.Visible = false;
+0d1b1b7f (Christopher Canaday 2022-11-28 15:44:42 -0500 143)     TeamSelect.Visible = false;
+0d1b1b7f (Christopher Canaday 2022-11-28 15:44:42 -0500 144)     BracketSizeChoice.Visible = false;
+0d1b1b7f (Christopher Canaday 2022-11-28 15:44:42 -0500 145)     BracketLayout.Visible = false;
+0d1b1b7f (Christopher Canaday 2022-11-28 15:44:42 -0500 146)     Info.BbcodeText = "";
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500 147)     Attack.Hide();
+26e60966 (Christopher Canaday 2022-11-28 00:29:28 -0500 148)     AttackSmall.Hide();
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600 149)   }
+da60bc83 (Christopher Canaday 2022-11-25 23:03:53 -0600 150) }
