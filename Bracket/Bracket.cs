@@ -131,8 +131,10 @@ public class Bracket: Node2D
     int choice;
     
     // choose name
-    choice = (int)(GD.Randi() % opponentOptions.Count);
-    opponents = opponentOptions[choice.ToString()] as Dictionary;
+    do {
+      choice = (int)(GD.Randi() % opponentOptions.Count);
+      opponents = opponentOptions[choice.ToString()] as Dictionary;
+    } while (IsInArrayS(g.oppName, (String)opponents["name"]) == 1);
     g.oppName[opp] = (String)opponents["name"];
 
     // choose beast
@@ -143,6 +145,12 @@ public class Bracket: Node2D
   /* For 1 dimensional arrays. Returns 0 if num isn't in array. Returns 1 if num is in array */
   private int IsInArray(int[] array, int num) {
     foreach (int i in array) if (i == num) return 1;
+    return 0;
+  }
+
+  private int IsInArrayS(string[] array, string str) {
+    foreach (string i in array) if (i == str) return 1;
+    //for (int i = 0; i < array.Length; i++) if 
     return 0;
   }
 

@@ -104,7 +104,7 @@ public class Fight : Node
     for (i = 0; i < g.playerAttackIndices.Length; i++) playerAttacksD[i] = attackOptions[g.playerAttackIndices[i].ToString()] as Dictionary;
     playerTexture = ResourceLoader.Load((String)playerBeastD["texture"]) as Texture;
     player.GetNode<Sprite>("Texture").Texture = playerTexture;
-    player.Position = new Vector2(190, 250);
+    player.Position = new Vector2(195, 245);
     player.Scale = new Vector2(6, 6);
     player.Init("player", playerBeastD, playerModiferD, playerAttacksD);
 
@@ -112,9 +112,8 @@ public class Fight : Node
     pHealthBar = (HealthInterface)HPinterface.Instance();
     AddChild(pHealthBar);
     pHealthBar.CreateLabel(g.name, (String)playerModiferD["name"], player.GetArmor().ToString());
-    playerHealthBarPosition = new Vector2(-630, -450);
+    playerHealthBarPosition = new Vector2(-620, -450);
     pHealthBar.SetPosition(playerHealthBarPosition, false);
-    pHealthBar.GetNode<Label>("UserMods").SetAlign((Godot.Label.AlignEnum)0);
 
     /* Initialize player attack options bottom right */
     Attack0 = GetNode<Control>("Action Console/VBoxContainer/Top Row/Attack0");
@@ -136,7 +135,7 @@ public class Fight : Node
     for (i = 0; i < g.oppAttacks.GetLength(1); i++) opponentAttacksD[i] = attackOptions[g.oppAttacks[g.currentOpponentIndex, i].ToString()] as Dictionary;
     opponentTexture = ResourceLoader.Load((String) opponentBeastD["texture"]) as Texture;
     opponent.GetNode<Sprite>("Texture").Texture = opponentTexture;
-    opponent.Position = new Vector2(850, 180);
+    opponent.Position = new Vector2(825, 180);
     opponent.Scale = new Vector2(6, 6);
     opponent.Init("opponent", opponentBeastD, opponentModiferD, opponentAttacksD);
 
@@ -144,9 +143,8 @@ public class Fight : Node
     oHealthBar = (HealthInterface)HPinterface.Instance();
     AddChild(oHealthBar);
     oHealthBar.CreateLabel(g.oppName[g.currentOpponentIndex], (String)opponentModiferD["name"], player.GetArmor().ToString());
-    opponentHealthBarPosition = new Vector2(30, -510);
+    opponentHealthBarPosition = new Vector2(10, -510);
     oHealthBar.SetPosition(opponentHealthBarPosition, false);
-    oHealthBar.GetNode<Label>("UserMods").SetAlign((Godot.Label.AlignEnum)2);
         
     /* Vectors for anims: */
     right = new Vector2(1,0);
@@ -327,7 +325,7 @@ public class Fight : Node
     textbox.damageL.Text =  "";
     textbox.AnimateText();
     player.Visible = false;
-    timer.Start(turnDelay);
+    timer.Start(turnDelay * 2);
   }
   
   private void OpponentDefeated(){
@@ -344,7 +342,7 @@ public class Fight : Node
     textbox.damageL.Text =  "";
     textbox.AnimateText();
     opponent.Visible = false;
-    timer.Start(turnDelay);
+    timer.Start(turnDelay * 2);
   }
 
   // Called every frame. 'delta' is the elapsed time since the previous frame.

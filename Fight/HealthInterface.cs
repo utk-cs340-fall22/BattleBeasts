@@ -18,8 +18,7 @@ public class HealthInterface : Control
     /* Creates the label for player/opponent name and modifier */
     public void CreateLabel(string name, string modifier, string armor)
     {
-      GetNode<Label>("UserMods").Text = name + " | " + modifier + " | " + armor + " armor";
-      GetNode<Label>("UserMods").SetAlign((Godot.Label.AlignEnum)2);
+      GetNode<Label>("UserMods").Text = name + " | " + modifier + " | " + armor;
     }
 
     

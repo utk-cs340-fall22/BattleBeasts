@@ -25,7 +25,7 @@ expand = true
 
 [node name="Background" type="TextureRect" parent="."]
 show_behind_parent = true
-margin_right = 1033.0
+margin_right = 1024.0
 margin_bottom = 602.0
 expand = true
 
