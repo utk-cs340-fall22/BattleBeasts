@@ -216,7 +216,7 @@ public class Fight : Node
   public void MinigameReturn(int result) {
     if (result < 0 || result > 100) {
       GD.Print("Minigames may only return integer values in [0, 100]");
-      minigameResult = 0;
+      minigameResult = 80;
       return;
     }
     minigameResult = result;
