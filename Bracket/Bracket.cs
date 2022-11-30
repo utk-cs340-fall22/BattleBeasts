@@ -68,7 +68,7 @@ public class Bracket: Node2D
 
   /**/
   private void get_curr_beast(Dictionary beasts) {
-    select_beast("Other", g.currBeast, true);
+    select_beast("Other", g.currentOpponentIndex, false);
   }
 
   /* Draws a circle around the two opposing beasts */
@@ -267,21 +267,29 @@ public class Bracket: Node2D
   //Shows the beasts that one the last bracket depending on the level
   private void show_on_bracket() {
     if (g.level == 1) {
+      GetNode<Sprite>("Player").Show();
+      GetNode<Sprite>("Other").Show();
       GetNode<Sprite>("Sprite3").Show();
-      select_beast("Other", 2, false);
+      select_beast("Other", 1, false); //2
       if (g.bracketSize == 1) {
         GetNode<Sprite>("Sprite5").Show();
-        select_beast("Other", 4, false);
         GetNode<Sprite>("Sprite7").Show();
-        select_beast("Other", 6, false);
+        select_beast("Other", 1, false);
       }else {
         select_beast("Other", 1, false);
        }
     }
     
-    if (g.level >= 1) {
+    if (g.level == 2) {
       GetNode<Sprite>("Player").Show();
+      select_beast("Other", 5, false);//na
       GetNode<Sprite>("Other").Show();
+      g.currentOpponentIndex = 5;
+    }
+    
+    if (g.level > 2 || (g.level == 2 && g.bracketSize == 0)) {
+      GetNode<Sprite>("Player").Show();
+      GetNode<Sprite>("Other").Hide();
     }
   }
 
@@ -349,22 +357,11 @@ public class Bracket: Node2D
         get_random_beast(opponents, i);
         CustomizeOpponent(i);
       }
-      // debug
-      GD.Print("g.oppName.Length: ", g.oppName.Length);
-      for (int i = 0; i < g.oppName.Length; i++) {
-        GD.Print("i: ", i);
-        GD.Print(g.oppName[i], " ", g.oppBeast[i], " ", g.oppMods[i]);
-        for (int j = 0; j < 4; j++) {
-          GD.Print(g.oppAttacks[i, j]);
-        }
-        GD.Print("");
-      }
     }
 
     //then initialize them
     initialize_opponents(g);
     if (g.level == 0) {
-      g.currBeast = g.oppBeast[0];
       g.currentOpponentIndex = 0;
     }
 
@@ -464,23 +461,21 @@ public class Bracket: Node2D
     GetNode<Sprite>("Sprite").Position = new Vector2(100 + 100*(g.level+1), 50+50*(g.level+1));
 
     if (g.level == 0) {
-
       GetNode<Sprite>("Sprite3").Position = new Vector2(120 + 100*(g.level+1), 180 + 50*(g.level+1));
-      g.currBeast = g.oppBeast[1];
       g.currentOpponentIndex = 1;
       if (g.bracketSize == 1) {
         GetNode<Sprite>("Sprite5").Position = new Vector2(120 + 100*(g.level+1), 210 + 100*(g.level+1));
         GetNode<Sprite>("Sprite7").Position = new Vector2(120 + 100*(g.level+1), 250 + 150*(g.level+1));
       }
-
     }
   
     if (g.level == 1 && g.bracketSize == 1) {
-       g.currBeast = g.oppBeast[6];
-       g.currentOpponentIndex = 5;
+       g.currentOpponentIndex = 3;
        GetNode<Sprite>("Sprite7").Position = new Vector2(120 + 100*(g.level+1), 350);
        GetNode<Sprite>("Sprite7").Show();
      }
+    
+    if (g.level == 2) g.currentOpponentIndex = 5;
 
     if (g.level == 2 && g.bracketSize == 1) {
       display_win();
@@ -545,7 +540,7 @@ public class Bracket: Node2D
     Dictionary beast;
     int pick;
 
-    if (player) pick = opp;
+    if (player == true) pick = opp;
     else pick = g.oppBeast[opp];
     
     beast = beastOptions[pick.ToString()] as Dictionary;

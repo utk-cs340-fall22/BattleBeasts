@@ -38,12 +38,6 @@ public class Fighter : Sprite
     armor = Convert.ToInt32(beastDict["armor"]) + armorModifier;
     type = (string)beastDict["type"];
     this.attacksDict = attacksDict;
-
-    // debugging
-    GD.Print("controller: ", controller);
-    GD.Print("maxHealth: ", maxHealth, " | armor: ", armor, " | type: ", type);
-    GD.Print("modifierName: ", modifierName, " | healthModifier: ", healthModifier, " | armorModifier: ", armorModifier);
-    for (i = 0; i < attacksDict.Length; i++) GD.Print("attack", i, ": ", attacksDict[i]["name"]);
   }
 
   /*

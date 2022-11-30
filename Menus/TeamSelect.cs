@@ -163,15 +163,9 @@ public class TeamSelect : CanvasLayer
     for (i = 0; i < attacksAllowed.Length; i++) {
       if (IsInArray(used, attacksAllowed[i]) == 0 && attacksAllowed[i] != -1) {
         used[i] = attacksAllowed[i];
-        GD.Print("this: ", attacksAllowed[i].ToString());
         attack = attackOptions[attacksAllowed[i].ToString()] as Dictionary;
         
         var AttackInstance = (Control) Attack.Instance();
-        GD.Print(attack["name"]);
-        GD.Print(Convert.ToInt32(attack["strike_damage"]));
-        GD.Print(Convert.ToInt32(attack["strike_count"]));
-        GD.Print(attack["type"]);
-        GD.Print("Attacks allowed "+ attacksAllowed[i]);
         AttackInstance.Call("setup_AttackNode",(String) attack["name"],Convert.ToInt32(attack["strike_damage"]),Convert.ToInt32(attack["strike_count"]),(String) attack["type"],attacksAllowed[i],this);
         AttacksList.AddChild(AttackInstance);
       }

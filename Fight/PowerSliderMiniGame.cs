@@ -48,7 +48,6 @@ public class PowerSliderMiniGame : Control
             }else{
                 ans = vol.Value;
             }
-            GD.Print("slider return: ", ans);
             fight.Call("MinigameReturn",ans);
             QueueFree();
         }

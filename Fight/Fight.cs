@@ -127,7 +127,6 @@ public class Fight : Node
     Attack3.Call("setup_AttackNode",(String) playerAttacksD[3]["name"], Convert.ToInt32(playerAttacksD[3]["strike_damage"]), Convert.ToInt32(playerAttacksD[3]["strike_count"]),(String) playerAttacksD[3]["type"], 3, this);
     
     /* Initialize opponent character */
-    GD.Print("g.currentOpponentIndex: ", g.currentOpponentIndex);
     opponent = (Fighter)Fighter.Instance();
     AddChild(opponent);
     opponentBeastD = beastOptions[g.oppBeast[g.currentOpponentIndex].ToString()] as Dictionary;
@@ -245,8 +244,7 @@ public class Fight : Node
       attackD = attackOptions[g.oppAttacks[g.currentOpponentIndex, queuedAttack - 10].ToString()] as Dictionary;
       textbox.Init(g.oppName[g.currentOpponentIndex], (String)attackD["name"], damageDealt.ToString());
       textbox.AnimateText();
-
-      GD.Print("opponent attack ", queuedAttack - 10, " dealt ", damage * opponent.GetAttackCount(queuedAttack - 10) * minigameResult / 100, " damage.");
+      
       isPlayerTurn = 1;
       queuedAttack = -1;
       PlayerHurtAnim();
@@ -351,12 +349,10 @@ public class Fight : Node
     /* End fight once a beast has 0 health */
 
     if (player.GetHealth() <= 0 && !exit) {
-      GD.Print("opponent defeated player");
       g.fightOutcome = 0;
       PlayerDefeated();
     }
     else if (opponent.GetHealth() <= 0 && !exit) {
-      GD.Print("player defeated opponent");
       g.fightOutcome = 1;
       OpponentDefeated();
     }

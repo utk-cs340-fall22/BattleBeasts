@@ -26,7 +26,6 @@ public class QuickTimeKeyboard : Control
         rnd = new Random();
         wait = rnd.Next(65,120);
         ltr = rnd.Next(0,25);
-        GD.Print("Wait: " + wait.ToString() + " Letter: " + alphabet[ltr].ToString() );
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -48,7 +47,6 @@ public class QuickTimeKeyboard : Control
           ret = 120 - ((tick - wait) / 3);
           if(ret < 0) ret = 0;
           if (ret > 100) ret = 100;
-          GD.Print("QT return: ", ret);
           fight.Call("MinigameReturn", ret);
           QueueFree();
         }
