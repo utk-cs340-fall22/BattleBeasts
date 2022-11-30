@@ -4,7 +4,7 @@ Name: Colin Canonaco
 Product Name: Battle Beasts
 
 ## Background
-(Explain the user need or market opportunity)
+Turn based combat in video games often lacks depth, interactivity, and mechanical skill expression. Pokemon games for example attempt to create depth by introducing a lot of complexity in Pokemon stats, but this isn't appreciated by inexperienced players and requires extensive study to understand. Pokemon also lacks interactivity in that the player may only make decisions, not actively engage with the game. Undertale combat is the opposite where combat is not complex but there is ample opportunity to actively engage with the game through minigames. Sonic Chronicles is an exmaple of a game that attempted to find a balance of complexity and interactivity through team customization, plenty of combat options, team synergies, and minigames that impact the fight. The execution of this left plenty of room for improvement, and Battle Beasts takes advantage of this.
 
 ## Project Overview
 Battle Beasts is a turn based game where you customize a beast to compete in a tournament by fighting against other beasts.
@@ -30,10 +30,16 @@ There are three possible minigames:
 - Quick Time: Press the indicated key as quick as possible for the best performance.
 
 ## Features
-(Give at least 8 user stories to describe required features. These can come from the issues assigned to you during the 4 sprints, or you 
-can create new items. Give a title or feature name for each story. Example: 
-1. **Account holder withdraws cash.** As a customer,	I want to withdraw cash from an ATM,	so that I don’t have to wait in line at the bank.
-2. **Create Account.** As a new user, I want to register by creating a username and password so that the system can remember me and my data)
+1. **Customize beast.** As a player, I want to customize my beast so that I can try out different builds and strategies as well as make replaying the game more fun.
+2. **Play minigames.**  As a player, I want to play a minigame for each attack so that I can be actively engaged in the game and influence the battle.
+3. **Transparent attack stats.** As a player, I want to see the stats of the attacks I can choose from so that I can strategize with my attack set.
+4. **Transparent opponent stats.** As a player, I want to see the stats of my opponent's beast so that I can make an informed decision on what attacks to play.
+5. **Select attack.** As a player, in the fight I want to see the attacks I chose, their stats, and select one to be played so that I can fight my opponent my way.
+5. **Tutorial.** As a player, I want a tutorial to teach me how the game works so that I can learn quickly and start playing and having fun sooner.
+7. **Visual and auditory feedback.** As a player, I want to recieve visual and auditory feedback so that the game feels responive to my actions.
+8. **See progress in tournament.** As a player, I want to see where I am in a tournament so that I can see my potential future opponents and know what's at stake.
+9. **Pause menu.** As a player, I want to be able to pause the game in the middle of a fight so that I can take a quick break, change some game settings, or exit to the main menu.
+10. **Fight text description.** As a player, I want to see what attacks my opponent is playing and how much damage I'm dealing and recieving so that I know how effective certain attacks are.
 
 ## Technologies to be used
-Describe any tools and technologies to be used in the project. Include the languages, third-party libraries, and tools that will be used.
+The project will be created using the Godot game engine and programmed in C#. Graphical assets will be created using programs capable of editing 2D bitmap images, such as Paint.NET.
