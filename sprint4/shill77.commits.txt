@@ -1,0 +1,35 @@
+-e 
+Bracket.cs
+
+aea0f08d (stephhill77         2022-11-26 14:04:24 -0500  58)     get {
+aea0f08d (stephhill77         2022-11-26 14:04:24 -0500  60)         var file = new File();
+aea0f08d (stephhill77         2022-11-26 14:04:24 -0500  61)         file.Open("res://Data/Modifiers.json", File.ModeFlags.Read);
+aea0f08d (stephhill77         2022-11-26 14:04:24 -0500  62)         var text = file.GetAsText();
+aea0f08d (stephhill77         2022-11-26 14:04:24 -0500  64)       }
+aea0f08d (stephhill77         2022-11-26 14:04:24 -0500  66)     }
+aea0f08d (stephhill77         2022-11-26 14:04:24 -0500  67)   }
+aea0f08d (stephhill77         2022-11-26 14:04:24 -0500  69)   /**/
+aea0f08d (stephhill77         2022-11-26 14:04:24 -0500  73) 
+aea0f08d (stephhill77         2022-11-26 14:04:24 -0500  74)   /* Draws a circle around the two opposing beasts */
+aea0f08d (stephhill77         2022-11-26 14:04:24 -0500  87)   /* At the end of the game, resets all values to default */
+aea0f08d (stephhill77         2022-11-26 14:04:24 -0500  98)   /* This function hides/shows certain things when the buttons ("big" or "small") are pressed */
+aea0f08d (stephhill77         2022-11-26 14:04:24 -0500 108)   /* This function hides the continue and exit button */
+aea0f08d (stephhill77         2022-11-26 14:04:24 -0500 116)   /* This displays/hides certain things when the player wins */
+aea0f08d (stephhill77         2022-11-26 14:04:24 -0500 129)  /* Use RNG to select opponents for the bracket */
+aea0f08d (stephhill77         2022-11-26 14:04:24 -0500 132)     
+aea0f08d (stephhill77         2022-11-26 14:04:24 -0500 144) 
+aea0f08d (stephhill77         2022-11-26 14:04:24 -0500 146)   private int IsInArray(int[] array, int num) {
+aea0f08d (stephhill77         2022-11-26 14:04:24 -0500 147)     foreach (int i in array) if (i == num) return 1;
+aea0f08d (stephhill77         2022-11-26 14:04:24 -0500 148)     return 0;
+aea0f08d (stephhill77         2022-11-26 14:04:24 -0500 149)   }
+aea0f08d (stephhill77         2022-11-26 14:04:24 -0500 201)   /* This is what the user is greeted with when first entering the bracket */
+aea0f08d (stephhill77         2022-11-26 14:04:24 -0500 209)   /* This function gets the player's name and beast from globals.cs and initializes them in bracket */
+aea0f08d (stephhill77         2022-11-26 14:04:24 -0500 385)     var points4 = new Vector2[2];
+aea0f08d (stephhill77         2022-11-26 14:04:24 -0500 389)     var color = new Color(1, 1, 1, 1 );
+aea0f08d (stephhill77         2022-11-26 14:04:24 -0500 391)     int i, levels;
+aea0f08d (stephhill77         2022-11-26 14:04:24 -0500 392)     levels = size;
+aea0f08d (stephhill77         2022-11-26 14:04:24 -0500 435)     
+aea0f08d (stephhill77         2022-11-26 14:04:24 -0500 491)   /* When the player loses, this function is called
+aea0f08d (stephhill77         2022-11-26 14:04:24 -0500 492)      It makes the player exit back to the title menu */
+aea0f08d (stephhill77         2022-11-26 14:04:24 -0500 538)   /* Sets the beasts texture */
+aea0f08d (stephhill77         2022-11-26 14:04:24 -0500 540)     Dictionary beast;
