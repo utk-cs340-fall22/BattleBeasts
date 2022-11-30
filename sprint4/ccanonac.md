@@ -20,7 +20,6 @@
 - [Tutorial.cs](https://github.com/utk-cs340-fall22/BattleBeasts/blob/main/Menus/Tutorial.cs)
 
 ### What you accomplished
-(Give a description of the features you added or tasks you accomplished. Provide some detail here. This section will be a little longer than the bulleted lists above)
 
 - [#71](https://github.com/utk-cs340-fall22/BattleBeasts/issues/71) Adjust attack damage values to be more diverse and deal more damage overall
   - Fights were taking too long to complete and attack stats were being repeated due to the low target for average total damage.
