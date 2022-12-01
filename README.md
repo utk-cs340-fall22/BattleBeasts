@@ -40,7 +40,16 @@ There are three possible minigames:
 stuff here
 
 ## Installation Instructions
-stuff here
+We have precompiled binaries for Windows, macOS, Linux, and a link to the web version on our [releases](https://github.com/utk-cs340-fall22/BattleBeasts/releases) page if you want to quickly jump into the game.
+
+If you want to look at the game you first need to download Godot.
+You can download Godot [here](https://godotengine.org/download). Make sure to download the mono version as BattleBeasts uses C#.
+
+After downloading Godot go ahead and clone the repository in the folder of your choice. After you have cloned open up Godot. On the right of the menu click **Import**. Click **Browse** and navigate the cloned repository. Select **project.godot**. Click **Import & Edit**. The Godot editor will now open and you can look around at all of the game scenes.
+
+To build the game in Godot you click the play button in the top right of the screen. If you wish to build only the current scene you can press F6 on your keyboard.
+
+**Have Fun!**
 
 ## Usage Instructions
 stuff here. navigate using the mouse. some keyboard usage required
