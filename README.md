@@ -36,8 +36,9 @@ There are three possible minigames:
 - Bullet Hell: Use WASD to move and avoid the bullets. The fewer bullets that hit you the better.
 - Quick Time: Press the indicated key as quick as possible for the best performance.
 
-### **[describe overall game loop]**
-stuff here
+### **Game Loop**
+The player advances through the bracket by winning matches with their beast.
+Winning the final match or losing at any point returns the player to the main menu.
 
 ## Installation Instructions
 We have precompiled binaries for Windows, macOS, Linux, and a link to the web version on our [releases](https://github.com/utk-cs340-fall22/BattleBeasts/releases) page if you want to quickly jump into the game.
@@ -52,7 +53,11 @@ To build the game in Godot you click the play button in the top right of the scr
 **Have Fun!**
 
 ## Usage Instructions
-stuff here. navigate using the mouse. some keyboard usage required
+To navigate in BattleBeasts you need to use the mouse to click on buttons on the screen. During a battle you will play minigames and these minigames have their own controls.
+
+* PowerSlider: Press SpaceBar to stop the slider.
+* QuickTime: Press the prompted button to end the game.
+* BulletHell: Press W to move up, S to move down, A to move left, D to move right.
 
 ## Licensing
 [LICENSE](https://github.com/utk-cs340-fall22/BattleBeasts/blob/main/LICENSE)
