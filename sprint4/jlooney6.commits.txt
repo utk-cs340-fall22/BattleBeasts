@@ -1,0 +1,140 @@
+-e 
+Fight.cs
+
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500  39)   private bool playerAnim, opponentAnim;
+3e1dcdaf (Jake Looney         2022-11-28 20:39:18 -0500  40)   private bool exit;
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500  41)   private int animTickP, animTickO;
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500  42)   private Vector2 right, left;
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 148)     /* Vectors for anims: */
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 149)     right = new Vector2(1,0);
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 150)     left = new Vector2(-1,0);
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 151)         
+3e1dcdaf (Jake Looney         2022-11-28 20:39:18 -0500 154)     
+3e1dcdaf (Jake Looney         2022-11-28 20:39:18 -0500 155)     /* Exit contorls exiting the battle */
+3e1dcdaf (Jake Looney         2022-11-28 20:39:18 -0500 156)     exit = false;
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 250)       PlayerHurtAnim();
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 272)       OpponentHurtAnim();
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 282)   private void PlayerHurtAnim(){
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 283)     playerAnim = true;
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 284)     animTickP = 0;
+a3c9fde2 (Jake Looney         2022-11-27 21:34:00 -0500 285)     se.Stream = ResourceLoader.Load("res://Assets/Music/HitSound.tres") as AudioStream;
+a3c9fde2 (Jake Looney         2022-11-27 21:34:00 -0500 286)     se.Play();
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 287)   }
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 288)   
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 289)   private void OpponentHurtAnim(){
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 290)     opponentAnim = true;
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 291)     animTickO = 0;
+a3c9fde2 (Jake Looney         2022-11-27 21:34:00 -0500 292)     se.Stream = ResourceLoader.Load("res://Assets/Music/HitSound.tres") as AudioStream;
+a3c9fde2 (Jake Looney         2022-11-27 21:34:00 -0500 293)     se.Play();
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 294)   }
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 295)   
+3e1dcdaf (Jake Looney         2022-11-28 20:39:18 -0500 312)   private void PlayerDefeated(){
+3e1dcdaf (Jake Looney         2022-11-28 20:39:18 -0500 313)     exit = true;
+3e1dcdaf (Jake Looney         2022-11-28 20:39:18 -0500 314)     if (IsInstanceValid(textbox)) textbox.QueueFree();
+3e1dcdaf (Jake Looney         2022-11-28 20:39:18 -0500 315)     textbox = (Textbox)Textbox.Instance();
+3e1dcdaf (Jake Looney         2022-11-28 20:39:18 -0500 316)     AddChild(textbox);
+3e1dcdaf (Jake Looney         2022-11-28 20:39:18 -0500 317)     textbox.Init("", "", "");
+3e1dcdaf (Jake Looney         2022-11-28 20:39:18 -0500 318)     textbox.beastL.Text = g.name;
+3e1dcdaf (Jake Looney         2022-11-28 20:39:18 -0500 319)     textbox.usedL.Text = "was";
+3e1dcdaf (Jake Looney         2022-11-28 20:39:18 -0500 320)     textbox.attackL.Text =  "defeated";
+3e1dcdaf (Jake Looney         2022-11-28 20:39:18 -0500 322)     textbox.damageValueL.Text = g.oppName[g.currentOpponentIndex];
+3e1dcdaf (Jake Looney         2022-11-28 20:39:18 -0500 323)     textbox.damageL.Text =  "";
+3e1dcdaf (Jake Looney         2022-11-28 20:39:18 -0500 324)     textbox.AnimateText();
+3e1dcdaf (Jake Looney         2022-11-28 20:39:18 -0500 325)     player.Visible = false;
+3e1dcdaf (Jake Looney         2022-11-28 20:39:18 -0500 327)   }
+3e1dcdaf (Jake Looney         2022-11-28 20:39:18 -0500 328)   
+3e1dcdaf (Jake Looney         2022-11-28 20:39:18 -0500 329)   private void OpponentDefeated(){
+3e1dcdaf (Jake Looney         2022-11-28 20:39:18 -0500 330)      exit = true;
+3e1dcdaf (Jake Looney         2022-11-28 20:39:18 -0500 331)     if (IsInstanceValid(textbox)) textbox.QueueFree();
+3e1dcdaf (Jake Looney         2022-11-28 20:39:18 -0500 332)     textbox = (Textbox)Textbox.Instance();
+3e1dcdaf (Jake Looney         2022-11-28 20:39:18 -0500 333)     AddChild(textbox);
+3e1dcdaf (Jake Looney         2022-11-28 20:39:18 -0500 334)     textbox.Init("", "", "");
+3e1dcdaf (Jake Looney         2022-11-28 20:39:18 -0500 335)     textbox.beastL.Text = g.oppName[g.currentOpponentIndex];
+3e1dcdaf (Jake Looney         2022-11-28 20:39:18 -0500 336)     textbox.usedL.Text = "was";
+3e1dcdaf (Jake Looney         2022-11-28 20:39:18 -0500 337)     textbox.attackL.Text =  "defeated";
+3e1dcdaf (Jake Looney         2022-11-28 20:39:18 -0500 339)     textbox.damageValueL.Text =  g.name;
+3e1dcdaf (Jake Looney         2022-11-28 20:39:18 -0500 340)     textbox.damageL.Text =  "";
+3e1dcdaf (Jake Looney         2022-11-28 20:39:18 -0500 341)     textbox.AnimateText();
+3e1dcdaf (Jake Looney         2022-11-28 20:39:18 -0500 342)     opponent.Visible = false;
+3e1dcdaf (Jake Looney         2022-11-28 20:39:18 -0500 344)   }
+3e1dcdaf (Jake Looney         2022-11-28 20:39:18 -0500 345) 
+3e1dcdaf (Jake Looney         2022-11-28 20:39:18 -0500 351)     if (player.GetHealth() <= 0 && !exit) {
+3e1dcdaf (Jake Looney         2022-11-28 20:39:18 -0500 353)       PlayerDefeated();
+3e1dcdaf (Jake Looney         2022-11-28 20:39:18 -0500 355)     else if (opponent.GetHealth() <= 0 && !exit) {
+3e1dcdaf (Jake Looney         2022-11-28 20:39:18 -0500 357)       OpponentDefeated();
+3e1dcdaf (Jake Looney         2022-11-28 20:39:18 -0500 360)     if(exit && timer.TimeLeft <= 0) GetTree().ChangeScene("res://Bracket/Bracket.tscn");
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 385)     
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 386)     if(playerAnim){
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 387)       if(animTickP > 80) {
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 388)         player.Visible = true;
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 389)         playerAnim = false;
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 390)       }
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 391)       
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 392)       if(animTickP < 10) player.Translate(2 * right);
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 393)       else if(animTickP < 30) player.Translate(2 * left);
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 394)       else if(animTickP < 50) player.Translate(2 * right);
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 395)       else if(animTickP < 70) player.Translate(2 * left);
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 396)       else player.Translate(2 * right);
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 397)  
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 398)       if(animTickP % 30 < 5) player.Visible = false;
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 399)       else player.Visible = true;
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 400)       
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 401)       animTickP += 1;
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 402)     }
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 403)     
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 404)     if(opponentAnim){
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 405)       if(animTickO > 80) {
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 406)         opponent.Visible = true;
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 407)         opponentAnim = false;
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 408)       }
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 409)       
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 410)       if(animTickO < 10) opponent.Translate(2 * right);
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 411)       else if(animTickO < 30) opponent.Translate(2 * left);
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 412)       else if(animTickO < 50) opponent.Translate(2 * right);
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 413)       else if(animTickO < 70) opponent.Translate(2 * left);
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 414)       else opponent.Translate(2 * right);
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 415)  
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 416)       if(animTickO % 29 < 5) opponent.Visible = false;
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 417)       else opponent.Visible = true;
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 418)       
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 419)       animTickO += 1;
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 420)     }
+5fe004c0 (Jake Looney         2022-11-14 15:56:57 -0500 421)     
+-e 
+Textbox.cs
+
+3e1dcdaf (Jake Looney    2022-11-28 20:39:18 -0500 11)     /* Made this public to fit end of fight messages in here */
+3e1dcdaf (Jake Looney    2022-11-28 20:39:18 -0500 12)     public Label beastL, usedL, attackL, dealingL, damageValueL, damageL;
+-e 
+MainMenu.cs
+
+d9f1b8ee (Jake Looney         2022-11-22 09:46:28 -0500  9)   private AudioStreamPlayer music, se;
+d9f1b8ee (Jake Looney         2022-11-22 09:46:28 -0500 15)     music = globals.GetNode<AudioStreamPlayer>("Music");
+d9f1b8ee (Jake Looney         2022-11-22 09:46:28 -0500 16)     se = globals.GetNode<AudioStreamPlayer>("SoundEffects");
+d9f1b8ee (Jake Looney         2022-11-22 09:46:28 -0500 18)       music.Stream = ResourceLoader.Load("res://Assets/Music/TitleMusic.mp3") as AudioStream;
+d9f1b8ee (Jake Looney         2022-11-22 09:46:28 -0500 19)       music.Play();
+d9f1b8ee (Jake Looney         2022-11-22 09:46:28 -0500 20)     }
+d9f1b8ee (Jake Looney         2022-11-22 09:46:28 -0500 32)     
+-e 
+PauseMenu2.cs
+
+d9f1b8ee (Jake Looney         2022-11-22 09:46:28 -0500  8)     private Globals globals;
+d9f1b8ee (Jake Looney         2022-11-22 09:46:28 -0500 25)         music = globals.GetNode<AudioStreamPlayer>("Music");
+d9f1b8ee (Jake Looney         2022-11-22 09:46:28 -0500 26)         musicP = globals.GetNode<AudioStreamPlayer>("MusicPlayer");
+d9f1b8ee (Jake Looney         2022-11-22 09:46:28 -0500 27)         music.Stop(); 
+d9f1b8ee (Jake Looney         2022-11-22 09:46:28 -0500 28)         musicP.Stop();
+d9f1b8ee (Jake Looney         2022-11-22 09:46:28 -0500 29)         
+d9f1b8ee (Jake Looney         2022-11-22 09:46:28 -0500 30)         globals.oppAttacks = new int[7, 4];
+d9f1b8ee (Jake Looney         2022-11-22 09:46:28 -0500 31)         globals.level = 0;
+d9f1b8ee (Jake Looney         2022-11-22 09:46:28 -0500 32)         globals.bracketSize = -1;
+d9f1b8ee (Jake Looney         2022-11-22 09:46:28 -0500 33)         globals.fightOutcome = -1;   
+d9f1b8ee (Jake Looney         2022-11-22 09:46:28 -0500 34)         globals.currBeast = -1;
+d9f1b8ee (Jake Looney         2022-11-22 09:46:28 -0500 35)         globals.playerBeastIndex = 0;
+d9f1b8ee (Jake Looney         2022-11-22 09:46:28 -0500 36)         globals.playerModifierIndex = 0;
+d9f1b8ee (Jake Looney         2022-11-22 09:46:28 -0500 37)         for(int i = 0; i < 7; i++ ) globals.oppBeast[i] = -1;
+d9f1b8ee (Jake Looney         2022-11-22 09:46:28 -0500 38)         
+d9f1b8ee (Jake Looney         2022-11-22 09:46:28 -0500 41)         
+-e 
+TitleMenu.cs
+
+d9f1b8ee (Jake Looney         2022-11-22 09:46:28 -0500 39)     se = globals.GetNode<AudioStreamPlayer>("SoundEffects");
