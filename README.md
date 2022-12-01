@@ -46,4 +46,4 @@ stuff here
 stuff here. navigate using the mouse. some keyboard usage required
 
 ## Licensing
-[link to LICENSE.txt (we dont have this yet)]()
+[LICENSE](https://github.com/utk-cs340-fall22/BattleBeasts/blob/main/LICENSE)
