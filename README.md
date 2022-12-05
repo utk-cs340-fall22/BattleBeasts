@@ -45,6 +45,7 @@ We have precompiled binaries for Windows, macOS, Linux, and a link to the web ve
 
 If you want to look at the game you first need to download Godot.
 You can download Godot [here](https://godotengine.org/download). Make sure to download the mono version as BattleBeasts uses C#.
+You may also need to download [.NET](https://dotnet.microsoft.com/en-us/download) from Microsoft in order to build.
 
 After downloading Godot go ahead and clone the repository in the folder of your choice. After you have cloned open up Godot. On the right of the menu click **Import**. Click **Browse** and navigate the cloned repository. Select **project.godot**. Click **Import & Edit**. The Godot editor will now open and you can look around at all of the game scenes.
 
