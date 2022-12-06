@@ -41,7 +41,7 @@ The player advances through the bracket by winning matches with their beast.
 Winning the final match or losing at any point returns the player to the main menu.
 
 ## Installation Instructions
-We have precompiled binaries for Windows, macOS, Linux, and a link to the web version on our [releases](https://github.com/utk-cs340-fall22/BattleBeasts/releases) page if you want to quickly jump into the game.
+We have a web version of BattleBeasts [here](https://chriscanaday.github.io/battlebeastsonline/). If you want to quickly jump into the game.
 
 If you want to look at the game you first need to download Godot.
 You can download Godot [here](https://godotengine.org/download). Make sure to download the mono version as BattleBeasts uses C#.
